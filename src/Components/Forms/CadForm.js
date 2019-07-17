@@ -1,41 +1,66 @@
-import { useState } from "react";
+import React, {useReducer, memo} from "react";
 
-export const inputHandler = initialValues => {
-  const [values, setValues] = useState(initialValues);
-
-  return [
-    values,
-    e => {
-      setValues({
-        ...values,
-        [e.target.name]: e.target.value
-      });
-    }
-  ];
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "rua":
+      return {...state, rua: action.rua};
+    case "numero1":
+      return {...state, numero1: action.numero1};
+    case "numero2":
+      return {...state, numero2: action.numero2};
+    default:
+      return state;
+  }
 };
 
-const CadForm = () => {
-  const [values, handleChange] = inputHandler({ email: "", password: "" });
+const CadForm = props => {
+  const [{rua, numero1, numero2}, dispatch] = useReducer(reducer, {
+    rua: "",
+    numero1: "",
+    numero2: ""
+  });
+
   return (
     <>
-      <form>
+      <form
+        onSubmit={e => {
+          e.preventDefault();
+          props.onSubmit({rua, numero1, numero2});
+        }}
+      >
         <input
           type="text"
-          value={values.email}
-          onChange={handleChange}
-          placeholder="email"
-          name="email"
+          value={rua}
+          onChange={e => dispatch({type: "rua", rua: e.target.value})}
+          placeholder="Rua"
+          name="rua"
         />
         <input
-          type="password"
-          value={values.password}
-          onChange={handleChange}
-          placeholder="pdw"
-          name="password"
+          type="text"
+          value={numero1}
+          onChange={e =>
+            dispatch({type: "numero1", numero1: e.target.value})
+          }
+          placeholder="Número inicial no Trecho"
+          name="numero1"
+        />
+        <input
+          type="text"
+          value={numero2}
+          onChange={e =>
+            dispatch({type: "numero2", numero2: e.target.value})
+          }
+          placeholder="Número Final no Trecho"
+          name="numero2"
+        />
+        <input
+          className="btn btn-submit"
+          type="submit"
+          value="Submit"
         />
       </form>
     </>
   );
 };
 
-export default CadForm;
+export default memo(CadForm);

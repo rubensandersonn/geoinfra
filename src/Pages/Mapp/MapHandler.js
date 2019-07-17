@@ -1,28 +1,66 @@
-import React, { useReducer, useContext } from "react";
+import React, {
+  useReducer,
+  useState,
+  useEffect,
+  useContext
+} from "react";
 import Mapp from ".";
 import mapContext from "../../Context/mapContext";
-import { Polyline } from "google-maps-react";
+import {Polyline} from "google-maps-react";
 import jsonAgua from "../../utils/jsons/rda_meireles.json";
 import jsonEsgoto from "../../utils/jsons/rde_meireles.json";
+import CadForm from "../../Components/Forms/CadForm";
 
-const types = { cad: "CAD", upd: "UPD" };
+const types = {cad: "CAD", upd: "UPD"};
 
-const reducer = (state, action) => {
+const reducerAgua = (state, action) => {
   switch (action.type) {
     case types.cad:
-      return state;
+      return {
+        ...state,
+        agua: {agua: [state.agua.agua, action.newItem]}
+      };
     case types.upd:
+      const {index, newItem} = action;
+      let agua = state.agua;
+      agua.agua[index] = newItem;
+      return {...state, agua};
+    default:
       return state;
+  }
+};
+const reducerEsgoto = (state, action) => {
+  switch (action.type) {
+    case types.cad:
+      return {
+        ...state,
+        esgoto: {esgoto: [state.esgoto.esgoto, action.newItem]}
+      };
+    case types.upd:
+      const {index, newItem} = action;
+      let esgoto = state.esgoto;
+      esgoto.esgoto[index] = newItem;
+      return {...state, esgoto};
     default:
       return state;
   }
 };
 
 const MapHandler = () => {
-  const [agua, dispatchAgua] = useReducer(reducer, { agua: jsonAgua.features });
-  const [esgoto, dispatchEsgoto] = useReducer(reducer, {
+  const [st, setSt] = useState("");
+
+  useEffect(() => {
+    console.log(st);
+  }, [st]);
+
+  const [agua, dispatchAgua] = useReducer(reducerAgua, {
+    agua: jsonAgua.features
+  });
+  const [esgoto, dispatchEsgoto] = useReducer(reducerEsgoto, {
     esgoto: jsonEsgoto.features
   });
+
+  const {initialPlace, mapStyles} = useContext(mapContext);
 
   // quando uma linha é clicada
 
@@ -91,14 +129,13 @@ const MapHandler = () => {
     );
   });
 
-  const { initialPlace, mapStyles } = useContext(mapContext);
-
   return (
     <>
+      <CadForm onSubmit={e => console.log(e)} />
       <mapContext.Provider
-        value={{ initialPlace, mapStyles, mapAgua, mapEsgoto }}
+        value={{initialPlace, mapStyles, mapAgua, mapEsgoto}}
       >
-        <Mapp />
+        {/* <Mapp /> */}
       </mapContext.Provider>
     </>
   );
