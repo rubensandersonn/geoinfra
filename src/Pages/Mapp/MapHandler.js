@@ -4,12 +4,14 @@ import React, {
   useEffect,
   useContext
 } from "react";
-import Mapp from ".";
+
 import mapContext from "../../Context/mapContext";
+import markerContext from "../../Context/markerContext";
 import {Polyline} from "google-maps-react";
 import jsonAgua from "../../utils/jsons/rda_meireles.json";
 import jsonEsgoto from "../../utils/jsons/rde_meireles.json";
 import CadForm from "../../Components/Forms/CadForm";
+import Mapp from ".";
 
 const types = {cad: "CAD", upd: "UPD"};
 
@@ -47,11 +49,9 @@ const reducerEsgoto = (state, action) => {
 };
 
 const MapHandler = () => {
-  const [st, setSt] = useState("");
+  // const [st, setSt] = useState("");
 
-  useEffect(() => {
-    console.log(st);
-  }, [st]);
+  const {initialPlace, mapStyles} = useContext(mapContext);
 
   const [agua, dispatchAgua] = useReducer(reducerAgua, {
     agua: jsonAgua.features
@@ -60,17 +60,105 @@ const MapHandler = () => {
     esgoto: jsonEsgoto.features
   });
 
-  const {initialPlace, mapStyles} = useContext(mapContext);
+  // about marker...
+  const [visibleInfo, setVisibleInfo] = useState(false);
+  const [valueMarker, setValueMarker] = useState(<div />);
+  const [positionMarker, setPositionMarker] = useState({
+    lat: null,
+    lng: null
+  });
+
+  // CALLBACKS
+
+  // pretify infoWindow
+  const pretifyWindow = value => {
+    const mapp = Object.keys(value).map(key => {
+      if (!key.match(/id|x|y/gm)) {
+        return (
+          <div className="row container">
+            <span style={{fontWeight: "bold"}}>
+              {key.replace(/_/gm, " ")}
+            </span>
+            :{" "}
+            {key === "em_operacao"
+              ? value[key]
+                ? "SIM"
+                : "NÃO"
+              : value[key]}
+          </div>
+        );
+      }
+    });
+
+    return mapp;
+  };
+
+  // quando o mapa for clickado, a infoWindow deve sumir
+  const onMapClicked = () => {
+    setVisibleInfo(false);
+  };
 
   // quando uma linha é clicada
+  const onPolyClicked = (key, type, coord) => {
+    console.log("poly clicked", key, type, coord[0]);
 
-  const polyClicked = coord => {
-    console.log("line clicked", coord);
+    let val = {};
+
+    switch (type) {
+      case "agua":
+        val = agua.agua[key].properties; // essa propriedade nao existe originalmente.
+        break;
+      case "esgoto":
+        val = esgoto.esgoto[key].properties; // essa propriedade nao existe originalmente.
+        break;
+      default:
+        break;
+    }
+    // quem desativa a visibilidade é o map click
+    setVisibleInfo(true);
+
+    //setando as coordenadas da infoWindow. Espero receber dois valores lat lng
+    setPositionMarker(coord[0]);
+
+    // setando o conteudo da infoWindow
+    setValueMarker(pretifyWindow(val));
+  };
+
+  // quando o mouse passa sobre a poly, atualizar
+  // {visibleInfo, valueMarker, positionMarker}
+  const onPolyHover = (key, type, coord) => {
+    console.log("poly hovered", key, type, coord[0]);
+
+    let emOp = false;
+
+    switch (type) {
+      case "agua":
+        emOp = agua.agua[key].properties.em_operacao; // essa propriedade nao existe originalmente.
+        break;
+      case "esgoto":
+        emOp = esgoto.esgoto[key].properties.em_operacao; // essa propriedade nao existe originalmente.
+        break;
+      default:
+        break;
+    }
+    // quem desativa a visibilidade é o map click
+    setVisibleInfo(true);
+
+    //setando as coordenadas da infoWindow. Espero receber dois valores lat lng
+    setPositionMarker(coord[0]);
+
+    // setando a infoWindow
+    const val = emOp
+      ? {Situação: "Em Operação!"}
+      : {Situação: "Trecho sem obras."};
+    setValueMarker(pretifyWindow(val));
   };
 
   // mapping a agua
 
   let mapAgua = agua.agua.map((el, index) => {
+    el.properties.em_operacao = true;
+
     var path = [];
     const coord = el.geometry.coordinates;
 
@@ -91,16 +179,19 @@ const MapHandler = () => {
         path={path}
         options={{
           strokeColor: "pink",
-          strokeOpacity: 0.75,
+          strokeOpacity: 3.5,
           strokeWeight: 2
         }}
-        onClick={() => polyClicked(path)}
+        onClick={() => onPolyClicked(index, "agua", path)}
+        onMouseover={() => onPolyHover(index, "agua", path)}
       />
     );
   });
 
   // mapeando o esgoto
   let mapEsgoto = esgoto.esgoto.map((el, index) => {
+    el.properties.em_operacao = true;
+
     var path = [];
     const coord = el.geometry.coordinates;
 
@@ -121,10 +212,11 @@ const MapHandler = () => {
         path={path}
         options={{
           strokeColor: "green",
-          strokeOpacity: 0.75,
+          strokeOpacity: 3.5,
           strokeWeight: 2
         }}
-        onClick={() => polyClicked(path)}
+        onClick={() => onPolyClicked(index, "esgoto", path)}
+        onMouseover={() => onPolyHover(index, "esgoto", path)}
       />
     );
   });
@@ -133,9 +225,19 @@ const MapHandler = () => {
     <>
       <CadForm onSubmit={e => console.log(e)} />
       <mapContext.Provider
-        value={{initialPlace, mapStyles, mapAgua, mapEsgoto}}
+        value={{
+          initialPlace,
+          mapStyles,
+          mapAgua,
+          mapEsgoto,
+          onMapClicked
+        }}
       >
-        {/* <Mapp /> */}
+        <markerContext.Provider
+          value={{visibleInfo, valueMarker, positionMarker}} // quem altera isso? as polylines
+        >
+          <Mapp />
+        </markerContext.Provider>
       </mapContext.Provider>
     </>
   );
