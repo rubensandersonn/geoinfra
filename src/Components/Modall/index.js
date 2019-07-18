@@ -15,7 +15,16 @@ const Modall = props => {
 
   return (
     <div>
-      <button onClick={onOpenModal}>{buttonValue}</button>
+      <a href="clickable">
+        <p
+          onClick={e => {
+            e.preventDefault();
+            onOpenModal();
+          }}
+        >
+          {buttonValue}
+        </p>
+      </a>
       <Modal open={open} onClose={onCloseModal} little={false}>
         <div className="container mt-4 p-4">
           <div className="mt-4 pt-4">{content()}</div>

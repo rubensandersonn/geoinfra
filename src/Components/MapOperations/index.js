@@ -1,13 +1,21 @@
-import React, {useEffect} from "react";
+import React from "react";
 
 import {AuthUserContext} from "../Session";
+import CadForm from "../Forms/CadForm";
+import Modall from "../Modall";
 
 /**
  * Aqui eu posso colocar os niveis de autenticação retornando a rota certa
  */
 
+const content = title => {
+  return (
+    <CadForm title={title} onSubmit={() => console.log("xamu")} />
+  );
+};
+
 const MapOperations = () => {
-  function myFunction() {
+  function toggleMenu() {
     var x = document.getElementById("navv");
     if (x.style.display === "none") {
       x.style.display = "inline";
@@ -23,7 +31,7 @@ const MapOperations = () => {
     >
       <div className=" align-items-left position-relative">
         <div
-          onClick={myFunction}
+          onClick={toggleMenu}
           className="toggle-button d-flex btn btn-primary mr-4"
         >
           ...
@@ -69,18 +77,16 @@ const NavigationCegas = () => (
   <div className="row">
     <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
       <li className="nav-link">
-        <p>
-          <a className="nav-link" href="cadastrar intervencao CEGAS">
-            Cadastrar Intervenção CEGAS
-          </a>
-        </p>
+        <Modall
+          buttonValue={"Cadastrar Intervenção CEGAS"}
+          content={() => content("Cadastrar Intervenção CEGAS")}
+        />
       </li>
       <li className="nav-link">
-        <p>
-          <a className="nav-link" href="Atualizar intervencao CEGAS">
-            Atualizar Intervenção CEGAS
-          </a>
-        </p>
+        <Modall
+          buttonValue={"Atualizar Intervenção CEGAS"}
+          content={() => content("Atualizar Intervenção CEGAS")}
+        />
       </li>
     </ul>
   </div>
@@ -91,24 +97,16 @@ const NavigationCagece = () => (
     <div>
       <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
         <li className="nav-link">
-          <p>
-            <a
-              className="nav-link"
-              href="cadastrar intervencao cagece"
-            >
-              Cadastrar Intervenção CAGECE
-            </a>
-          </p>
+          <Modall
+            buttonValue={"Cadastrar Intervenção CAGECE"}
+            content={() => content("Cadastrar Intervenção CAGECE")}
+          />
         </li>
         <li className="nav-link">
-          <p>
-            <a
-              className="nav-link"
-              href="Aualizar intervencao cagece"
-            >
-              Atualizar Intervenção CAGECE
-            </a>
-          </p>
+          <Modall
+            buttonValue={"Atualizar Intervenção CAGECE"}
+            content={() => content("Atualizar Intervenção CAGECE")}
+          />
         </li>
       </ul>
     </div>
@@ -120,44 +118,28 @@ const NavigationRubens = () => (
     <div>
       <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
         <li className="nav-link">
-          <p>
-            <a
-              className="nav-link"
-              href="cadastrar intervencao cagece"
-            >
-              Cadastrar Intervenção CAGECE
-            </a>
-          </p>
+          <Modall
+            buttonValue={"Cadastrar Intervenção CAGECE"}
+            content={() => content("Cadastrar Intervenção CAGECE")}
+          />
         </li>
         <li className="nav-link">
-          <p>
-            <a
-              className="nav-link"
-              href="Aualizar intervencao cagece"
-            >
-              Atualizar Intervenção CAGECE
-            </a>
-          </p>
+          <Modall
+            buttonValue={"Atualizar Intervenção CAGECE"}
+            content={() => content("Atualizar Intervenção CAGECE")}
+          />
         </li>
         <li className="nav-link">
-          <p>
-            <a
-              className="nav-link"
-              href="cadastrar intervencao CEGAS"
-            >
-              Cadastrar Intervenção CEGAS
-            </a>
-          </p>
+          <Modall
+            buttonValue={"Cadastrar Intervenção CEGAS"}
+            content={() => content("Cadastrar Intervenção CEGAS")}
+          />
         </li>
         <li className="nav-link">
-          <p>
-            <a
-              className="nav-link"
-              href="Atualizar intervencao CEGAS"
-            >
-              Atualizar Intervenção CEGAS
-            </a>
-          </p>
+          <Modall
+            buttonValue={"Atualizar Intervenção CEGAS"}
+            content={() => content("Atualizar Intervenção CEGAS")}
+          />
         </li>
       </ul>
     </div>

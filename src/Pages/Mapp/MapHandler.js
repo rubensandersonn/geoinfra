@@ -80,6 +80,7 @@ const MapHandler = () => {
             <span style={{fontWeight: "bold"}}>
               {key.replace(/_/gm, " ")}
             </span>
+            {": "}
             {key === "em_operacao"
               ? value[key]
                 ? "SIM"
@@ -117,8 +118,13 @@ const MapHandler = () => {
     // quem desativa a visibilidade é o map click
     setVisibleInfo(true);
 
+    const mediaCoord = {
+      lat: (coord[0].lat + coord[1].lat) / 2,
+      lng: (coord[0].lng + coord[1].lng) / 2
+    };
+
     //setando as coordenadas da infoWindow. Espero receber dois valores lat lng
-    setPositionMarker(coord[0]);
+    setPositionMarker(mediaCoord);
 
     // setando o conteudo da infoWindow
     setValueMarker(pretifyWindow(val));
@@ -144,8 +150,13 @@ const MapHandler = () => {
     // quem desativa a visibilidade é o map click
     setVisibleInfo(true);
 
+    const mediaCoord = {
+      lat: (coord[0].lat + coord[1].lat) / 2,
+      lng: (coord[0].lng + coord[1].lng) / 2
+    };
+
     //setando as coordenadas da infoWindow. Espero receber dois valores lat lng
-    setPositionMarker(coord[0]);
+    setPositionMarker(mediaCoord);
 
     // setando a infoWindow
     const val = emOp
@@ -179,8 +190,8 @@ const MapHandler = () => {
         path={path}
         options={{
           strokeColor: "pink",
-          strokeOpacity: 3.5,
-          strokeWeight: 2
+          strokeOpacity: 0.8,
+          strokeWeight: 3
         }}
         onClick={() => onPolyClicked(index, "agua", path)}
         onMouseover={() => onPolyHover(index, "agua", path)}
@@ -212,8 +223,8 @@ const MapHandler = () => {
         path={path}
         options={{
           strokeColor: "green",
-          strokeOpacity: 3.5,
-          strokeWeight: 2
+          strokeOpacity: 0.8,
+          strokeWeight: 3
         }}
         onClick={() => onPolyClicked(index, "esgoto", path)}
         onMouseover={() => onPolyHover(index, "esgoto", path)}
@@ -224,7 +235,6 @@ const MapHandler = () => {
   return (
     <>
       <MapOperations />
-      {/* <CadForm onSubmit={e => console.log(e)} /> */}
       <mapContext.Provider
         value={{
           initialPlace,
