@@ -12,6 +12,7 @@ import jsonAgua from "../../utils/jsons/rda_meireles.json";
 import jsonEsgoto from "../../utils/jsons/rde_meireles.json";
 import CadForm from "../../Components/Forms/CadForm";
 import Mapp from ".";
+import MapOperations from "../../Components/MapOperations";
 
 const types = {cad: "CAD", upd: "UPD"};
 
@@ -79,7 +80,6 @@ const MapHandler = () => {
             <span style={{fontWeight: "bold"}}>
               {key.replace(/_/gm, " ")}
             </span>
-            :{" "}
             {key === "em_operacao"
               ? value[key]
                 ? "SIM"
@@ -223,7 +223,8 @@ const MapHandler = () => {
 
   return (
     <>
-      <CadForm onSubmit={e => console.log(e)} />
+      <MapOperations />
+      {/* <CadForm onSubmit={e => console.log(e)} /> */}
       <mapContext.Provider
         value={{
           initialPlace,

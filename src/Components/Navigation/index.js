@@ -1,35 +1,33 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 
 import SignOutButton from "../../Pages/SignOut";
 import * as ROUTES from "../../Routes";
 
-import { AuthUserContext } from "../Session";
+import {AuthUserContext} from "../Session";
 
 /**
  * Aqui eu posso colocar os niveis de autenticação retornando a rota certa
  */
 const Navigation = () => (
   <div className="site-navbar bg-blue pr-4">
-    <div className="row align-items-left position-relative">
-      <div className="col-12">
-        <nav className="site-navigation text-left " role="navigation">
-          <div className="site-mobile-menu site-navbar-target">
-            <div className="site-mobile-menu-header">
-              <div className="site-mobile-menu-close mt-3">
-                <span className="icon-close2 js-menu-toggle" />
-              </div>
+    <div className="col-12">
+      <nav className="site-navigation text-left " role="navigation">
+        <div className="site-mobile-menu site-navbar-target">
+          <div className="site-mobile-menu-header">
+            <div className="site-mobile-menu-close mt-3">
+              <span className="icon-close2 js-menu-toggle" />
             </div>
-            <div className="site-mobile-menu-body" />
           </div>
+          <div className="site-mobile-menu-body" />
+        </div>
 
-          <AuthUserContext.Consumer>
-            {authUser =>
-              authUser ? <NavigationAuth /> : <NavigationNonAuth />
-            }
-          </AuthUserContext.Consumer>
-        </nav>
-      </div>
+        <AuthUserContext.Consumer>
+          {authUser =>
+            authUser ? <NavigationAuth /> : <NavigationNonAuth />
+          }
+        </AuthUserContext.Consumer>
+      </nav>
     </div>
   </div>
 );
@@ -52,7 +50,9 @@ const NavigationNonAuth = () => (
     </div>
     <div>
       <Link to={ROUTES.SIGN_IN}>
-        <div className="toggle-button d-flex btn btn-primary mr-4">Sign In</div>
+        <div className="toggle-button d-flex btn btn-primary mr-4">
+          Sign In
+        </div>
       </Link>
     </div>
   </div>

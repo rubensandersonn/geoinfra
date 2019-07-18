@@ -43,12 +43,6 @@ const Mapp = props => {
       </InfoWindow>
       {mapAgua}
       {mapEsgoto}
-      {/* <Markerr
-        styles={{color: "black"}}
-        visibleInfo={visibleInfo}
-        valueMarker={valueMarker}
-        positionMarker={positionMarker}
-      /> */}
     </Map>
   );
 };
