@@ -89,6 +89,7 @@ const MapHandler = () => {
           </div>
         );
       }
+      return null;
     });
 
     return mapp;
@@ -247,7 +248,7 @@ const MapHandler = () => {
         <markerContext.Provider
           value={{visibleInfo, valueMarker, positionMarker}} // quem altera isso? as polylines
         >
-          <Mapp />
+          {/* <Mapp /> */}
         </markerContext.Provider>
       </mapContext.Provider>
     </>

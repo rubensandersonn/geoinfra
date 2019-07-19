@@ -10,7 +10,7 @@ import Modall from "../Modall";
 
 const content = title => {
   return (
-    <CadForm title={title} onSubmit={() => console.log("xamu")} />
+    <CadForm title={title} onSubmit={e => console.log("xamu", e)} />
   );
 };
 
