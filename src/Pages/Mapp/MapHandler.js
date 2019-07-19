@@ -100,8 +100,21 @@ const MapHandler = () => {
     setVisibleInfo(false);
   };
 
-  // quando uma linha é clicada
-  const onPolyClicked = (key, type, coord) => {
+  function isRightClick(e) {
+    var isRightMB;
+    console.log(e);
+
+    if ("which" in e)
+      // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
+      isRightMB = e.which == 3;
+    else if ("button" in e)
+      // IE, Opera
+      isRightMB = e.button == 2;
+
+    return isRightMB;
+  }
+
+  const showPropsPoly = (key, type, coord) => {
     console.log("poly clicked", key, type, coord[0]);
 
     let val = {};
@@ -116,6 +129,7 @@ const MapHandler = () => {
       default:
         break;
     }
+
     // quem desativa a visibilidade é o map click
     setVisibleInfo(true);
 
@@ -129,6 +143,17 @@ const MapHandler = () => {
 
     // setando o conteudo da infoWindow
     setValueMarker(pretifyWindow(val));
+  };
+
+  // quando uma linha é clicada
+  const onPolyClicked = (e, key, type, coord) => {
+    const isRight = isRightClick(e);
+
+    if (isRight) {
+      console.log("was right click");
+    } else {
+      showPropsPoly(key, type, coord);
+    }
   };
 
   // quando o mouse passa sobre a poly, atualizar
@@ -194,7 +219,7 @@ const MapHandler = () => {
           strokeOpacity: 0.8,
           strokeWeight: 3
         }}
-        onClick={() => onPolyClicked(index, "agua", path)}
+        onClick={e => onPolyClicked(e, index, "agua", path)}
         onMouseover={() => onPolyHover(index, "agua", path)}
       />
     );
@@ -248,7 +273,7 @@ const MapHandler = () => {
         <markerContext.Provider
           value={{visibleInfo, valueMarker, positionMarker}} // quem altera isso? as polylines
         >
-          {/* <Mapp /> */}
+          <Mapp />
         </markerContext.Provider>
       </mapContext.Provider>
     </>
