@@ -12,9 +12,12 @@ const Mapp = props => {
     onMapClicked
   } = useContext(mapContext);
 
-  const {visibleInfo, valueMarker, positionMarker} = useContext(
-    markerContext
-  );
+  const {
+    visibleInfo,
+    valueMarker,
+    positionMarker,
+    onClick
+  } = useContext(markerContext);
 
   const {google} = props;
 
@@ -39,7 +42,11 @@ const Mapp = props => {
           }
         }
       >
-        <div style={{color: "black"}}>{valueMarker}</div>
+        <div className="container">
+          <div className="row">
+            <div style={{color: "black"}}>{valueMarker}</div>
+          </div>
+        </div>
       </InfoWindow>
       {mapAgua}
       {mapEsgoto}

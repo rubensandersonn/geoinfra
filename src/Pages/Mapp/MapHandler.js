@@ -76,7 +76,7 @@ const MapHandler = () => {
     const mapp = Object.keys(value).map(key => {
       if (!key.match(/id|x|y/gm)) {
         return (
-          <div className="row container">
+          <div key className="row container">
             <span style={{fontWeight: "bold"}}>
               {key.replace(/_/gm, " ")}
             </span>
@@ -106,10 +106,10 @@ const MapHandler = () => {
 
     if ("which" in e)
       // Gecko (Firefox), WebKit (Safari/Chrome) & Opera
-      isRightMB = e.which == 3;
+      isRightMB = e.which === 3;
     else if ("button" in e)
       // IE, Opera
-      isRightMB = e.button == 2;
+      isRightMB = e.button === 2;
 
     return isRightMB;
   }
@@ -225,6 +225,10 @@ const MapHandler = () => {
     );
   });
 
+  let onClick = () => {
+    console.log("FUI TAPEADO");
+  };
+
   // mapeando o esgoto
   let mapEsgoto = esgoto.esgoto.map((el, index) => {
     el.properties.em_operacao = true;
@@ -271,7 +275,12 @@ const MapHandler = () => {
         }}
       >
         <markerContext.Provider
-          value={{visibleInfo, valueMarker, positionMarker}} // quem altera isso? as polylines
+          value={{
+            visibleInfo,
+            valueMarker,
+            positionMarker,
+            onClick
+          }} // quem altera isso? as polylines
         >
           <Mapp />
         </markerContext.Provider>
