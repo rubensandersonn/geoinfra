@@ -1,18 +1,46 @@
-import React from "react";
+import React, {useEffect, useContext} from "react";
 import Create from "./create";
 import Update from "./Update";
 import Delete from "./Delete";
 import ReadInfo from "./ReadInfo";
+import EsgotoContext from "../../Context/esgotoContext";
+import AguaContext from "../../Context/aguaContext";
 
-// import { Container } from './styles';
+const types = {
+  create: "CREATE",
+  delete: "DELETE",
+  update: "UPDATE"
+};
 
 const Manager = props => {
-  const types = {
-    create: "CREATE",
-    delete: "DELETE",
-    update: "UPDATE"
-  };
+  let el;
+  let setter;
+
+  useEffect(() => {
+    el =
+      type === "agua"
+        ? agua[key]
+        : type === "esgoto"
+        ? esgoto[key]
+        : gas[key];
+
+    setter =
+      type === "agua"
+        ? setAgua
+        : type === "esgoto"
+        ? setEsgoto
+        : setGas;
+  }, []); // faz isso uma vez só
+
   let active = types.create;
+
+  // ========== CONTEXTS ==========
+
+  const {esgoto, setEsgoto} = useContext(EsgotoContext);
+  const {agua, setAgua} = useContext(AguaContext);
+  const {gas, setGas} = useContext(AguaContext);
+
+  const {key, type} = props; // preciso saber quais dados eu posso mostrar. type pode ser agua, gas ou esgoto
 
   useEffect(() => {
     switch (active) {
@@ -22,8 +50,15 @@ const Manager = props => {
     }
   }, [active]);
 
-  const resetAll = () => {
-    activeCreate = activeDelete = activeUpdate = false;
+  // ========== CALLBACKS =============
+
+  const onSubmit = values => {
+    if (el.properties.intervention) {
+      el.properties.interventions.push(values);
+      //setter(state => (state[key] = el));
+    } else {
+      el.properties.interventions = [values];
+    }
   };
 
   return (
@@ -70,16 +105,16 @@ const Manager = props => {
       </div>
       {/* CORPO */}
       <div>
-        <ReadInfo />
+        <ReadInfo item={el} />
       </div>
       <div id="create">
-        <Create />
+        <Create onSubmit={onSubmit} />
       </div>
       <div id="update">
-        <Update />
+        <Update key onSubmit={onSubmit} />
       </div>
       <div id="delete">
-        <Delete />
+        <Delete onSubmit={onSubmit} />
       </div>
     </div>
   );
