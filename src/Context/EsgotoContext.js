@@ -1,9 +1,10 @@
-import {createContext, useState} from "react";
+import {createContext} from "react";
 
-import jsonEsgoto from "../../utils/jsons/rde_meireles.json";
+import jsonEsgoto from "../utils/jsons/rda_meireles.json";
 
-const [esgoto, setEsgoto] = useState(jsonEsgoto.features);
+let esgoto = jsonEsgoto.features;
+esgoto = esgoto.esgoto;
 
-const EsgotoContext = createContext({esgoto, setEsgoto});
+const EsgotoContext = createContext({esgoto});
 
 export default EsgotoContext;

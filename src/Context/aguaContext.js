@@ -1,9 +1,10 @@
 import {createContext} from "react";
 
-import jsonAgua from "../../utils/jsons/rda_meireles.json";
+import jsonAgua from "../utils/jsons/rda_meireles.json";
 
-const [agua, setAgua] = useState(jsonAgua.features);
+let agua = jsonAgua.features;
+agua = agua.agua;
 
-const AguaContext = createContext({agua: agua, setAgua});
+const AguaContext = createContext({agua});
 
 export default AguaContext;

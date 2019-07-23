@@ -15,7 +15,7 @@ const ReadInfo = props => {
           <span style={{fontWeight: "bold"}}>
             {key.replace(/_/gm, " ")}
           </span>
-          {": " + value[key]}
+          {": " + properties[key]}
         </div>
       );
     }

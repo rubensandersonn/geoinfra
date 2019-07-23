@@ -1,10 +1,11 @@
-import React, {useEffect, useContext} from "react";
-import Create from "./create";
+import React, {useEffect, useContext, useState} from "react";
+import Create from "./Create";
 import Update from "./Update";
 import Delete from "./Delete";
 import ReadInfo from "./ReadInfo";
-import EsgotoContext from "../../Context/esgotoContext";
-import AguaContext from "../../Context/aguaContext";
+import EsgotoContext from "../../Context/EsgotoContext";
+import AguaContext from "../../Context/AguaContext";
+import GasContext from "../../Context/GasContext";
 
 const types = {
   create: "CREATE",
@@ -13,52 +14,69 @@ const types = {
 };
 
 const Manager = props => {
-  let el;
-  let setter;
+  // === === === CONTEXTS === === ===
+
+  const {esgoto} = useContext(EsgotoContext);
+  const {agua} = useContext(AguaContext);
+  const {gas} = useContext(GasContext);
+
+  //=== === === PROPS === === ===
+
+  const {key, type} = props; // preciso saber quais dados eu posso mostrar. type pode ser agua, gas ou esgoto
+  const [el, setEl] = useState();
+
+  //=== === === Callbacks === === ===
 
   useEffect(() => {
-    el =
+    setEl(
       type === "agua"
         ? agua[key]
         : type === "esgoto"
         ? esgoto[key]
-        : gas[key];
-
-    setter =
-      type === "agua"
-        ? setAgua
-        : type === "esgoto"
-        ? setEsgoto
-        : setGas;
+        : gas[key]
+    );
   }, []); // faz isso uma vez só
 
   let active = types.create;
 
-  // ========== CONTEXTS ==========
-
-  const {esgoto, setEsgoto} = useContext(EsgotoContext);
-  const {agua, setAgua} = useContext(AguaContext);
-  const {gas, setGas} = useContext(AguaContext);
-
-  const {key, type} = props; // preciso saber quais dados eu posso mostrar. type pode ser agua, gas ou esgoto
-
   useEffect(() => {
     switch (active) {
       case types.create:
+        // mostrar pelo id
+        document.getElementById("update").style.display = "none";
+        document.getElementById("delete").style.display = "none";
+        document.getElementById("create").style.display = "block";
+        break;
+      case types.update:
+        // mostrar pelo id
+        document.getElementById("create").style.display = "none";
+        document.getElementById("delete").style.display = "none";
+        document.getElementById("update").style.display = "block";
+        break;
+      case types.delete:
+        // mostrar pelo id
+        document.getElementById("create").style.display = "none";
+        document.getElementById("update").style.display = "none";
+        document.getElementById("delete").style.display = "block";
         break;
       default:
+        document.getElementById("update").style.display = "none";
+        document.getElementById("delete").style.display = "none";
+        document.getElementById("create").style.display = "block";
+        break;
     }
   }, [active]);
 
   // ========== CALLBACKS =============
 
   const onSubmit = values => {
-    if (el.properties.intervention) {
-      el.properties.interventions.push(values);
-      //setter(state => (state[key] = el));
-    } else {
-      el.properties.interventions = [values];
-    }
+    // if (el.properties.intervention) {
+    //   el.properties.interventions.push(values);
+    //   //setter(state => (state[key] = el));
+    // } else {
+    //   el.properties.interventions = [values];
+    // }
+    console.log("submited ", values);
   };
 
   return (
@@ -91,110 +109,37 @@ const Manager = props => {
                 onClick={() => (active = types.update)}
                 className="nav-link"
               >
-                <a href="cadastrar">Atualizar</a>
+                <a href="atualizar">Atualizar</a>
               </li>
               <li
                 onClick={() => (active = types.delete)}
                 className="nav-link"
               >
-                <a href="cadastrar">Remover</a>
+                <a href="remover">Remover</a>
               </li>
             </ul>
           </div>
         </nav>
       </div>
       {/* CORPO */}
-      <div>
-        <ReadInfo item={el} />
-      </div>
-      <div id="create">
-        <Create onSubmit={onSubmit} />
-      </div>
-      <div id="update">
-        <Update key onSubmit={onSubmit} />
-      </div>
-      <div id="delete">
-        <Delete onSubmit={onSubmit} />
+      <div className="container row">
+        <div>
+          <ReadInfo properties={el.properties} />
+        </div>
+        <div id="create">
+          <Create onSubmit={onSubmit} />
+        </div>
+        <div id="update">
+          <Update key onSubmit={onSubmit} />
+        </div>
+        <div id="delete">
+          <Delete onSubmit={onSubmit} />
+        </div>
       </div>
     </div>
   );
 };
 
 //-----------------------------------------------------
-
-const NavigationNull = () => <div />;
-
-const NavigationCegas = () => (
-  <div className="row">
-    <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-      <li className="nav-link">
-        <Modall
-          buttonValue={"Cadastrar Intervenção CEGAS"}
-          content={() => content("Cadastrar Intervenção CEGAS")}
-        />
-      </li>
-      <li className="nav-link">
-        <Modall
-          buttonValue={"Atualizar Intervenção CEGAS"}
-          content={() => content("Atualizar Intervenção CEGAS")}
-        />
-      </li>
-    </ul>
-  </div>
-);
-
-const NavigationCagece = () => (
-  <div className="row">
-    <div>
-      <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-        <li className="nav-link">
-          <Modall
-            buttonValue={"Cadastrar Intervenção CAGECE"}
-            content={() => content("Cadastrar Intervenção CAGECE")}
-          />
-        </li>
-        <li className="nav-link">
-          <Modall
-            buttonValue={"Atualizar Intervenção CAGECE"}
-            content={() => content("Atualizar Intervenção CAGECE")}
-          />
-        </li>
-      </ul>
-    </div>
-  </div>
-);
-
-const NavigationRubens = () => (
-  <div className="row">
-    <div>
-      <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-        <li className="nav-link">
-          <Modall
-            buttonValue={"Cadastrar Intervenção CAGECE"}
-            content={() => content("Cadastrar Intervenção CAGECE")}
-          />
-        </li>
-        <li className="nav-link">
-          <Modall
-            buttonValue={"Atualizar Intervenção CAGECE"}
-            content={() => content("Atualizar Intervenção CAGECE")}
-          />
-        </li>
-        <li className="nav-link">
-          <Modall
-            buttonValue={"Cadastrar Intervenção CEGAS"}
-            content={() => content("Cadastrar Intervenção CEGAS")}
-          />
-        </li>
-        <li className="nav-link">
-          <Modall
-            buttonValue={"Atualizar Intervenção CEGAS"}
-            content={() => content("Atualizar Intervenção CEGAS")}
-          />
-        </li>
-      </ul>
-    </div>
-  </div>
-);
 
 export default Manager;

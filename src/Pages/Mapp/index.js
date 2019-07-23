@@ -1,22 +1,26 @@
-import React, {useContext} from "react";
+import React, {useContext, useState} from "react";
+
 import {
   Map,
   GoogleApiWrapper,
   Polyline,
   InfoWindow
 } from "google-maps-react";
+
 import mapContext from "../../Context/mapContext";
 import {AuthUserContext} from "../../Components/Session";
-import AguaContext from "../../Context/aguaContext";
-import EsgotoContext from "../../Context/esgotoContext";
+import AguaContext from "../../Context/AguaContext";
+import EsgotoContext from "../../Context/EsgotoContext";
+import GasContext from "../../Context/GasContext";
 //import markerContext from "../../Context/markerContext";
 
 const Mapp = props => {
   // ========= CONTEXTS ==========
 
   const {initialPlace, mapStyles} = useContext(mapContext);
-  const {agua, setAgua} = useContext(AguaContext);
-  const {esgoto, setEsgoto} = useContext(EsgotoContext);
+  const {agua} = useContext(AguaContext);
+  const {esgoto} = useContext(EsgotoContext);
+  const {gas} = useContext(GasContext);
 
   const {authUser} = useContext(AuthUserContext);
   // about marker...
@@ -71,6 +75,9 @@ const Mapp = props => {
         break;
       case "esgoto":
         val = esgoto[key].properties; // essa propriedade nao existe originalmente.
+        break;
+      case "gas":
+        val = gas[key].properties; // essa propriedade nao existe originalmente.
         break;
       default:
         break;
