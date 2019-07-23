@@ -1,14 +1,29 @@
-import React, {useState, useEffect, useContext} from "react";
+import React, {useState, useReducer} from "react";
 
-import mapContext from "../../Context/mapContext";
+import jsonAgua from "../../utils/jsons/rda_meireles.json";
+import jsonEsgoto from "../../utils/jsons/rde_meireles.json";
+import jsonGas from "../../utils/jsons/gas.json";
+
 import Mapp from ".";
 import MapOperations from "../../Components/MapOperations";
 import Manager from "../../Components/Manager";
-import AguaContext from "../../Context/AguaContext";
-import EsgotoContext from "../../Context/EsgotoContext";
 //import {AuthUserContext} from "../../Components/Session";
 import Modal from "react-responsive-modal";
-import GasContext from "../../Context/GasContext";
+import MapCons from "../../Context/MapCons";
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "create": {
+      return [state, action.value];
+    }
+    case "update": {
+      state[action.index] = action.value;
+    }
+    case "delete": {
+      return state.splice(action.index, 1);
+    }
+  }
+};
 
 const MapHandler = () => {
   //=== === states === ===
@@ -19,7 +34,18 @@ const MapHandler = () => {
 
   //=== === contexts === ===
 
-  const {polyTypes} = useContext(mapContext);
+  const {polyTypes} = MapCons;
+
+  const [agua, dispatchAgua] = useReducer(reducer, jsonAgua.features);
+
+  console.log(agua);
+
+  const [esgoto, dispatchEsgoto] = useReducer(
+    reducer,
+    jsonEsgoto.features
+  );
+
+  const [gas, dispatchGas] = useReducer(reducer, jsonGas.features);
 
   //=== === Callbacks === ===
 
@@ -37,29 +63,30 @@ const MapHandler = () => {
 
   return (
     <>
-      <AguaContext.Provider>
-        <EsgotoContext.Provider>
-          <GasContext.Provider>
-            <Modal open={open} onClose={setModalClose} little={false}>
-              <div className="container mt-4 p-4">
-                <div className="mt-4 pt-4">
-                  <Manager key={key} type={polyType} />
-                </div>
-              </div>
-            </Modal>
+      <Modal open={open} onClose={setModalClose} little={false}>
+        <div className="container mt-4 p-4">
+          <div className="mt-4 pt-4">
+            <Manager
+              key={key}
+              type={polyType}
+              redAgua={{agua, dispatchAgua}}
+              redEsgoto={{esgoto, dispatchEsgoto}}
+              redGas={{gas, dispatchGas}}
+            />
+          </div>
+        </div>
+      </Modal>
 
-            <MapOperations />
+      <MapOperations />
 
-            <mapContext.Provider>
-              <Mapp
-                setModalOpen={setModalOpen}
-                setType={setType}
-                setKey={setKey}
-              />
-            </mapContext.Provider>
-          </GasContext.Provider>
-        </EsgotoContext.Provider>
-      </AguaContext.Provider>
+      <Mapp
+        setModalOpen={setModalOpen}
+        setType={setType}
+        setKey={setKey}
+        redAgua={{agua, dispatchAgua}}
+        redEsgoto={{esgoto, dispatchEsgoto}}
+        redGas={{gas, dispatchGas}}
+      />
     </>
   );
 };

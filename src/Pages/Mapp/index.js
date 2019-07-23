@@ -1,5 +1,3 @@
-import React, {useContext, useState} from "react";
-
 import {
   Map,
   GoogleApiWrapper,
@@ -7,22 +5,31 @@ import {
   InfoWindow
 } from "google-maps-react";
 
-import mapContext from "../../Context/mapContext";
+import React, {useContext, useState} from "react";
+import MapCons from "../../Context/MapCons";
 import {AuthUserContext} from "../../Components/Session";
-import AguaContext from "../../Context/AguaContext";
-import EsgotoContext from "../../Context/EsgotoContext";
-import GasContext from "../../Context/GasContext";
 //import markerContext from "../../Context/markerContext";
 
 const Mapp = props => {
   // ========= CONTEXTS ==========
 
-  const {initialPlace, mapStyles} = useContext(mapContext);
-  const {agua} = useContext(AguaContext);
-  const {esgoto} = useContext(EsgotoContext);
-  const {gas} = useContext(GasContext);
+  const {
+    google,
+    authority,
+    redAgua,
+    redEsgoto,
+    redGas,
+    setKey,
+    setType,
+    setModalOpen
+  } = props;
 
-  const {authUser} = useContext(AuthUserContext);
+  const {agua, dispatchAgua} = redAgua;
+  const {esgoto, dispatchEsgoto} = redEsgoto;
+  const {gas, dispatchGas} = redGas;
+
+  const {initialPlace, mapStyles, polyTypes} = MapCons;
+
   // about marker...
   const [visibleInfo, setVisibleInfo] = useState(false);
   const [valueMarker, setValueMarker] = useState(false);
@@ -30,8 +37,6 @@ const Mapp = props => {
     lat: null,
     lng: null
   });
-
-  const {google, setKey, setType, setModalOpen} = props;
 
   // ======== AUX FUNCTIONs ===========
 
@@ -131,11 +136,10 @@ const Mapp = props => {
     }
 
     if (
-      authUser &&
-      (authUser.email === "rubens@gmail.com" ||
-        ((type === "agua" || type === "esgoto") &&
-          authUser.email === "cagece@gmail.com") ||
-        (type === "gas" && authUser.email === "cegas@gmail.com"))
+      authority === "prefeitura" ||
+      (authority === "cagece" &&
+        (type === "agua" || type === "esgoto")) ||
+      (authority === "cegas" && type === "gas")
     ) {
       setModalOpen(true);
       setKey(key);
@@ -168,7 +172,7 @@ const Mapp = props => {
    * Função que mapeia a rede de agua
    */
   let mapAgua = agua.map((el, index) => {
-    el.properties.em_operacao = false;
+    el.properties.interventios = [];
 
     var path = [];
     const coord = el.geometry.coordinates;
@@ -203,7 +207,7 @@ const Mapp = props => {
    * Função que mapeia a rede de esgoto
    */
   let mapEsgoto = esgoto.map((el, index) => {
-    el.properties.em_operacao = true;
+    el.properties.interventios = [];
 
     var path = [];
     const coord = el.geometry.coordinates;
@@ -229,6 +233,38 @@ const Mapp = props => {
           strokeWeight: 3
         }}
         onClick={() => onPolyClicked(index, "esgoto", path)}
+        onMouseover={() => onPolyHover(path)}
+      />
+    );
+  });
+
+  let mapGas = gas.map((el, index) => {
+    el.properties.interventios = [];
+
+    var path = [];
+    const coord = el.geometry.coordinates;
+
+    // endereço inicio
+    path.push({
+      lat: coord[0][1],
+      lng: coord[0][0]
+    });
+    // endereço fim
+    path.push({
+      lat: coord[1][1],
+      lng: coord[1][0]
+    });
+
+    return (
+      <Polyline
+        key={index}
+        path={path}
+        options={{
+          strokeColor: "red",
+          strokeOpacity: 0.8,
+          strokeWeight: 3
+        }}
+        onClick={() => onPolyClicked(index, "gas", path)}
         onMouseover={() => onPolyHover(path)}
       />
     );
@@ -263,6 +299,7 @@ const Mapp = props => {
       </InfoWindow>
       {mapAgua}
       {mapEsgoto}
+      {mapGas}
     </Map>
   );
 };

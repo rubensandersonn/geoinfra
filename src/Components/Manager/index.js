@@ -3,9 +3,6 @@ import Create from "./Create";
 import Update from "./Update";
 import Delete from "./Delete";
 import ReadInfo from "./ReadInfo";
-import EsgotoContext from "../../Context/EsgotoContext";
-import AguaContext from "../../Context/AguaContext";
-import GasContext from "../../Context/GasContext";
 
 const types = {
   create: "CREATE",
@@ -16,13 +13,12 @@ const types = {
 const Manager = props => {
   // === === === CONTEXTS === === ===
 
-  const {esgoto} = useContext(EsgotoContext);
-  const {agua} = useContext(AguaContext);
-  const {gas} = useContext(GasContext);
-
   //=== === === PROPS === === ===
 
-  const {key, type} = props; // preciso saber quais dados eu posso mostrar. type pode ser agua, gas ou esgoto
+  const {key, type, redAgua, redEsgoto, redGas, authority} = props; // preciso saber quais dados eu posso mostrar. type pode ser agua, gas ou esgoto
+  const {agua, dispatchAgua} = redAgua;
+  const {esgoto, dispatchEsgoto} = redEsgoto;
+  const {gas, dispatchGas} = redGas;
   const [el, setEl] = useState();
 
   //=== === === Callbacks === === ===

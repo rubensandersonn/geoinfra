@@ -24,7 +24,18 @@ const Navigation = () => (
 
         <AuthUserContext.Consumer>
           {authUser =>
-            authUser ? <NavigationAuth /> : <NavigationNonAuth />
+            authUser ? (
+              authUser.email === "rubens@gmail.com" ||
+              authUser.email === "prefeitura@gmail.com" ? (
+                <NavigationAuth authority={"prefeitura"} />
+              ) : authUser.email === "cagece" ? (
+                <NavigationAuth authority={"cagece"} />
+              ) : (
+                <NavigationAuth authority={"cegas"} />
+              )
+            ) : (
+              <NavigationNonAuth />
+            )
           }
         </AuthUserContext.Consumer>
       </nav>
