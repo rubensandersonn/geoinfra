@@ -45,7 +45,14 @@ const Create = props => {
       Object.keys(msgError).map(key => {
         console.log(".");
         if (msgError[key] !== null) {
-          return <div style={{color: "red"}}>{msgError[key]}</div>;
+          return (
+            <div
+              className="border-bottom rounded p-2"
+              style={{color: "#8B0000"}}
+            >
+              {msgError[key]}
+            </div>
+          );
         }
 
         return <></>;
@@ -61,14 +68,10 @@ const Create = props => {
 
   return (
     <div className="modal-body pt-6">
-      <div className="modal-header">
-        <h5 className="modal-title text-black" id="exampleModalLabel">
-          Cadastrar Intervenção
-        </h5>
+      <div className="rounded mb-2">{mapErrors}</div>
+      <div className="mb-2" style={{color: "green"}}>
+        {successMsg}
       </div>
-
-      {mapErrors}
-      <div style={{color: "green"}}>{successMsg}</div>
 
       <form
         onSubmit={e => {
@@ -93,7 +96,7 @@ const Create = props => {
         <div className="form-group row">
           <div className="col-md-12 mb-4 mb-lg-0">
             <textarea
-              rows="10"
+              rows="5"
               cols="30"
               className="form-control border"
               value={description}

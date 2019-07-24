@@ -1,4 +1,5 @@
 import React from "react";
+import Create from "../../Components/Manager/Create";
 
 // import { Container } from './styles';
 
@@ -31,22 +32,23 @@ const teste1 = props => {
   return (
     <>
       <div class="row">
-        <div className="col-12 text-center mb-5">
+        <div className="col-lg-12 text-center mb-4">
           <div className="block-heading-1">
             <h2>Cadastrar</h2>
           </div>
         </div>
       </div>
+
       <div className="row">
-        <div className="col-lg-4 mr-auto">
+        <div className="col-lg-6 border-right ml-auto">
           <p>
             {agua[key]
               ? pretifyWindow(agua[key].properties)
               : agua[key]}
           </p>
         </div>
-        <div className="col-lg-4 mb-5">
-          <p>as mania de da o cu</p>
+        <div className="col-lg-6 mb-5">
+          <Create onSubmit={e => console.log("submeteu", e)} />
         </div>
       </div>
     </>
