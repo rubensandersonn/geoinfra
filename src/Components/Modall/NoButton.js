@@ -20,7 +20,7 @@ const NoButton = props => {
     const mapp = Object.keys(value).map(key => {
       if (!key.match(/id|x|y/gm)) {
         return (
-          <div key className="row container">
+          <div key className="">
             <span style={{fontWeight: "bold"}}>
               {key.replace(/_/gm, " ")}
             </span>

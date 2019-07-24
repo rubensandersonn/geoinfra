@@ -9,7 +9,7 @@ const teste1 = props => {
     const mapp = Object.keys(value).map(key => {
       if (!key.match(/id|x|y/gm)) {
         return (
-          <div key className="row container">
+          <p className="text-black">
             <span style={{fontWeight: "bold"}}>
               {key.replace(/_/gm, " ")}
             </span>
@@ -19,7 +19,7 @@ const teste1 = props => {
                 ? "SIM"
                 : "NÃO"
               : value[key]}
-          </div>
+          </p>
         );
       }
       return null;
@@ -30,8 +30,24 @@ const teste1 = props => {
 
   return (
     <>
+      <div class="row">
+        <div className="col-12 text-center mb-5">
+          <div className="block-heading-1">
+            <h2>Cadastrar</h2>
+          </div>
+        </div>
+      </div>
       <div className="row">
-        {agua[key] ? pretifyWindow(agua[key].properties) : agua[key]}
+        <div className="col-lg-4 mr-auto">
+          <p>
+            {agua[key]
+              ? pretifyWindow(agua[key].properties)
+              : agua[key]}
+          </p>
+        </div>
+        <div className="col-lg-4 mb-5">
+          <p>as mania de da o cu</p>
+        </div>
       </div>
     </>
   );
