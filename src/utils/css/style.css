@@ -1181,3 +1181,44 @@ h1, h2, h3, h4, h5,
     .slide-one-item .owl-dots .owl-dot.active > span {
       width: 20px;
       background: #fff; }
+/*new drop*/
+      .newdropbtn {
+        /* background-color: #4CAF50; */
+        color: #232323;
+        padding: 5px;
+        font-size: 16px;
+        border: none;
+      }
+      
+      /* The container <div> - needed to position the newdropdown content */
+      .newdropdown {
+        position: relative;
+        display: inline-block;
+      }
+      
+      /* Dropdown Content (Hidden by Default) */
+      .newdropdown-content {
+        display: none;
+        position: absolute;
+        background-color: #f1f1f1;
+        min-width: 240px;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 1;
+      }
+      
+      /* Links inside the newdropdown */
+      .newdropdown-content a {
+        color: black;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+      }
+      
+      /* Change color of newdropdown links on hover */
+      .newdropdown-content a:hover {background-color: #ddd;}
+      
+      /* Show the newdropdown menu on hover */
+      .newdropdown:hover .newdropdown-content {display: block;}
+      
+      /* Change the background color of the newdropdown button when the newdropdown content is shown */
+      .newdropdown:hover .newdropbtn {color: white; background-color: #7e7e7e;}
