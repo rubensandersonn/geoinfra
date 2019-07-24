@@ -1222,3 +1222,22 @@ h1, h2, h3, h4, h5,
       
       /* Change the background color of the newdropdown button when the newdropdown content is shown */
       .newdropdown:hover .newdropbtn {color: white; background-color: #7e7e7e;}
+
+      .input-color {
+        position: relative;
+    }
+    .input-color input {
+        padding-left: 30px;
+    }
+    .input-color .color-box {
+        width: 13px;
+        height: 13px;
+        display: inline-block;
+        
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        
+    }
+    
+    

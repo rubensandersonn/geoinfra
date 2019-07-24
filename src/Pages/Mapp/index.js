@@ -5,10 +5,8 @@ import {
   InfoWindow
 } from "google-maps-react";
 
-import React, {useContext, useState} from "react";
+import React, {createRef, useState} from "react";
 import MapCons from "../../Context/MapCons";
-import {AuthUserContext} from "../../Components/Session";
-//import markerContext from "../../Context/markerContext";
 
 const Mapp = props => {
   // ========= CONTEXTS ==========
@@ -240,74 +238,67 @@ const Mapp = props => {
     );
   });
 
-  // let mapGas = gas.map((el, index) => {
-  //   el.properties.interventions = [];
+  let mapRef = createRef();
 
-  //   var path = [];
-  //   const coord = el.geometry.coordinates;
+  const addLegend = google => {
+    var legend = document.getElementById("legend");
 
-  //   const decifreme1 = -148695.475399;
-  //   const decifreme2 = -248968.945488;
+    var div1 = document.createElement("div1");
+    div1.innerHTML =
+      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE ÁGUA" /> <div class="color-box" style="background-color: pink;"></div></div>';
 
-  //   // endereço inicio
-  //   path.push({
-  //     lat: coord[0][0] / decifreme1,
-  //     lng: coord[0][1] / decifreme2
-  //   });
-  //   // endereço fim
-  //   path.push({
-  //     lat: coord[1][0] / decifreme1,
-  //     lng: coord[1][1] / decifreme2
-  //   });
+    legend.appendChild(div1);
 
-  //   return (
-  //     <Polyline
-  //       key={index}
-  //       path={path}
-  //       options={{
-  //         strokeColor: "orange",
-  //         strokeOpacity: 0.8,
-  //         strokeWeight: 3
-  //       }}
-  //       onClick={() => onPolyClicked(index, "gas", path)}
-  //       onMouseover={() => onPolyHover(path)}
-  //     />
-  //   );
-  // });
+    var div2 = document.createElement("div2");
+    div2.innerHTML =
+      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE ESGOTO" /> <div class="color-box" style="background-color: green;"></div></div>';
+
+    legend.appendChild(div2);
+
+    mapRef.current.map.controls[
+      google.maps.ControlPosition.LEFT_BOTTOM
+    ].push(legend);
+  };
 
   return (
-    <Map
-      google={google}
-      zoom={16}
-      styles={mapStyles}
-      initialCenter={initialPlace}
-      onClick={onMapClicked}
-      streetViewControl={false}
-      onReady={e => console.log(e)}
-    >
-      <InfoWindow
-        visible={visibleInfo}
-        key={1}
-        position={
-          new google.maps.LatLng(
-            positionMarker.lat,
-            positionMarker.lng
-          ) || {
-            lat: 0,
-            lng: 0
-          }
-        }
+    <>
+      <Map
+        google={google}
+        zoom={16}
+        styles={mapStyles}
+        initialCenter={initialPlace}
+        onClick={onMapClicked}
+        streetViewControl={false}
+        ref={mapRef}
+        onReady={({google}) => addLegend(google)}
       >
-        <div className="container">
-          <div className="row">
-            <div style={{color: "black"}}>{valueMarker}</div>
+        <InfoWindow
+          visible={visibleInfo}
+          key={1}
+          position={
+            new google.maps.LatLng(
+              positionMarker.lat,
+              positionMarker.lng
+            ) || {
+              lat: 0,
+              lng: 0
+            }
+          }
+        >
+          <div className="container">
+            <div className="row">
+              <div style={{color: "black"}}>{valueMarker}</div>
+            </div>
           </div>
-        </div>
-      </InfoWindow>
-      {/* {mapGas} */}
-      {mapAgua}
-      {mapEsgoto}
-    </Map>
+        </InfoWindow>
+        {/* {mapGas} */}
+        {mapAgua}
+        {mapEsgoto}
+      </Map>
+      <div className="col-lg-2 bg-light p-2 m-4" id="legend">
+        <h3>Legenda</h3>
+      </div>
+    </>
   );
 };
 

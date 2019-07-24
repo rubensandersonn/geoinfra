@@ -34,16 +34,16 @@ const teste1 = props => {
   const buttonClicked = who => {
     let divv;
     switch (who) {
-      case "create": {
-        divv = "create";
+      case "cadastrar": {
+        divv = "cadastrar";
         break;
       }
-      case "update": {
-        divv = "update";
+      case "atualizar": {
+        divv = "atualizar";
         break;
       }
-      case "delete": {
-        divv = "delete";
+      case "remover": {
+        divv = "remover";
         break;
       }
       default: {
@@ -52,10 +52,12 @@ const teste1 = props => {
       }
     }
 
-    document.getElementById("create").style.display = "none";
-    document.getElementById("update").style.display = "none";
-    document.getElementById("delete").style.display = "none";
+    document.getElementById("cadastrar").style.display = "none";
+    document.getElementById("atualizar").style.display = "none";
+    document.getElementById("remover").style.display = "none";
     document.getElementById(divv).style.display = "block";
+    document.getElementById("titulo").innerHTML =
+      divv.charAt(0).toUpperCase() + divv.slice(1) + " Intervenção";
   };
 
   return (
@@ -63,26 +65,26 @@ const teste1 = props => {
       <div class="">
         <div className="col-lg-12 text-center mb-4">
           <div className="block-heading-1">
-            <h2>Cadastrar</h2>
+            <h2 id="titulo">Cadastrar Intervenção</h2>
           </div>
           <div className="border-bottom rounded p-2 m-2">
             <div
               className="btn btn-secondary ml-2 mr-2 pl-2 pr-2"
-              onClick={() => buttonClicked("create")}
+              onClick={() => buttonClicked("cadastrar")}
             >
-              Create
+              Criar
             </div>
             <div
               className="btn btn-secondary ml-2 mr-2 pl-2 pr-2"
-              onClick={() => buttonClicked("update")}
+              onClick={() => buttonClicked("atualizar")}
             >
-              Update
+              Atualizar
             </div>
             <div
               className="btn btn-secondary ml-2 mr-2 pl-2 pr-2"
-              onClick={() => buttonClicked("delete")}
+              onClick={() => buttonClicked("remover")}
             >
-              Delete
+              Remover
             </div>
           </div>
         </div>
@@ -96,13 +98,21 @@ const teste1 = props => {
               : agua[key]}
           </p>
         </div>
-        <div id="create" className="col-lg-6 mb-5">
+        <div id="cadastrar" className="col-lg-6 mb-5">
           <Create onSubmit={e => console.log("submeteu", e)} />
         </div>
-        <div id="update" display="none" className="col-lg-6 mb-5">
+        <div
+          id="atualizar"
+          style={{display: "none"}}
+          className="col-lg-6 mb-5"
+        >
           <Update />
         </div>
-        <div id="delete" display="none" className="col-lg-6 mb-5">
+        <div
+          id="remover"
+          style={{display: "none"}}
+          className="col-lg-6 mb-5"
+        >
           <Delete interventions={[1, 2, 3, 4, 5]} />
         </div>
       </div>

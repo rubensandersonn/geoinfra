@@ -50,7 +50,8 @@ const MapOperations = () => {
             </div>
             <div className="site-mobile-menu-body" />
           </div>
-          <AuthUserContext.Consumer>
+          <NavigationNull />
+          {/* <AuthUserContext.Consumer>
             {authUser =>
               authUser ? (
                 authUser.email === "rubens@gmail.com" ? (
@@ -64,7 +65,7 @@ const MapOperations = () => {
                 <NavigationNull />
               )
             }
-          </AuthUserContext.Consumer>
+          </AuthUserContext.Consumer> */}
         </nav>
       </div>
     </div>
