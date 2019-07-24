@@ -6,6 +6,8 @@ import * as ROUTES from "../../Routes";
 
 import {AuthUserContext} from "../Session";
 
+let auth = "none";
+
 /**
  * Aqui eu posso colocar os niveis de autenticação retornando a rota certa
  */
@@ -49,7 +51,9 @@ const NavigationNonAuth = () => (
       <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
         <li className="nav-link">
           <a href="mapa">
-            <Link to={ROUTES.MAP}>Mapa</Link>
+            <Link authority={"none"} to={ROUTES.MAP}>
+              Mapa
+            </Link>
           </a>
         </li>
         <li className="nav-link">
@@ -69,28 +73,36 @@ const NavigationNonAuth = () => (
   </div>
 );
 
-const NavigationAuth = () => (
+const NavigationAuth = props => (
   <div className="row">
     <div>
       <ul className="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
         <li className="nav-link">
           <a href="mapa">
-            <Link to={ROUTES.MAP}>Mapa</Link>
+            <Link authority={props.authority} to={ROUTES.MAP}>
+              Mapa
+            </Link>
           </a>
         </li>
         <li className="nav-link">
           <a href="sobre">
-            <Link to={ROUTES.ABOUT}>Sobre</Link>
+            <Link authority={props.authority} to={ROUTES.ABOUT}>
+              Sobre
+            </Link>
           </a>
         </li>
         <li className="nav-link">
           <a href="conta">
-            <Link to={ROUTES.ACCOUNT}>Conta</Link>
+            <Link authority={props.authority} to={ROUTES.ACCOUNT}>
+              Conta
+            </Link>
           </a>
         </li>
         <li className="nav-link">
           <a href="admin">
-            <Link to={ROUTES.ADMIN}>Admin</Link>
+            <Link authority={props.authority} to={ROUTES.ADMIN}>
+              Admin
+            </Link>
           </a>
         </li>
       </ul>

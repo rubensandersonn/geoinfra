@@ -10,6 +10,9 @@ import Manager from "../../Components/Manager";
 //import {AuthUserContext} from "../../Components/Session";
 import Modal from "react-responsive-modal";
 import MapCons from "../../Context/MapCons";
+import {AuthUserContext} from "../../Components/Session/index.js";
+import teste1 from "../Testes/teste1.js";
+import NoButton from "../../Components/Modall/NoButton.js";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -25,7 +28,7 @@ const reducer = (state, action) => {
   }
 };
 
-const MapHandler = () => {
+const MapHandler = props => {
   //=== === states === ===
 
   const [open, setOpen] = useState(false);
@@ -38,8 +41,6 @@ const MapHandler = () => {
 
   const [agua, dispatchAgua] = useReducer(reducer, jsonAgua.features);
 
-  console.log(agua);
-
   const [esgoto, dispatchEsgoto] = useReducer(
     reducer,
     jsonEsgoto.features
@@ -50,20 +51,23 @@ const MapHandler = () => {
   //=== === Callbacks === ===
 
   const setModalClose = () => {
+    console.log("open false");
     setOpen(false);
   };
 
   const setModalOpen = () => {
+    console.log("open true!!!");
     setOpen(true);
   };
 
   const setType = type => {
-    setPolyType(polyTypes[type]);
+    console.log("setando o tipo ", type);
+    setPolyType(type);
   };
 
   return (
     <>
-      <Modal open={open} onClose={setModalClose} little={false}>
+      {/* <Modal open={open} onClose={setModalClose} little={false}>
         <div className="container mt-4 p-4">
           <div className="mt-4 pt-4">
             <Manager
@@ -75,17 +79,64 @@ const MapHandler = () => {
             />
           </div>
         </div>
-      </Modal>
+      </Modal> */}
 
       <MapOperations />
 
-      <Mapp
-        setModalOpen={setModalOpen}
-        setType={setType}
-        setKey={setKey}
-        redAgua={{agua, dispatchAgua}}
-        redEsgoto={{esgoto, dispatchEsgoto}}
-        redGas={{gas, dispatchGas}}
+      <AuthUserContext.Consumer>
+        {authUser =>
+          authUser ? (
+            authUser.email === "rubens@gmail.com" ||
+            authUser.email === "prefeitura@gmail.com" ? (
+              <Mapp
+                setModalOpen={setOpen}
+                setType={setType}
+                setKey={setKey}
+                redAgua={{agua, dispatchAgua}}
+                redEsgoto={{esgoto, dispatchEsgoto}}
+                redGas={{gas, dispatchGas}}
+                authority={"prefeitura"}
+              />
+            ) : authUser.email === "cagece" ? (
+              <Mapp
+                setModalOpen={setOpen}
+                setType={setType}
+                setKey={setKey}
+                redAgua={{agua, dispatchAgua}}
+                redEsgoto={{esgoto, dispatchEsgoto}}
+                redGas={{gas, dispatchGas}}
+                authority={"cagece"}
+              />
+            ) : (
+              <Mapp
+                setModalOpen={setOpen}
+                setType={setType}
+                setKey={setKey}
+                redAgua={{agua, dispatchAgua}}
+                redEsgoto={{esgoto, dispatchEsgoto}}
+                redGas={{gas, dispatchGas}}
+                authority={"cegas"}
+              />
+            )
+          ) : (
+            <Mapp
+              setModalOpen={setOpen}
+              setType={setType}
+              setKey={setKey}
+              redAgua={{agua, dispatchAgua}}
+              redEsgoto={{esgoto, dispatchEsgoto}}
+              redGas={{gas, dispatchGas}}
+              authority={"none"}
+            />
+          )
+        }
+      </AuthUserContext.Consumer>
+      <NoButton
+        open={open}
+        setOpen={setOpen}
+        content={() => teste1((props = {key, type: polyType, agua}))}
+        //content={() => <teste1 key agua type={polyType} />}
+        little={false}
       />
     </>
   );

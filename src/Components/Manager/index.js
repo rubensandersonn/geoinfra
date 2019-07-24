@@ -16,10 +16,11 @@ const Manager = props => {
   //=== === === PROPS === === ===
 
   const {key, type, redAgua, redEsgoto, redGas, authority} = props; // preciso saber quais dados eu posso mostrar. type pode ser agua, gas ou esgoto
+
   const {agua, dispatchAgua} = redAgua;
   const {esgoto, dispatchEsgoto} = redEsgoto;
   const {gas, dispatchGas} = redGas;
-  const [el, setEl] = useState();
+  const [el, setEl] = useState({});
 
   //=== === === Callbacks === === ===
 

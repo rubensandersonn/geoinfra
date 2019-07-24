@@ -24,6 +24,8 @@ const Mapp = props => {
     setModalOpen
   } = props;
 
+  console.log("map auth:", authority);
+
   const {agua, dispatchAgua} = redAgua;
   const {esgoto, dispatchEsgoto} = redEsgoto;
   const {gas, dispatchGas} = redGas;
