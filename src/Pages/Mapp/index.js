@@ -174,7 +174,7 @@ const Mapp = props => {
    * Função que mapeia a rede de agua
    */
   let mapAgua = agua.map((el, index) => {
-    el.properties.interventios = [];
+    el.properties.interventions = [];
 
     var path = [];
     const coord = el.geometry.coordinates;
@@ -209,7 +209,7 @@ const Mapp = props => {
    * Função que mapeia a rede de esgoto
    */
   let mapEsgoto = esgoto.map((el, index) => {
-    el.properties.interventios = [];
+    el.properties.interventions = [];
 
     var path = [];
     const coord = el.geometry.coordinates;
@@ -240,37 +240,40 @@ const Mapp = props => {
     );
   });
 
-  let mapGas = gas.map((el, index) => {
-    el.properties.interventios = [];
+  // let mapGas = gas.map((el, index) => {
+  //   el.properties.interventions = [];
 
-    var path = [];
-    const coord = el.geometry.coordinates;
+  //   var path = [];
+  //   const coord = el.geometry.coordinates;
 
-    // endereço inicio
-    path.push({
-      lat: coord[0][1],
-      lng: coord[0][0]
-    });
-    // endereço fim
-    path.push({
-      lat: coord[1][1],
-      lng: coord[1][0]
-    });
+  //   const decifreme1 = -148695.475399;
+  //   const decifreme2 = -248968.945488;
 
-    return (
-      <Polyline
-        key={index}
-        path={path}
-        options={{
-          strokeColor: "red",
-          strokeOpacity: 0.8,
-          strokeWeight: 3
-        }}
-        onClick={() => onPolyClicked(index, "gas", path)}
-        onMouseover={() => onPolyHover(path)}
-      />
-    );
-  });
+  //   // endereço inicio
+  //   path.push({
+  //     lat: coord[0][0] / decifreme1,
+  //     lng: coord[0][1] / decifreme2
+  //   });
+  //   // endereço fim
+  //   path.push({
+  //     lat: coord[1][0] / decifreme1,
+  //     lng: coord[1][1] / decifreme2
+  //   });
+
+  //   return (
+  //     <Polyline
+  //       key={index}
+  //       path={path}
+  //       options={{
+  //         strokeColor: "orange",
+  //         strokeOpacity: 0.8,
+  //         strokeWeight: 3
+  //       }}
+  //       onClick={() => onPolyClicked(index, "gas", path)}
+  //       onMouseover={() => onPolyHover(path)}
+  //     />
+  //   );
+  // });
 
   return (
     <Map
@@ -279,6 +282,8 @@ const Mapp = props => {
       styles={mapStyles}
       initialCenter={initialPlace}
       onClick={onMapClicked}
+      streetViewControl={false}
+      onReady={e => console.log(e)}
     >
       <InfoWindow
         visible={visibleInfo}
@@ -299,9 +304,9 @@ const Mapp = props => {
           </div>
         </div>
       </InfoWindow>
+      {/* {mapGas} */}
       {mapAgua}
       {mapEsgoto}
-      {mapGas}
     </Map>
   );
 };

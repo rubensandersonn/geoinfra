@@ -1,6 +1,7 @@
 import React from "react";
 import Create from "../../Components/Manager/Create";
 import Delete from "../../Components/Manager/Delete";
+import Update from "../../Components/Manager/Update";
 
 // import { Container } from './styles';
 
@@ -59,17 +60,33 @@ const teste1 = props => {
 
   return (
     <>
-      <div class="row">
+      <div class="">
         <div className="col-lg-12 text-center mb-4">
           <div className="block-heading-1">
             <h2>Cadastrar</h2>
           </div>
+          <div className="border-bottom rounded p-2 m-2">
+            <div
+              className="btn btn-secondary ml-2 mr-2 pl-2 pr-2"
+              onClick={() => buttonClicked("create")}
+            >
+              Create
+            </div>
+            <div
+              className="btn btn-secondary ml-2 mr-2 pl-2 pr-2"
+              onClick={() => buttonClicked("update")}
+            >
+              Update
+            </div>
+            <div
+              className="btn btn-secondary ml-2 mr-2 pl-2 pr-2"
+              onClick={() => buttonClicked("delete")}
+            >
+              Delete
+            </div>
+          </div>
         </div>
       </div>
-
-      <button onClick={() => buttonClicked("create")}>Create</button>
-      <button onClick={() => buttonClicked("update")}>Update</button>
-      <button onClick={() => buttonClicked("delete")}>Delete</button>
 
       <div className="row">
         <div className="col-lg-6 border-right ml-auto">
@@ -83,7 +100,7 @@ const teste1 = props => {
           <Create onSubmit={e => console.log("submeteu", e)} />
         </div>
         <div id="update" display="none" className="col-lg-6 mb-5">
-          <p>UPDATE</p>
+          <Update />
         </div>
         <div id="delete" display="none" className="col-lg-6 mb-5">
           <Delete interventions={[1, 2, 3, 4, 5]} />

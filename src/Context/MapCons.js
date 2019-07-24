@@ -1,4 +1,11 @@
 const initialPlace = {lat: -3.727898, lng: -38.500058};
+// 555722.3250,9587790.5696
+const decifreme1 = -149071.225929;
+const decifreme2 = -249033.146121;
+// const initialPlace = {
+//   lat: 555722.325 / decifreme1,
+//   lng: 9587790.5696 / decifreme2
+// };
 
 const polyTypes = {
   agua: "agua",

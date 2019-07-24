@@ -69,14 +69,14 @@ export default function Delete(props) {
 
   return (
     <>
-      <div class="newdropdown">
-        {/* <button class="newdropbtn">Dropdown</button> */}
+      <div className="newdropdown">
+        {/* <button className="newdropbtn">Dropdown</button> */}
         <div className="newdropbtn border rounded">Intervenções</div>
-        <div class="newdropdown-content">{mapInterventions}</div>
+        <div className="newdropdown-content">{mapInterventions}</div>
       </div>
       <div id="chosen" style={{display: "none"}}>
         <div className="container  p-2 m-2">{chosen}</div>
-        <button
+        <div
           onClick={() => {
             let doidim = [];
             interventions.forEach((el, index) => {
@@ -87,10 +87,10 @@ export default function Delete(props) {
             setInterventions(doidim);
             document.getElementById("chosen").style.display = "none";
           }}
-          className="p-2 m-2 ml-auto"
+          className="btn btn-danger p-2 m-2 ml-auto"
         >
-          Exluir Intervenção
-        </button>
+          Excluir Intervenção
+        </div>
       </div>
     </>
   );
