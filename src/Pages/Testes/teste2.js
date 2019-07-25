@@ -5,15 +5,10 @@ import Update from "../../Components/Manager/Update";
 
 // import { Container } from './styles';
 
-const teste1 = props => {
+const teste2 = props => {
   const {type, key, reducerRede} = props;
 
   const {rede, dispatch, authority} = reducerRede;
-
-  console.log("(teste1) rede[key]", rede[key]);
-  console.log("(teste1) key", key);
-  console.log("(teste1) type", type);
-  console.log("(teste1) authority", authority);
 
   const submitUpdate = (obj, indexInterv) => {
     console.log("submited update: ", obj, indexInterv);
@@ -128,9 +123,12 @@ const teste1 = props => {
       <div className="row">
         <div className="col-lg-6 border-right ml-auto">
           <p>
-            {rede && rede[key]
+            {rede[key]
               ? pretifyWindow(rede[key].properties)
-              : []}
+              : rede[key]}
+          </p>
+          <p>
+            {rede[key] ? rede[key].geometry.coordinates : rede[key]}
           </p>
         </div>
         <div id="cadastrar" className="col-lg-6 mb-5">
@@ -142,11 +140,7 @@ const teste1 = props => {
           className="col-lg-6 mb-5"
         >
           <Update
-            interventions={
-              rede && rede.properties && rede.properties.interventions
-                ? rede.properties.interventions
-                : []
-            }
+            interventions={rede.properties.interventions}
             onSubmit={(obj, indexInterv) =>
               submitUpdate(obj, indexInterv)
             }
@@ -158,11 +152,7 @@ const teste1 = props => {
           className="col-lg-6 mb-5"
         >
           <Delete
-            interventions={
-              rede && rede.properties && rede.properties.interventions
-                ? rede.properties.interventions
-                : []
-            }
+            interventions={rede.properties.interventions}
             onSubmit={indexInterv => submitDelete(key, indexInterv)}
           />
         </div>
@@ -171,4 +161,4 @@ const teste1 = props => {
   );
 };
 
-export default teste1;
+export default teste2;

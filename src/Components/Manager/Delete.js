@@ -3,27 +3,27 @@ import React from "react";
 // import { Container } from './styles';
 
 export default function Delete(props) {
-  //const {interventions} = props;
-  const [interventions, setInterventions] = React.useState([
-    {
-      responsable: "cagece",
-      data_ini: "12/07/2019",
-      data_fim: "13/07/2019",
-      description: "its a intervention!"
-    },
-    {
-      responsable: "cegas",
-      data_ini: "12/07/2019",
-      data_fim: "13/07/2019",
-      description: "its a another intervention!"
-    },
-    {
-      responsable: "cagece",
-      data_ini: "12/07/2019",
-      data_fim: "13/07/2019",
-      description: "its a intervention!"
-    }
-  ]);
+  const {onSubmit, interventions} = props;
+  // const [interventions, setInterventions] = React.useState([
+  //   {
+  //     responsable: "cagece",
+  //     data_ini: "12/07/2019",
+  //     data_fim: "13/07/2019",
+  //     description: "its a intervention!"
+  //   },
+  //   {
+  //     responsable: "cegas",
+  //     data_ini: "12/07/2019",
+  //     data_fim: "13/07/2019",
+  //     description: "its a another intervention!"
+  //   },
+  //   {
+  //     responsable: "cagece",
+  //     data_ini: "12/07/2019",
+  //     data_fim: "13/07/2019",
+  //     description: "its a intervention!"
+  //   }
+  // ]);
 
   const [chosen, setChosen] = React.useState(<div />);
   const [indexChosen, setIndexChosen] = React.useState(<div />);
@@ -77,17 +77,11 @@ export default function Delete(props) {
       <div id="chosen" style={{display: "none"}}>
         <div className="container  p-2 m-2">{chosen}</div>
         <div
+          className="btn btn-danger p-2 m-2 ml-auto"
           onClick={() => {
-            let doidim = [];
-            interventions.forEach((el, index) => {
-              if (index !== indexChosen) {
-                doidim.push(el);
-              }
-            });
-            setInterventions(doidim);
+            onSubmit(indexChosen);
             document.getElementById("chosen").style.display = "none";
           }}
-          className="btn btn-danger p-2 m-2 ml-auto"
         >
           Excluir Intervenção
         </div>

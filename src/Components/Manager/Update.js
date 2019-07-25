@@ -19,34 +19,35 @@ const reducer = (state, action) => {
 };
 
 const Update = props => {
-  const [interventions, setInterventions] = React.useState([
-    {
-      responsable: "cagece",
-      data_ini: "12/07/2019",
-      data_fim: "13/07/2019",
-      description: "its a intervention!"
-    },
-    {
-      responsable: "cegas",
-      data_ini: "12/07/2019",
-      data_fim: "13/07/2019",
-      description: "its a another intervention!"
-    },
-    {
-      responsable: "cagece",
-      data_ini: "12/07/2019",
-      data_fim: "13/07/2019",
-      description: "its a intervention!"
-    }
-  ]);
+  // const [interventions, setInterventions] = React.useState([
+  //   {
+  //     responsable: "cagece",
+  //     data_ini: "12/07/2019",
+  //     data_fim: "13/07/2019",
+  //     description: "its a intervention!"
+  //   },
+  //   {
+  //     responsable: "cegas",
+  //     data_ini: "12/07/2019",
+  //     data_fim: "13/07/2019",
+  //     description: "its a another intervention!"
+  //   },
+  //   {
+  //     responsable: "cagece",
+  //     data_ini: "12/07/2019",
+  //     data_fim: "13/07/2019",
+  //     description: "its a intervention!"
+  //   }
+  // ]);
 
   const [chosen, setChosen] = React.useState(<div />);
+
   const [indexChosen, setIndexChosen] = React.useState(<div />);
 
   // === === news === ===
 
-  //const {onSubmit} = props;
-  const onSubmit = params => console.log(toString(params));
+  const {onSubmit, interventions} = props;
+  // const onSubmit = params => console.log(toString(params));
   const [{description, data1, data2}, dispatch] = useReducer(
     reducer,
     {
@@ -171,7 +172,7 @@ const Update = props => {
             validData2 &&
             isIntervalFree(data1, data2)
           ) {
-            onSubmit({description, data1, data2});
+            onSubmit({description, data1, data2}, indexChosen);
 
             dispatch({type: "description", description: ""});
             dispatch({type: "data1", data1: ""});

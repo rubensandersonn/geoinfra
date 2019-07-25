@@ -43,7 +43,6 @@ const Create = props => {
 
     setMapErrors(
       Object.keys(msgError).map(key => {
-        console.log(".");
         if (msgError[key] !== null) {
           return (
             <div
@@ -59,7 +58,7 @@ const Create = props => {
       })
     );
 
-    console.log("mensagens de erro:", msgError);
+    // console.log("mensagens de erro:", msgError);
   }, [validData1, validData2]);
 
   const isIntervalFree = (data1, data2) => {
@@ -88,7 +87,7 @@ const Create = props => {
             dispatch({type: "data2", data2: ""});
 
             setSuccessMsg("Cadastro realizado com sucesso!");
-            console.log("sucesso!", description, data1, data2);
+            // console.log("sucesso!", description, data1, data2);
           }
         }}
       >

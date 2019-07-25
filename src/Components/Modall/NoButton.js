@@ -18,7 +18,8 @@ const NoButton = props => {
    */
   const pretifyWindow = value => {
     const mapp = Object.keys(value).map(key => {
-      if (!key.match(/id|x|y/gm)) {
+      // if (!key.match(/id|x|y/gm)) {
+      if (true) {
         return (
           <div key className="">
             <span style={{fontWeight: "bold"}}>

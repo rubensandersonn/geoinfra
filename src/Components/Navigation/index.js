@@ -51,9 +51,7 @@ const NavigationNonAuth = () => (
       <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
         <li className="nav-link">
           <a href="mapa">
-            <Link authority={"none"} to={ROUTES.MAP}>
-              Mapa
-            </Link>
+            <Link to={ROUTES.MAP}>Mapa</Link>
           </a>
         </li>
         <li className="nav-link">

@@ -22,7 +22,7 @@ const Mapp = props => {
     setModalOpen
   } = props;
 
-  console.log("map auth:", authority);
+  // console.log("map auth:", authority);
 
   const {agua, dispatchAgua} = redAgua;
   const {esgoto, dispatchEsgoto} = redEsgoto;
@@ -70,7 +70,7 @@ const Mapp = props => {
    * @param {*} coord
    */
   const showRegularInfo = (key, type, coord) => {
-    console.log("poly clicked", key, type, coord[0]);
+    // console.log("poly clicked", key, type, coord[0]);
 
     let val = {};
 
@@ -152,7 +152,7 @@ const Mapp = props => {
   // quando o mouse passa sobre a poly, atualizar
   // {visibleInfo, valueMarker, positionMarker}
   const onPolyHover = coord => {
-    console.log("poly hovered", coord[0]);
+    // console.log("poly hovered", coord[0]);
 
     // quem desativa a visibilidade é o map click
     setVisibleInfo(true);
@@ -242,6 +242,7 @@ const Mapp = props => {
 
   const addLegend = google => {
     var legend = document.getElementById("legend");
+    legend.style.display = "block";
 
     var div1 = document.createElement("div1");
     div1.innerHTML =
@@ -295,7 +296,11 @@ const Mapp = props => {
         {mapAgua}
         {mapEsgoto}
       </Map>
-      <div className="col-lg-2 bg-light p-2 m-4" id="legend">
+      <div
+        className="col-lg-2 bg-light p-2 m-4"
+        style={{display: "none"}}
+        id="legend"
+      >
         <h3>Legenda</h3>
       </div>
     </>
