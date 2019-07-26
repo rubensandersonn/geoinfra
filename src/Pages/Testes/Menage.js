@@ -5,10 +5,13 @@ import Update from "../../Components/Manager/Update";
 import AguaContext from "../../Context/AguaContext";
 import EsgotoContext from "../../Context/EsgotoContext";
 import GasContext from "../../Context/GasContext";
+import {FirebaseContext} from "../../Components/Firebase";
 
 // import { Container } from './styles';
 
 const Menage = props => {
+  let firebase = useContext(FirebaseContext);
+
   const {type, index} = props;
   const [objeto, setObject] = useState();
   const [operation, setOp] = useState("none");
@@ -47,6 +50,41 @@ const Menage = props => {
     console.log("NÃO APAGAR");
   });
 
+  const setFirebaseResult = async (i, t) => {
+    return await firebase.doReadInterventions(i, t);
+  };
+
+  const extractFirebaseResult = dude => {
+    let res = [];
+    Object.keys(dude).map(key => {
+      res.push(dude[key]);
+    });
+    console.log("extracted: ", res);
+    return res;
+  };
+
+  const [result, setResult] = useState(null);
+
+  useEffect(() => {
+    if (
+      type &&
+      index &&
+      rede[index] &&
+      !rede[index].properties.interventions
+    ) {
+      setFirebaseResult(index, type).then(res => {
+        rede[index].properties.interventions = extractFirebaseResult(
+          res
+        );
+        setMapa(
+          rede[index].properties.interventions.map((interv, k) => {
+            return <div key={k}>{JSON.stringify(interv)}</div>;
+          })
+        );
+      });
+    }
+  }, [type, index]);
+
   useEffect(() => {
     console.log("rede mudou");
     switch (operation) {
@@ -56,12 +94,19 @@ const Menage = props => {
             console.log("(create) no interventions... creating");
             if (objeto) {
               rede[index].properties.interventions = [objeto];
+              firebase.doCreateIntervention(index, type, 0, objeto);
             } else {
               console.log("(create) no objeto to insert");
             }
           } else {
             if (objeto) {
               rede[index].properties.interventions.push(objeto);
+              firebase.doCreateIntervention(
+                index,
+                rede[index].properties.interventions.lenght - 1,
+                type,
+                objeto
+              );
             }
           }
         } else {
@@ -75,6 +120,7 @@ const Menage = props => {
             console.log("(update) no interventions");
             if (objeto) {
               rede[index].properties.interventions = [objeto];
+              firebase.doCreateIntervention(index, type, objeto);
             }
           } else {
             if (objeto) {
@@ -82,6 +128,13 @@ const Menage = props => {
                 rede[index].properties.interventions[
                   indexInterve
                 ] = objeto;
+
+                firebase.doUpdateIntervention(
+                  index,
+                  type,
+                  indexInterve,
+                  objeto
+                );
               } else {
                 console.log("(update) no index to upd");
               }
@@ -101,6 +154,11 @@ const Menage = props => {
               const ell = rede[index].properties.interventions.splice(
                 indexInterve,
                 1
+              );
+              firebase.doDeleteIntervention(
+                index,
+                type,
+                indexInterve
               );
               console.log(
                 "(delete) removeu ",
