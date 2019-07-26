@@ -65,10 +65,15 @@ const Teste2 = props => {
     console.log("agua mudou");
     if (agua[index]) {
       if (!agua[index].properties.interventions) {
-        agua[index].properties.interventions = [objeto];
+        if (objeto) {
+          agua[index].properties.interventions = [objeto];
+        }
       } else {
-        agua[index].properties.interventions.push(objeto);
+        if (objeto) {
+          agua[index].properties.interventions.push(objeto);
+        }
       }
+      // ISSO É O QUE FAZ ELE ATUALIZAR!!!!!!!!!!
       setMapa(
         agua[index].properties.interventions.map((interv, k) => {
           return <div key={k}>{JSON.stringify(interv)}</div>;

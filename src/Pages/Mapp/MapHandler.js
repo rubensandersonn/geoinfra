@@ -177,8 +177,8 @@ const MapHandler = props => {
               //content={() => <teste1 key agua type={polyType} />}
               little={false}
             >
-              {/* <Menage index={key} type={polyType} /> */}
-              <Teste2 index={key} type={polyType} />
+              <Menage index={key} type={polyType} />
+              {/* <Teste2 index={key} type={polyType} /> */}
             </NoButton>
           </GasContext.Provider>
         </EsgotoContext.Provider>

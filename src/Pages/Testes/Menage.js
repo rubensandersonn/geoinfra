@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, {useContext, useState, useEffect} from "react";
 import Create from "../../Components/Manager/Create";
 import Delete from "../../Components/Manager/Delete";
 import Update from "../../Components/Manager/Update";
@@ -10,6 +10,7 @@ import GasContext from "../../Context/GasContext";
 
 const Menage = props => {
   const {type, index} = props;
+  const [objeto, setObject] = useState();
 
   let rede = [];
   let dispatch = () => {};
@@ -40,6 +41,33 @@ const Menage = props => {
   console.log("(Menage) type", type);
   console.log("(Menage) authority", authority);
 
+  let [mapaTOP, setMapa] = useState(() => {
+    console.log("NÃO APAGAR");
+  });
+
+  useEffect(() => {
+    console.log("agua mudou");
+    if (agua[index]) {
+      if (!agua[index].properties.interventions) {
+        if (objeto) {
+          agua[index].properties.interventions = [objeto];
+        }
+      } else {
+        if (objeto) {
+          agua[index].properties.interventions.push(objeto);
+        }
+      }
+      // ISSO É O QUE FAZ ELE ATUALIZAR!!!!!!!!!!
+      setMapa(
+        agua[index].properties.interventions.map((interv, k) => {
+          return <div key={k}>{JSON.stringify(interv)}</div>;
+        })
+      );
+    } else {
+      console.log("oloco bixo!!! deu errado meu");
+    }
+  }, [agua]);
+
   const submitUpdate = (obj, indexInterv) => {
     console.log("submited update: ", obj, indexInterv);
     obj.responsable = authority;
@@ -53,12 +81,12 @@ const Menage = props => {
 
   const submitCreate = obj => {
     console.log("submited create: ", obj);
-    obj.responsable = authority;
-    if (!rede[index].properties.interventions) {
-      rede[index].properties.interventions = [];
-    }
-    rede[index].properties.interventions.push(obj);
-    // dispatch({type: "create-intervention", value: obj, index: index});
+    setObject(obj);
+    dispatchAgua({
+      type: "create-intervention",
+      index: index,
+      value: {cuzim: "gostoso"}
+    });
   };
 
   const submitDelete = indexInterv => {
@@ -81,11 +109,18 @@ const Menage = props => {
               {key.replace(/_/gm, " ")}
             </span>
             {": "}
-            {key === "em_operacao"
-              ? value[key]
-                ? "SIM"
-                : "NÃO"
-              : value[key]}
+            {value[key] &&
+            value[key].constructor === [].constructor ? (
+              <div>
+                [
+                {value[key].map((el, indexx) => (
+                  <div key={indexx}> - {pretifyWindow(el)} -</div>
+                ))}
+                ]
+              </div>
+            ) : (
+              value[key]
+            )}
           </p>
         );
       }
@@ -156,12 +191,7 @@ const Menage = props => {
 
       <div className="row">
         <div className="col-lg-6 border-right ml-auto">
-          {rede &&
-            rede[index] &&
-            rede[index].properties.interventions &&
-            rede[index].properties.interventions.map((el, index) => {
-              return <div>{pretifyWindow(el)}</div>;
-            })}
+          {rede[index] && pretifyWindow(rede[index].properties)}
         </div>
         <div id="cadastrar" className="col-lg-6 mb-5">
           <Create onSubmit={obj => submitCreate(obj)} />
