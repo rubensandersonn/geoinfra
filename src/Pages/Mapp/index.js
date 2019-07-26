@@ -5,8 +5,11 @@ import {
   InfoWindow
 } from "google-maps-react";
 
-import React, {createRef, useState} from "react";
+import React, {createRef, useContext, useState} from "react";
 import MapCons from "../../Context/MapCons";
+import AguaContext from "../../Context/AguaContext";
+import EsgotoContext from "../../Context/EsgotoContext";
+import GasContext from "../../Context/GasContext";
 
 const Mapp = props => {
   // ========= CONTEXTS ==========
@@ -24,9 +27,10 @@ const Mapp = props => {
 
   // console.log("map auth:", authority);
 
-  const {agua, dispatchAgua} = redAgua;
-  const {esgoto, dispatchEsgoto} = redEsgoto;
-  const {gas, dispatchGas} = redGas;
+  const {agua, dispatchAgua} = useContext(AguaContext);
+  const {esgoto, dispatchEsgoto} = useContext(EsgotoContext);
+
+  const {gas, dispatchGas} = useContext(GasContext);
 
   const {initialPlace, mapStyles, polyTypes} = MapCons;
 
@@ -172,7 +176,7 @@ const Mapp = props => {
    * Função que mapeia a rede de agua
    */
   let mapAgua = agua.map((el, index) => {
-    el.properties.interventions = [];
+    // el.properties.interventions = [];
 
     var path = [];
     const coord = el.geometry.coordinates;
@@ -207,7 +211,7 @@ const Mapp = props => {
    * Função que mapeia a rede de esgoto
    */
   let mapEsgoto = esgoto.map((el, index) => {
-    el.properties.interventions = [];
+    // el.properties.interventions = [];
 
     var path = [];
     const coord = el.geometry.coordinates;

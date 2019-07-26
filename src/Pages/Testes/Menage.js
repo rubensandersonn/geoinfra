@@ -1,19 +1,44 @@
-import React from "react";
+import React, {useContext} from "react";
 import Create from "../../Components/Manager/Create";
 import Delete from "../../Components/Manager/Delete";
 import Update from "../../Components/Manager/Update";
+import AguaContext from "../../Context/AguaContext";
+import EsgotoContext from "../../Context/EsgotoContext";
+import GasContext from "../../Context/GasContext";
 
 // import { Container } from './styles';
 
-const teste1 = props => {
-  const {type, key, reducerRede} = props;
+const Menage = props => {
+  const {type, index} = props;
 
-  const {rede, dispatch, authority} = reducerRede;
+  let rede = [];
+  let dispatch = () => {};
+  let authority = "none";
+  const {agua, dispatchAgua} = useContext(AguaContext);
+  const {esgoto, dispatchEsgoto} = useContext(EsgotoContext);
+  const {gas, dispatchGas} = useContext(GasContext);
 
-  console.log("(teste1) rede[key]", rede[key]);
-  console.log("(teste1) key", key);
-  console.log("(teste1) type", type);
-  console.log("(teste1) authority", authority);
+  // setting the right context
+  if (type === "agua") {
+    rede = agua;
+    dispatch = dispatchAgua;
+    authority = "cagece";
+  } else if (type === "esgoto") {
+    rede = esgoto;
+    dispatch = dispatchEsgoto;
+    authority = "cagece";
+  } else if (type === "gas") {
+    rede = gas;
+    dispatch = dispatchGas;
+    authority = "cegas";
+  } else {
+    console.log("erro ao pegar o tipo: ", type);
+  }
+
+  console.log("(Menage) rede[key]", rede[index]);
+  console.log("(Menage) key", index);
+  console.log("(Menage) type", type);
+  console.log("(Menage) authority", authority);
 
   const submitUpdate = (obj, indexInterv) => {
     console.log("submited update: ", obj, indexInterv);
@@ -21,7 +46,7 @@ const teste1 = props => {
     dispatch({
       type: "update-intervention",
       value: obj,
-      index: key,
+      index: index,
       indexInterv
     });
   };
@@ -29,7 +54,11 @@ const teste1 = props => {
   const submitCreate = obj => {
     console.log("submited create: ", obj);
     obj.responsable = authority;
-    dispatch({type: "create-intervention", value: obj, index: key});
+    if (!rede[index].properties.interventions) {
+      rede[index].properties.interventions = [];
+    }
+    rede[index].properties.interventions.push(obj);
+    // dispatch({type: "create-intervention", value: obj, index: index});
   };
 
   const submitDelete = indexInterv => {
@@ -37,7 +66,7 @@ const teste1 = props => {
 
     dispatch({
       type: "delete-intervention",
-      index: key,
+      index: index,
       indexInterv
     });
   };
@@ -127,11 +156,12 @@ const teste1 = props => {
 
       <div className="row">
         <div className="col-lg-6 border-right ml-auto">
-          <p>
-            {rede && rede[key]
-              ? pretifyWindow(rede[key].properties)
-              : []}
-          </p>
+          {rede &&
+            rede[index] &&
+            rede[index].properties.interventions &&
+            rede[index].properties.interventions.map((el, index) => {
+              return <div>{pretifyWindow(el)}</div>;
+            })}
         </div>
         <div id="cadastrar" className="col-lg-6 mb-5">
           <Create onSubmit={obj => submitCreate(obj)} />
@@ -163,7 +193,7 @@ const teste1 = props => {
                 ? rede.properties.interventions
                 : []
             }
-            onSubmit={indexInterv => submitDelete(key, indexInterv)}
+            onSubmit={indexInterv => submitDelete(index, indexInterv)}
           />
         </div>
       </div>
@@ -171,4 +201,4 @@ const teste1 = props => {
   );
 };
 
-export default teste1;
+export default Menage;

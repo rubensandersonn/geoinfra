@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import Modal from "react-responsive-modal";
 
 const NoButton = props => {
-  const {open, setOpen, content} = props;
+  const {open, setOpen, children} = props;
 
   const onOpenModal = () => {
     setOpen(true);
@@ -45,9 +45,7 @@ const NoButton = props => {
       <Modal open={open} onClose={onCloseModal} little={false}>
         <div className="container mt-4 p-4">
           <div className="mt-4 pt-4">
-            <>
-              <div>{content()}</div>
-            </>
+            <div key={1}>{children}</div>
           </div>
         </div>
       </Modal>
