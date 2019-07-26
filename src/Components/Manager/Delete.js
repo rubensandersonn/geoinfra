@@ -4,6 +4,7 @@ import React from "react";
 
 export default function Delete(props) {
   const {onSubmit, interventions} = props;
+
   // const [interventions, setInterventions] = React.useState([
   //   {
   //     responsable: "cagece",
@@ -26,7 +27,7 @@ export default function Delete(props) {
   // ]);
 
   const [chosen, setChosen] = React.useState(<div />);
-  const [indexChosen, setIndexChosen] = React.useState(<div />);
+  const [indexChosen, setIndexChosen] = React.useState(-1);
 
   const prettifyEl = el => (
     <div className="border-left pl-2 m-2">
@@ -35,32 +36,36 @@ export default function Delete(props) {
         {el.responsable}
       </div>
       <div>
+        <span style={{fontWeight: "bold"}}>Descrição: </span>
+        {el.description}
+      </div>
+      <div>
         <span style={{fontWeight: "bold"}}>data início: </span>
-        {el.data_ini}
+        {el.data1}
       </div>
       <div>
         <span style={{fontWeight: "bold"}}>data fim: </span>
-        {el.data_fim}
+        {el.data2}
       </div>
     </div>
   );
 
-  const linkClicked = (el, index) => {
-    console.log("link clicked");
+  const linkClicked = el => {
     document.getElementById("chosen").style.display = "block";
     setChosen(prettifyEl(el));
-    setIndexChosen(index);
+    setIndexChosen(el.id);
+    console.log("link clicked", el.id, indexChosen);
   };
 
-  const mapInterventions = interventions.map((el, index) => {
+  const mapInterventions = interventions.map((el, indexx) => {
     return (
       <a
-        key={index}
+        key={indexx}
         onClick={e => {
           e.preventDefault();
-          linkClicked(el, index);
+          linkClicked(el, indexx);
         }}
-        href={index}
+        href={indexx}
       >
         {prettifyEl(el)}
       </a>
@@ -78,7 +83,8 @@ export default function Delete(props) {
         <div className="container  p-2 m-2">{chosen}</div>
         <div
           className="btn btn-danger p-2 m-2 ml-auto"
-          onClick={() => {
+          onClick={e => {
+            e.preventDefault();
             onSubmit(indexChosen);
             document.getElementById("chosen").style.display = "none";
           }}

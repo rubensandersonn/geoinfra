@@ -6,16 +6,12 @@ import jsonGas from "../../utils/jsons/gas.json";
 
 import Mapp from ".";
 import MapOperations from "../../Components/MapOperations";
-import Manager from "../../Components/Manager";
-import Modal from "react-responsive-modal";
-import MapCons from "../../Context/MapCons";
 import {AuthUserContext} from "../../Components/Session/index.js";
 import Menage from "../Testes/Menage.js";
 import NoButton from "../../Components/Modall/NoButton.js";
 import AguaContext from "../../Context/AguaContext.js";
 import EsgotoContext from "../../Context/EsgotoContext.js";
 import GasContext from "../../Context/GasContext.js";
-import Teste2 from "../Testes/Teste2.js";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -77,14 +73,14 @@ const reducer = (state, action) => {
         }
       });
     }
+    default: {
+      console.log("(reducer handler) erro ao reduzir");
+      break;
+    }
   }
 };
 
 const MapHandler = props => {
-  //=== === contexts === ===
-  const contextAgua = createContext([]);
-  const contextEsgoto = createContext([]);
-  const contextGas = createContext([]);
   //=== === states === ===
   // const jsonGas = {features: []};
 
@@ -104,16 +100,6 @@ const MapHandler = props => {
   let [gas, dispatchGas] = useReducer(reducer, jsonGas.features);
 
   //=== === Callbacks === ===
-
-  const setModalClose = () => {
-    // console.log("open false");
-    setOpen(false);
-  };
-
-  const setModalOpen = () => {
-    // console.log("open true!!!");
-    setOpen(true);
-  };
 
   const setType = type => {
     // console.log("setando o tipo ", type);

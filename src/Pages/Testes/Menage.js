@@ -11,6 +11,8 @@ import GasContext from "../../Context/GasContext";
 const Menage = props => {
   const {type, index} = props;
   const [objeto, setObject] = useState();
+  const [operation, setOp] = useState("none");
+  const [indexInterve, setIndex] = useState(-1);
 
   let rede = [];
   let dispatch = () => {};
@@ -46,31 +48,98 @@ const Menage = props => {
   });
 
   useEffect(() => {
-    console.log("agua mudou");
-    if (agua[index]) {
-      if (!agua[index].properties.interventions) {
-        if (objeto) {
-          agua[index].properties.interventions = [objeto];
+    console.log("rede mudou");
+    switch (operation) {
+      case "create": {
+        if (rede[index]) {
+          if (!rede[index].properties.interventions) {
+            console.log("(create) no interventions... creating");
+            if (objeto) {
+              rede[index].properties.interventions = [objeto];
+            } else {
+              console.log("(create) no objeto to insert");
+            }
+          } else {
+            if (objeto) {
+              rede[index].properties.interventions.push(objeto);
+            }
+          }
+        } else {
+          console.log("oloco bixo!!! deu errado meu");
         }
-      } else {
-        if (objeto) {
-          agua[index].properties.interventions.push(objeto);
-        }
+        break;
       }
-      // ISSO É O QUE FAZ ELE ATUALIZAR!!!!!!!!!!
+      case "update": {
+        if (rede[index]) {
+          if (!rede[index].properties.interventions) {
+            console.log("(update) no interventions");
+            if (objeto) {
+              rede[index].properties.interventions = [objeto];
+            }
+          } else {
+            if (objeto) {
+              if (indexInterve != -1) {
+                rede[index].properties.interventions[
+                  indexInterve
+                ] = objeto;
+              } else {
+                console.log("(update) no index to upd");
+              }
+            } else {
+              console.log("(update) no object to upd");
+            }
+          }
+        } else {
+          console.log("oloco bixo!!! deu errado meu");
+        }
+        break;
+      }
+      case "delete": {
+        if (rede[index]) {
+          if (rede[index].properties.interventions) {
+            if (indexInterve != -1) {
+              const ell = rede[index].properties.interventions.splice(
+                indexInterve,
+                1
+              );
+              console.log(
+                "(delete) removeu ",
+                ell,
+                "index",
+                indexInterve
+              );
+            } else {
+              console.log("(delete) no index to delete");
+            }
+          } else {
+            console.log("(delete) no interventions");
+          }
+        } else {
+          console.log("oloco bixo!!! deu errado meu");
+        }
+        break;
+      }
+    }
+    // ISSO É O QUE FAZ ELE ATUALIZAR!!!!!!!!!!
+    if (rede[index] && rede[index].properties) {
+      if (!rede[index].properties.interventions) {
+        rede[index].properties.interventions = [];
+      }
+
       setMapa(
-        agua[index].properties.interventions.map((interv, k) => {
+        rede[index].properties.interventions.map((interv, k) => {
           return <div key={k}>{JSON.stringify(interv)}</div>;
         })
       );
-    } else {
-      console.log("oloco bixo!!! deu errado meu");
     }
-  }, [agua]);
+  }, [rede]);
 
   const submitUpdate = (obj, indexInterv) => {
-    console.log("submited update: ", obj, indexInterv);
     obj.responsable = authority;
+    console.log("submited update: ", obj, indexInterv);
+    setObject(obj);
+    setIndex(indexInterv);
+    setOp("update");
     dispatch({
       type: "update-intervention",
       value: obj,
@@ -80,31 +149,52 @@ const Menage = props => {
   };
 
   const submitCreate = obj => {
+    obj.responsable = authority;
     console.log("submited create: ", obj);
+    setOp("create");
     setObject(obj);
-    dispatchAgua({
+    dispatch({
       type: "create-intervention",
       index: index,
-      value: {cuzim: "gostoso"}
+      value: obj
     });
   };
 
-  const submitDelete = indexInterv => {
+  const submitDelete = (indexx, indexInterv) => {
     console.log("submited delete: ", indexInterv);
+    setOp("delete");
+    setIndex(indexInterv);
+    setObject(null);
 
     dispatch({
       type: "delete-intervention",
-      index: index,
+      index: indexx,
       indexInterv
     });
   };
 
+  const pretifyInterv = value => {
+    const mapp = Object.keys(value).map(key => {
+      return (
+        <>
+          <span style={{fontWeight: "bold"}}>
+            {key.replace(/_/gm, " ")}
+          </span>
+          {": "}
+          {value[key] ? value[key] : ""}
+
+          <br />
+        </>
+      );
+    });
+
+    return mapp;
+  };
   const pretifyWindow = value => {
     const mapp = Object.keys(value).map(key => {
-      // if (!key.match(/id|x|y/gm)) {
-      if (true) {
+      if (!key.match(/id|x|y/gm)) {
         return (
-          <p className="text-black">
+          <>
             <span style={{fontWeight: "bold"}}>
               {key.replace(/_/gm, " ")}
             </span>
@@ -112,16 +202,23 @@ const Menage = props => {
             {value[key] &&
             value[key].constructor === [].constructor ? (
               <div>
-                [
                 {value[key].map((el, indexx) => (
-                  <div key={indexx}> - {pretifyWindow(el)} -</div>
+                  <a
+                    onClick={e => e.preventDefault()}
+                    href="intervention"
+                  >
+                    <div key={indexx}> - {pretifyInterv(el)} -</div>
+                  </a>
                 ))}
-                ]
               </div>
             ) : (
-              value[key]
+              <a onClick={e => e.preventDefault()} href="value">
+                {value[key]}
+              </a>
             )}
-          </p>
+
+            <br />
+          </>
         );
       }
       return null;
@@ -203,8 +300,8 @@ const Menage = props => {
         >
           <Update
             interventions={
-              rede && rede.properties && rede.properties.interventions
-                ? rede.properties.interventions
+              rede[index] && rede[index].properties.interventions
+                ? rede[index].properties.interventions
                 : []
             }
             onSubmit={(obj, indexInterv) =>
@@ -219,8 +316,10 @@ const Menage = props => {
         >
           <Delete
             interventions={
-              rede && rede.properties && rede.properties.interventions
-                ? rede.properties.interventions
+              rede[index] &&
+              rede[index].properties &&
+              rede[index].properties.interventions
+                ? rede[index].properties.interventions
                 : []
             }
             onSubmit={indexInterv => submitDelete(index, indexInterv)}

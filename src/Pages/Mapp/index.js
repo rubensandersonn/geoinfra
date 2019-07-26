@@ -177,6 +177,8 @@ const Mapp = props => {
    */
   let mapAgua = agua.map((el, index) => {
     // el.properties.interventions = [];
+    el.properties.responsable = "cagece";
+    el.properties.tipo_de_rede = "agua";
 
     var path = [];
     const coord = el.geometry.coordinates;
@@ -212,6 +214,8 @@ const Mapp = props => {
    */
   let mapEsgoto = esgoto.map((el, index) => {
     // el.properties.interventions = [];
+    el.properties.responsavel = "cagece";
+    el.properties.tipo_de_rede = "esgoto";
 
     var path = [];
     const coord = el.geometry.coordinates;

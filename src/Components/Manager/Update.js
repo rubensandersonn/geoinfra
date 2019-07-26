@@ -1,4 +1,9 @@
-import React, {useReducer, useState, useEffect} from "react";
+import React, {
+  useReducer,
+  useState,
+  useContext,
+  useEffect
+} from "react";
 import {
   validateAdress,
   validateNumber,
@@ -47,6 +52,7 @@ const Update = props => {
   // === === news === ===
 
   const {onSubmit, interventions} = props;
+
   // const onSubmit = params => console.log(toString(params));
   const [{description, data1, data2}, dispatch] = useReducer(
     reducer,
@@ -72,12 +78,16 @@ const Update = props => {
         {el.responsable}
       </div>
       <div>
+        <span style={{fontWeight: "bold"}}>Descrição: </span>
+        {el.description}
+      </div>
+      <div>
         <span style={{fontWeight: "bold"}}>data início: </span>
-        {el.data_ini}
+        {el.data1}
       </div>
       <div>
         <span style={{fontWeight: "bold"}}>data fim: </span>
-        {el.data_fim}
+        {el.data2}
       </div>
     </div>
   );
@@ -107,12 +117,12 @@ const Update = props => {
 
     dispatch({
       type: "data1",
-      data1: el.data_ini
+      data1: el.data1
     });
 
     dispatch({
       type: "data2",
-      data2: el.data_fim
+      data2: el.data2
     });
 
     setIndexChosen(index);
