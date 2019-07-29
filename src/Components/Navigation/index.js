@@ -6,8 +6,6 @@ import * as ROUTES from "../../Routes";
 
 import {AuthUserContext} from "../Session";
 
-let auth = "none";
-
 /**
  * Aqui eu posso colocar os niveis de autenticação retornando a rota certa
  */
@@ -83,6 +81,13 @@ const NavigationAuth = props => (
           </a>
         </li>
         <li className="nav-link">
+          <a href="upload">
+            <Link authority={props.authority} to={ROUTES.UPLOAD}>
+              Upload
+            </Link>
+          </a>
+        </li>
+        <li className="nav-link">
           <a href="sobre">
             <Link authority={props.authority} to={ROUTES.ABOUT}>
               Sobre
@@ -96,13 +101,13 @@ const NavigationAuth = props => (
             </Link>
           </a>
         </li>
-        <li className="nav-link">
+        {/* <li className="nav-link">
           <a href="admin">
             <Link authority={props.authority} to={ROUTES.ADMIN}>
               Admin
             </Link>
           </a>
-        </li>
+        </li> */}
       </ul>
     </div>
     <div className="mr-4">

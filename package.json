@@ -9,6 +9,8 @@
     "react-dom": "^16.8.6",
     "react-drag-drawer": "^3.3.1",
     "react-google-maps": "^9.4.5",
+    "react-metismenu": "^1.4.0",
+    "react-metismenu-router-link": "^2.1.0",
     "react-responsive-modal": "^4.0.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",

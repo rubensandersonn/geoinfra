@@ -1,43 +1,11 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import Modal from "react-responsive-modal";
 
 const NoButton = props => {
   const {open, setOpen, children} = props;
 
-  const onOpenModal = () => {
-    setOpen(true);
-  };
-
   const onCloseModal = () => {
     setOpen(false);
-  };
-
-  /**
-   * Recebe um json e mostra os valores em divs
-   * @param {*} value
-   */
-  const pretifyWindow = value => {
-    const mapp = Object.keys(value).map(key => {
-      // if (!key.match(/id|x|y/gm)) {
-      if (true) {
-        return (
-          <div key className="">
-            <span style={{fontWeight: "bold"}}>
-              {key.replace(/_/gm, " ")}
-            </span>
-            {": "}
-            {key === "em_operacao"
-              ? value[key]
-                ? "SIM"
-                : "NÃO"
-              : value[key]}
-          </div>
-        );
-      }
-      return null;
-    });
-
-    return mapp;
   };
 
   return (

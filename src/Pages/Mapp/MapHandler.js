@@ -82,7 +82,6 @@ const reducer = (state, action) => {
 
 const MapHandler = props => {
   //=== === states === ===
-  // const jsonGas = {features: []};
 
   const [open, setOpen] = useState(false);
   const [polyType, setPolyType] = useState();
@@ -111,7 +110,7 @@ const MapHandler = props => {
       <AguaContext.Provider value={{agua, dispatchAgua}}>
         <EsgotoContext.Provider value={{esgoto, dispatchEsgoto}}>
           <GasContext.Provider value={{gas, dispatchGas}}>
-            <MapOperations />
+            {/* <MapOperations /> */}
 
             <AuthUserContext.Consumer>
               {authUser =>
@@ -149,20 +148,7 @@ const MapHandler = props => {
                 )
               }
             </AuthUserContext.Consumer>
-            <NoButton
-              open={open}
-              setOpen={setOpen}
-              // content={() =>
-              //   teste1(
-              //     (props = {
-              //       key,
-              //       type: polyType
-              //     })
-              //   )
-              // }
-              //content={() => <teste1 key agua type={polyType} />}
-              little={false}
-            >
+            <NoButton open={open} setOpen={setOpen} little={false}>
               <Menage index={key} type={polyType} />
               {/* <Teste2 index={key} type={polyType} /> */}
             </NoButton>
