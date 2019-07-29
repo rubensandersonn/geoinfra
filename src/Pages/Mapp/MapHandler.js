@@ -1,11 +1,11 @@
-import React, {createContext, useState, useReducer} from "react";
+import React, {useState, useReducer} from "react";
 
 import jsonAgua from "../../utils/jsons/rda_meireles.json";
 import jsonEsgoto from "../../utils/jsons/rde_meireles.json";
-import jsonGas from "../../utils/jsons/gas.json";
+import jsonGas from "../../utils/jsons/gas_gpkg.json";
 
 import Mapp from ".";
-import MapOperations from "../../Components/MapOperations";
+// import MapOperations from "../../Components/MapOperations";
 import {AuthUserContext} from "../../Components/Session/index.js";
 import Menage from "../Testes/Menage.js";
 import NoButton from "../../Components/Modall/NoButton.js";

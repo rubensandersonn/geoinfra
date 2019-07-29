@@ -14,16 +14,7 @@ import GasContext from "../../Context/GasContext";
 const Mapp = props => {
   // ========= CONTEXTS ==========
 
-  const {
-    google,
-    authority,
-    redAgua,
-    redEsgoto,
-    redGas,
-    setKey,
-    setType,
-    setModalOpen
-  } = props;
+  const {google, authority, setKey, setType, setModalOpen} = props;
 
   // console.log("map auth:", authority);
 
@@ -245,6 +236,42 @@ const Mapp = props => {
       />
     );
   });
+  /**
+   * Função que mapeia a rede de esgoto
+   */
+  let mapGas = gas.map((el, index) => {
+    // el.properties.interventions = [];
+    el.properties.responsavel = "cegas";
+    el.properties.tipo_de_rede = "gas";
+
+    var path = [];
+    const coord = el.geometry.coordinates;
+
+    // endereço inicio
+    path.push({
+      lat: coord[0][1],
+      lng: coord[0][0]
+    });
+    // endereço fim
+    path.push({
+      lat: coord[1][1],
+      lng: coord[1][0]
+    });
+
+    return (
+      <Polyline
+        key={index}
+        path={path}
+        options={{
+          strokeColor: "orange",
+          strokeOpacity: 0.8,
+          strokeWeight: 3
+        }}
+        onClick={() => onPolyClicked(index, "gas", path)}
+        onMouseover={() => onPolyHover(path)}
+      />
+    );
+  });
 
   let mapRef = createRef();
 
@@ -263,6 +290,12 @@ const Mapp = props => {
       '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE ESGOTO" /> <div class="color-box" style="background-color: green;"></div></div>';
 
     legend.appendChild(div2);
+
+    var div3 = document.createElement("div3");
+    div3.innerHTML =
+      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE GAS" /> <div class="color-box" style="background-color: orange;"></div></div>';
+
+    legend.appendChild(div3);
 
     mapRef.current.map.controls[
       google.maps.ControlPosition.LEFT_BOTTOM
@@ -300,7 +333,7 @@ const Mapp = props => {
             </div>
           </div>
         </InfoWindow>
-        {/* {mapGas} */}
+        {mapGas}
         {mapAgua}
         {mapEsgoto}
       </Map>
