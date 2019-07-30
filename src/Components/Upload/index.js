@@ -122,7 +122,8 @@ class Upload extends Component {
       const formData = new FormData();
       formData.append("file", file, file.name);
 
-      req.open("POST", "http://localhost:8000/upload");
+      // req.open("POST", "http://localhost:8000/upload");
+      req.open("POST", process.env.REACT_APP_URL_SERVER_UPLOAD);
       req.send(formData);
     });
   }

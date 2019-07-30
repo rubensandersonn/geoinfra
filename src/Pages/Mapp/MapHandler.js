@@ -123,7 +123,7 @@ const MapHandler = props => {
                       setKey={setKey}
                       authority={"prefeitura"}
                     />
-                  ) : authUser.email === "cagece" ? (
+                  ) : authUser.email === "cagece@gmail.com" ? (
                     <Mapp
                       setModalOpen={setOpen}
                       setType={setType}

@@ -25,6 +25,11 @@ const Mapp = props => {
 
   const {initialPlace, mapStyles, polyTypes} = MapCons;
 
+  // toggle visible data
+  let [visibleAgua, setVisibleAgua] = useState(true);
+  let [visibleGas, setVisibleGas] = useState(true);
+  let [visibleEsgoto, setVisibleEsgoto] = useState(true);
+
   // about marker...
   const [visibleInfo, setVisibleInfo] = useState(false);
   const [valueMarker, setValueMarker] = useState(false);
@@ -34,6 +39,30 @@ const Mapp = props => {
   });
 
   // ======== AUX FUNCTIONs ===========
+
+  const toggleVisibleData = dataType => {
+    switch (dataType) {
+      case "agua": {
+        setVisibleAgua(!visibleAgua);
+        break;
+      }
+      case "gas": {
+        setVisibleGas(!visibleGas);
+        console.log("Gas visivel?", visibleGas);
+        break;
+      }
+      case "esgoto": {
+        setVisibleEsgoto(!visibleEsgoto);
+        console.log("Esgoto visivel?", visibleEsgoto);
+        break;
+      }
+      default: {
+        console.log(
+          "(toggleVisibleData) erro ao pegar o tipo de rede"
+        );
+      }
+    }
+  };
 
   const pretifyWindow = value => {
     const mapp = Object.keys(value).map(key => {
@@ -275,9 +304,59 @@ const Mapp = props => {
 
   let mapRef = createRef();
 
+  const onMapLoaded = google => {
+    addLegend(google);
+    addToggleButtons(google);
+  };
+
+  const addToggleButtons = google => {
+    var layers = document.getElementById("layers");
+    layers.style.display = "none";
+
+    var div1 = document.createElement("div1");
+    div1.innerHTML =
+      '<div class="btn btn-primary m-2">rede água</div><br/>';
+    div1.onclick = e => {
+      e.preventDefault();
+      toggleVisibleData("agua");
+    };
+
+    layers.appendChild(div1);
+
+    var div2 = document.createElement("div2");
+    div2.innerHTML =
+      '<div class="btn btn-primary m-2">rede gás</div><br/>';
+    div2.onclick = e => {
+      e.preventDefault();
+      toggleVisibleData("gas");
+    };
+
+    layers.appendChild(div2);
+
+    var div3 = document.createElement("div3");
+    div3.innerHTML =
+      '<div class="btn btn-primary m-2">rede esgoto</div><br/>';
+    div3.onclick = e => {
+      e.preventDefault();
+      toggleVisibleData("esgoto");
+    };
+
+    layers.appendChild(div3);
+
+    layers.style.display = "block";
+
+    mapRef.current.map.controls[
+      google.maps.ControlPosition.LEFT_BOTTOM
+    ].push(layers);
+  };
+
+  /**
+   * Add legend to the map about the colors
+   * @param {*} google
+   */
   const addLegend = google => {
     var legend = document.getElementById("legend");
-    legend.style.display = "block";
+    legend.style.display = "none";
 
     var div1 = document.createElement("div1");
     div1.innerHTML =
@@ -297,6 +376,8 @@ const Mapp = props => {
 
     legend.appendChild(div3);
 
+    legend.style.display = "block";
+
     mapRef.current.map.controls[
       google.maps.ControlPosition.LEFT_BOTTOM
     ].push(legend);
@@ -312,7 +393,7 @@ const Mapp = props => {
         onClick={onMapClicked}
         streetViewControl={false}
         ref={mapRef}
-        onReady={({google}) => addLegend(google)}
+        onReady={({google}) => onMapLoaded(google)}
       >
         <InfoWindow
           visible={visibleInfo}
@@ -333,13 +414,21 @@ const Mapp = props => {
             </div>
           </div>
         </InfoWindow>
-        {mapGas}
-        {mapAgua}
-        {mapEsgoto}
+        {visibleGas ? mapGas : ""}
+        {visibleAgua ? mapAgua : ""}
+        {visibleEsgoto ? mapEsgoto : ""}
       </Map>
+      {/* legendas: */}
       <div
-        className="col-lg-2 bg-light p-2 m-4"
         style={{display: "none"}}
+        className="col-lg-2 bg-light p-2 m-4"
+        id="layers"
+      >
+        <h5>Mostrar ou Esconder Camadas</h5>
+      </div>
+      <div
+        style={{display: "none"}}
+        className="col-lg-2 bg-light p-2 m-4"
         id="legend"
       >
         <h3>Legenda</h3>
