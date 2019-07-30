@@ -5,7 +5,12 @@ import {
   InfoWindow
 } from "google-maps-react";
 
-import React, {createRef, useContext, useState} from "react";
+import React, {
+  createRef,
+  useContext,
+  useState,
+  
+} from "react";
 import MapCons from "../../Context/MapCons";
 import AguaContext from "../../Context/AguaContext";
 import EsgotoContext from "../../Context/EsgotoContext";
@@ -43,7 +48,13 @@ const Mapp = props => {
   const toggleVisibleData = dataType => {
     switch (dataType) {
       case "agua": {
-        setVisibleAgua(!visibleAgua);
+        if (visibleAgua) {
+          setVisibleAgua(false);
+          console.log("agua deve estar invisivel");
+        } else {
+          setVisibleAgua(true);
+          console.log("agua deve estar Visivel");
+        }
         break;
       }
       case "gas": {
@@ -63,6 +74,8 @@ const Mapp = props => {
       }
     }
   };
+
+  
 
   const pretifyWindow = value => {
     const mapp = Object.keys(value).map(key => {
@@ -337,7 +350,6 @@ const Mapp = props => {
     div3.innerHTML =
       '<div class="btn btn-primary m-2">rede esgoto</div><br/>';
     div3.onclick = e => {
-      e.preventDefault();
       toggleVisibleData("esgoto");
     };
 
@@ -414,9 +426,9 @@ const Mapp = props => {
             </div>
           </div>
         </InfoWindow>
-        {visibleGas ? mapGas : ""}
-        {visibleAgua ? mapAgua : ""}
-        {visibleEsgoto ? mapEsgoto : ""}
+        {visibleGas && mapGas}
+        {visibleAgua && mapAgua}
+        {visibleEsgoto && mapEsgoto}
       </Map>
       {/* legendas: */}
       <div

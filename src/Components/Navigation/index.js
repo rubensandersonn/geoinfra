@@ -48,14 +48,14 @@ const NavigationNonAuth = () => (
     <div>
       <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
         <li className="nav-link">
-          <a href="mapa">
-            <Link to={ROUTES.MAP}>Mapa</Link>
-          </a>
+          <div>
+            <a href={ROUTES.MAP}>Mapa</a>
+          </div>
         </li>
         <li className="nav-link">
-          <a href="sobre">
-            <Link to={ROUTES.ABOUT}>Sobre</Link>
-          </a>
+          <div>
+            <a href={ROUTES.ABOUT}>Sobre</a>
+          </div>
         </li>
       </ul>
     </div>
@@ -74,32 +74,24 @@ const NavigationAuth = props => (
     <div>
       <ul className="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
         <li className="nav-link">
-          <a href="mapa">
-            <Link authority={props.authority} to={ROUTES.MAP}>
-              Mapa
-            </Link>
-          </a>
+          <div>
+            <a href={ROUTES.MAP}>Mapa</a>
+          </div>
         </li>
         <li className="nav-link">
-          <a href="upload">
-            <Link authority={props.authority} to={ROUTES.UPLOAD}>
-              Upload
-            </Link>
-          </a>
+          <div>
+            <a href={ROUTES.UPLOAD}>Upload</a>
+          </div>
         </li>
         <li className="nav-link">
-          <a href="sobre">
-            <Link authority={props.authority} to={ROUTES.ABOUT}>
-              Sobre
-            </Link>
-          </a>
+          <div>
+            <a href={ROUTES.ABOUT}>Sobre</a>
+          </div>
         </li>
         <li className="nav-link">
-          <a href="conta">
-            <Link authority={props.authority} to={ROUTES.ACCOUNT}>
-              Conta
-            </Link>
-          </a>
+          <div>
+            <a href={ROUTES.ACCOUNT}>Conta</a>
+          </div>
         </li>
         {/* <li className="nav-link">
           <a href="admin">

@@ -3,7 +3,7 @@ import React from "react";
 import {withFirebase} from "../Components/Firebase";
 
 const SignOutButton = ({firebase}) => (
-  <a href="map">
+  <a href="">
     <div
       className="toggle-button d-flex btn btn-primary"
       onClick={firebase.doSignOut}

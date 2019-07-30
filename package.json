@@ -8,6 +8,7 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-drag-drawer": "^3.3.1",
+    "react-firebase-file-uploader": "^2.4.2",
     "react-google-maps": "^9.4.5",
     "react-metismenu": "^1.4.0",
     "react-metismenu-router-link": "^2.1.0",

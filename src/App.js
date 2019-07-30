@@ -15,22 +15,7 @@ import AdminPage from "./Pages/AdminPage";
 import * as ROUTES from "./Routes";
 import withAuthentication from "./Components/Session/withAuthentication";
 import Upload from "./Components/Upload";
-
-const Menu1 = () => (
-  <div>
-    <u>Menu 1 View</u>
-  </div>
-);
-const Menu2 = () => (
-  <div>
-    <i>Menu 2 View</i>
-  </div>
-);
-const SubMenu = () => (
-  <div>
-    <s>SubMenu View</s>
-  </div>
-);
+import FilerAgua from "./Components/Filer/FilerAgua";
 
 const App = () => (
   <Router>
@@ -38,7 +23,7 @@ const App = () => (
       <Navigation />
 
       <Route exact path={ROUTES.MAP} component={MapHandler} />
-      <Route exact path={ROUTES.UPLOAD} component={Upload} />
+      <Route exact path={ROUTES.UPLOAD} component={FilerAgua} />
       <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
       <Route path={ROUTES.SIGN_IN} component={SignInPage} />
 

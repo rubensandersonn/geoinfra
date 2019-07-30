@@ -56,13 +56,13 @@ class SignInFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <div class="container mt-4" role="document">
-          <div class="form-group row ">
-            <div class="col-lg-8">
+        <div className="container mt-4" role="document">
+          <div className="form-group row ">
+            <div className="col-lg-8">
               <input
                 name="email"
                 type="text"
-                class="form-control border"
+                className="form-control border"
                 placeholder="Email"
                 value={email}
                 onChange={this.onChange}
@@ -70,12 +70,12 @@ class SignInFormBase extends Component {
             </div>
           </div>
 
-          <div class="form-group row">
-            <div class="col-lg-8 mb-4 mb-lg-0">
+          <div className="form-group row">
+            <div className="col-lg-8 mb-4 mb-lg-0">
               <input
                 name="password"
                 type="text"
-                class="form-control border"
+                className="form-control border"
                 placeholder="Password"
                 value={password}
                 onChange={this.onChange}
@@ -83,12 +83,12 @@ class SignInFormBase extends Component {
             </div>
           </div>
 
-          <div class="form-group col-lg-8 row">
-            <div class="mt-4 ml-4 ml-auto">
+          <div className="form-group col-lg-8 row">
+            <div className="mt-4 ml-4 ml-auto">
               <input
                 type="submit"
                 disabled={isInvalid}
-                class="btn btn-secondary text-white py-3 px-5"
+                className="btn btn-secondary text-white py-3 px-5"
                 value="Sign In"
               />
             </div>

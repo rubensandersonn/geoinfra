@@ -41,6 +41,7 @@ class Firebase {
 
     this.auth = app.auth();
     this.db = app.database();
+    this.st = app.storage();
   }
 
   doCreateUserWithEmailAndPassword = (email, password) =>
@@ -134,6 +135,10 @@ class Firebase {
           });
         });
     });
+  }
+
+  getRef() {
+    return this.st.ref("redes");
   }
 }
 

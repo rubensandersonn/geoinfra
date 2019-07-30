@@ -71,49 +71,49 @@ class SignUpFormBase extends Component {
 
     return (
       <form onSubmit={this.onSubmit}>
-        <div class="container mt-4">
-          <div class="form-group row ">
-            <div class="col-lg-8">
+        <div className="container mt-4">
+          <div className="form-group row ">
+            <div className="col-lg-8">
               <input
                 name="username"
                 value={username}
-                class="form-control border"
+                className="form-control border"
                 onChange={this.onChange}
                 type="text"
                 placeholder="Full Name"
               />
             </div>
           </div>
-          <div class="form-group row ">
-            <div class="col-lg-8">
+          <div className="form-group row ">
+            <div className="col-lg-8">
               <input
                 name="email"
                 value={email}
-                class="form-control border"
+                className="form-control border"
                 onChange={this.onChange}
                 type="text"
                 placeholder="Email Address"
               />
             </div>
           </div>
-          <div class="form-group row ">
-            <div class="col-lg-8">
+          <div className="form-group row ">
+            <div className="col-lg-8">
               <input
                 name="passwordOne"
                 value={passwordOne}
-                class="form-control border"
+                className="form-control border"
                 onChange={this.onChange}
                 type="password"
                 placeholder="Password"
               />
             </div>
           </div>
-          <div class="form-group row ">
-            <div class="col-lg-8">
+          <div className="form-group row ">
+            <div className="col-lg-8">
               <input
                 name="passwordTwo"
                 value={passwordTwo}
-                class="form-control border"
+                className="form-control border"
                 onChange={this.onChange}
                 type="password"
                 placeholder="Confirm Password"
@@ -121,12 +121,12 @@ class SignUpFormBase extends Component {
             </div>
           </div>
 
-          <div class="form-group col-lg-8 row">
-            <div class="mt-4 ml-4  ml-auto">
+          <div className="form-group col-lg-8 row">
+            <div className="mt-4 ml-4  ml-auto">
               <input
                 type="submit"
                 disabled={isInvalid}
-                class="btn btn-block btn-secondary text-white py-3 px-5"
+                className="btn btn-block btn-secondary text-white py-3 px-5"
                 value="Sign Up"
               />
             </div>

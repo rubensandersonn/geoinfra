@@ -14,6 +14,10 @@ const polyTypes = {
 };
 
 const mapStyles = [
+  {
+    featureType: "poi",
+    stylers: [{visibility: "off"}]
+  },
   {elementType: "geometry", stylers: [{color: "#242f3e"}]},
   {elementType: "labels.text.stroke", stylers: [{color: "#242f3e"}]},
   {elementType: "labels.text.fill", stylers: [{color: "#746855"}]},
@@ -21,10 +25,6 @@ const mapStyles = [
     featureType: "administrative.locality",
     elementType: "labels.text.fill",
     stylers: [{color: "#d59563"}]
-  },
-  {
-    featureType: "poi",
-    stylers: [{visibility: "off"}]
   },
 
   {
