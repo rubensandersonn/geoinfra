@@ -6,6 +6,7 @@ import AguaContext from "../../Context/AguaContext";
 import EsgotoContext from "../../Context/EsgotoContext";
 import GasContext from "../../Context/GasContext";
 import {FirebaseContext} from "../../Components/Firebase";
+import html2pdf from "html2pdf.js";
 
 // import { Container } from './styles';
 
@@ -314,6 +315,25 @@ const Menage = props => {
       divv.charAt(0).toUpperCase() + divv.slice(1) + " Intervenção";
   };
 
+  const downloadReport = () => {
+    var div1 = document.createElement("div1");
+    div1.innerHTML =
+      '<div className="container"><div className="block-heading-1"><h2>Relatório</h2></div></div>';
+
+    var div2 = document.createElement("div2");
+
+    const gambs = () => (
+      <div>{pretifyWindow(rede[index].properties)}</div>
+    );
+
+    div2.innerHTML =
+      "<div>" + pretifyWindow(rede[index].properties) + "</div>";
+
+    div1.appendChild(div2);
+
+    html2pdf(document.getElementById("props"));
+  };
+
   return (
     <>
       <div class="">
@@ -340,13 +360,24 @@ const Menage = props => {
             >
               Remover
             </div>
+            <div
+              className="btn btn-secondary ml-2 mr-2 pl-2 pr-2"
+              onClick={() => downloadReport()}
+            >
+              Baixar Relatório
+            </div>
           </div>
         </div>
       </div>
 
       <div className="row">
         <div className="col-lg-6 border-right ml-auto">
-          {rede[index] && pretifyWindow(rede[index].properties)}
+          <div id="props">
+            <div className="block-heading-1">
+              <h3 id="titulo">Relatório</h3>
+            </div>
+            {rede[index] && pretifyWindow(rede[index].properties)}
+          </div>
         </div>
         <div id="cadastrar" className="col-lg-6 mb-5">
           <Create onSubmit={obj => submitCreate(obj)} />

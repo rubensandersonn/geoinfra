@@ -15,7 +15,7 @@ import AdminPage from "./Pages/AdminPage";
 import * as ROUTES from "./Routes";
 import withAuthentication from "./Components/Session/withAuthentication";
 import Upload from "./Components/Upload";
-import FilerAgua from "./Components/Filer/FilerAgua";
+import Filer from "./Components/Filer";
 
 const App = () => (
   <Router>
@@ -23,7 +23,7 @@ const App = () => (
       <Navigation />
 
       <Route exact path={ROUTES.MAP} component={MapHandler} />
-      <Route exact path={ROUTES.UPLOAD} component={FilerAgua} />
+      <Route exact path={ROUTES.UPLOAD} component={Filer} />
       <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
       <Route path={ROUTES.SIGN_IN} component={SignInPage} />
 

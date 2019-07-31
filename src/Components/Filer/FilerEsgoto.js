@@ -1,8 +1,8 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 import {FirebaseContext} from "../Firebase";
 
-const FilerAgua = () => {
+const FilerEsgoto = () => {
   const [state, setState] = useState({
     image: "",
     imageURL: "",
@@ -10,6 +10,16 @@ const FilerAgua = () => {
   });
 
   const firebase = useContext(FirebaseContext);
+
+  useEffect(() => {
+    firebase
+      .getRef()
+      .child("rde_meireles.json")
+      .getDownloadURL()
+      .then(url => {
+        setState(state => ({...state, imageURL: url}));
+      });
+  }, []);
 
   const handleUploadStart = e => {
     console.log("quando começa: ", e);
@@ -24,11 +34,16 @@ const FilerAgua = () => {
 
     firebase
       .getRef()
-      .child("rda_meireles.json")
+      .child("rde_meireles.json")
       .getDownloadURL()
       .then(url => {
         setState(state => ({...state, imageURL: url}));
       });
+  };
+
+  const handleName = filename => {
+    console.log(filename);
+    return "rde_meireles.json";
   };
 
   const handleProgress = progress => {
@@ -36,7 +51,7 @@ const FilerAgua = () => {
   };
 
   const handleUploadError = err => {
-    console.log(err);
+    console.log("Erro ao fazer upload:", err);
   };
 
   console.log(state);
@@ -51,20 +66,20 @@ const FilerAgua = () => {
         </div>
       ) : (
         <p>
-          AVISO: o nome do arquivo será salvo como "rda_meireles" e
+          AVISO: o nome do arquivo será salvo como "rde_meireles" e
           precisa ter extensão ".geojson" ou ".json"
         </p>
       )}
       <div>
         {state.imageURL && (
           <a target="_blank" href={state.imageURL}>
-            Link para download aqui
+            Link para download do arquivo atual aqui
           </a>
         )}
       </div>
       <CustomUploadButton
-        accept="json"
-        filename="rda_meireles.json"
+        accept={"application/json"}
+        filename={handleName}
         storageRef={firebase.getRef()}
         onUploadStart={handleUploadStart}
         onUploadError={handleUploadError}
@@ -83,4 +98,4 @@ const FilerAgua = () => {
   );
 };
 
-export default FilerAgua;
+export default FilerEsgoto;
