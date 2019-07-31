@@ -5,12 +5,7 @@ import {
   InfoWindow
 } from "google-maps-react";
 
-import React, {
-  createRef,
-  useContext,
-  useState,
-  
-} from "react";
+import React, {createRef, useContext, useState} from "react";
 import MapCons from "../../Context/MapCons";
 import AguaContext from "../../Context/AguaContext";
 import EsgotoContext from "../../Context/EsgotoContext";
@@ -19,7 +14,14 @@ import GasContext from "../../Context/GasContext";
 const Mapp = props => {
   // ========= CONTEXTS ==========
 
-  const {google, authority, setKey, setType, setModalOpen} = props;
+  const {
+    google,
+    authority,
+    setKey,
+    setType,
+    setModalOpen,
+    visibleLayer
+  } = props;
 
   // console.log("map auth:", authority);
 
@@ -31,9 +33,7 @@ const Mapp = props => {
   const {initialPlace, mapStyles, polyTypes} = MapCons;
 
   // toggle visible data
-  let [visibleAgua, setVisibleAgua] = useState(true);
-  let [visibleGas, setVisibleGas] = useState(true);
-  let [visibleEsgoto, setVisibleEsgoto] = useState(true);
+  const {visibleAgua, visibleEsgoto, visibleGas} = visibleLayer;
 
   // about marker...
   const [visibleInfo, setVisibleInfo] = useState(false);
@@ -44,38 +44,6 @@ const Mapp = props => {
   });
 
   // ======== AUX FUNCTIONs ===========
-
-  const toggleVisibleData = dataType => {
-    switch (dataType) {
-      case "agua": {
-        if (visibleAgua) {
-          setVisibleAgua(false);
-          console.log("agua deve estar invisivel");
-        } else {
-          setVisibleAgua(true);
-          console.log("agua deve estar Visivel");
-        }
-        break;
-      }
-      case "gas": {
-        setVisibleGas(!visibleGas);
-        console.log("Gas visivel?", visibleGas);
-        break;
-      }
-      case "esgoto": {
-        setVisibleEsgoto(!visibleEsgoto);
-        console.log("Esgoto visivel?", visibleEsgoto);
-        break;
-      }
-      default: {
-        console.log(
-          "(toggleVisibleData) erro ao pegar o tipo de rede"
-        );
-      }
-    }
-  };
-
-  
 
   const pretifyWindow = value => {
     const mapp = Object.keys(value).map(key => {
@@ -232,7 +200,7 @@ const Mapp = props => {
         key={index}
         path={path}
         options={{
-          strokeColor: "pink",
+          strokeColor: "#4863A0",
           strokeOpacity: 0.8,
           strokeWeight: 3
         }}
@@ -305,7 +273,7 @@ const Mapp = props => {
         key={index}
         path={path}
         options={{
-          strokeColor: "orange",
+          strokeColor: "#C35817",
           strokeOpacity: 0.8,
           strokeWeight: 3
         }}
@@ -319,47 +287,7 @@ const Mapp = props => {
 
   const onMapLoaded = google => {
     addLegend(google);
-    addToggleButtons(google);
-  };
-
-  const addToggleButtons = google => {
-    var layers = document.getElementById("layers");
-    layers.style.display = "none";
-
-    var div1 = document.createElement("div1");
-    div1.innerHTML =
-      '<div class="btn btn-primary m-2">rede água</div><br/>';
-    div1.onclick = e => {
-      e.preventDefault();
-      toggleVisibleData("agua");
-    };
-
-    layers.appendChild(div1);
-
-    var div2 = document.createElement("div2");
-    div2.innerHTML =
-      '<div class="btn btn-primary m-2">rede gás</div><br/>';
-    div2.onclick = e => {
-      e.preventDefault();
-      toggleVisibleData("gas");
-    };
-
-    layers.appendChild(div2);
-
-    var div3 = document.createElement("div3");
-    div3.innerHTML =
-      '<div class="btn btn-primary m-2">rede esgoto</div><br/>';
-    div3.onclick = e => {
-      toggleVisibleData("esgoto");
-    };
-
-    layers.appendChild(div3);
-
-    layers.style.display = "block";
-
-    mapRef.current.map.controls[
-      google.maps.ControlPosition.LEFT_BOTTOM
-    ].push(layers);
+    // addToggleButtons(google);
   };
 
   /**
@@ -372,7 +300,7 @@ const Mapp = props => {
 
     var div1 = document.createElement("div1");
     div1.innerHTML =
-      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE ÁGUA" /> <div class="color-box" style="background-color: pink;"></div></div>';
+      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE ÁGUA" /> <div class="color-box" style="background-color: "#4863A0";"></div></div>';
 
     legend.appendChild(div1);
 
@@ -384,7 +312,7 @@ const Mapp = props => {
 
     var div3 = document.createElement("div3");
     div3.innerHTML =
-      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE GAS" /> <div class="color-box" style="background-color: orange;"></div></div>';
+      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE GAS" /> <div class="color-box" style="background-color: #C35817;"></div></div>';
 
     legend.appendChild(div3);
 

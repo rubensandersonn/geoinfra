@@ -105,48 +105,150 @@ const MapHandler = props => {
     setPolyType(type);
   };
 
+  const [
+    {visibleAgua, visibleGas, visibleEsgoto},
+    setLayer
+  ] = useState({
+    visibleAgua: true,
+    visibleGas: true,
+    visibleEsgoto: true
+  });
+
+  function toggleMenu() {
+    var x = document.getElementById("navv");
+    if (x.style.display === "none") {
+      x.style.display = "inline";
+    } else {
+      x.style.display = "none";
+    }
+  }
+
+  const toggleLayer = type => {
+    switch (type) {
+      case "agua": {
+        setLayer(state => ({...state, visibleAgua: !visibleAgua}));
+        break;
+      }
+      case "gas": {
+        setLayer(state => ({...state, visibleGas: !visibleGas}));
+        break;
+      }
+      case "esgoto": {
+        setLayer(state => ({
+          ...state,
+          visibleEsgoto: !visibleEsgoto
+        }));
+        break;
+      }
+      default: {
+        console.log("(toggleLayer) erro ao chavear o tipo");
+      }
+    }
+  };
+
   return (
     <>
       <AguaContext.Provider value={{agua, dispatchAgua}}>
         <EsgotoContext.Provider value={{esgoto, dispatchEsgoto}}>
           <GasContext.Provider value={{gas, dispatchGas}}>
             {/* <MapOperations /> */}
+            <div
+              style={{backgroundColor: "#232323"}}
+              className="site-navbar pr-4"
+            >
+              <div className=" align-items-left position-relative">
+                <div
+                  onClick={toggleMenu}
+                  className="toggle-button d-flex btn btn-primary mr-4"
+                >
+                  ...
+                </div>
+                <nav
+                  id="navv"
+                  style={{display: "none"}}
+                  className="site-navigation text-left "
+                  role="navigation"
+                >
+                  <div className="site-mobile-menu site-navbar-target">
+                    <div className="site-mobile-menu-header">
+                      <div className="site-mobile-menu-close mt-3">
+                        <span className="icon-close2 js-menu-toggle" />
+                      </div>
+                    </div>
+                    <div className="site-mobile-menu-body" />
+                  </div>
+                  <div className="row">
+                    <div>
+                      <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                        <li className="nav-link">
+                          <p>Mostrar / Esonder Rede: </p>
+                        </li>
+                        <li className="nav-link">
+                          <div
+                            onClick={e => {
+                              e.preventDefault();
+                              toggleLayer("agua");
+                            }}
+                            className="btn btn-primary"
+                          >
+                            Rede Água
+                          </div>
+                        </li>
+                        <li className="nav-link">
+                          <div
+                            onClick={e => {
+                              e.preventDefault();
+                              toggleLayer("gas");
+                            }}
+                            className="btn btn-primary"
+                          >
+                            Rede Gás
+                          </div>
+                        </li>
+                        <li className="nav-link">
+                          <div
+                            onClick={e => {
+                              e.preventDefault();
+                              toggleLayer("esgoto");
+                            }}
+                            className="btn btn-primary"
+                          >
+                            Rede Esgoto
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </nav>
+              </div>
+            </div>
+            {/* <MapOperations /> */}
 
             <AuthUserContext.Consumer>
-              {authUser =>
-                authUser ? (
-                  authUser.email === "rubens@gmail.com" ||
-                  authUser.email === "prefeitura@gmail.com" ? (
-                    <Mapp
-                      setModalOpen={setOpen}
-                      setType={setType}
-                      setKey={setKey}
-                      authority={"prefeitura"}
-                    />
-                  ) : authUser.email === "cagece@gmail.com" ? (
-                    <Mapp
-                      setModalOpen={setOpen}
-                      setType={setType}
-                      setKey={setKey}
-                      authority={"cagece"}
-                    />
-                  ) : (
-                    <Mapp
-                      setModalOpen={setOpen}
-                      setType={setType}
-                      setKey={setKey}
-                      authority={"cegas"}
-                    />
-                  )
-                ) : (
+              {authUser => {
+                const authority = authUser
+                  ? authUser.email === "rubens@gmail.com" ||
+                    authUser.email === "prefeitura@gmail.com"
+                    ? "prefeitura"
+                    : authUser.email === "cagece@gmail.com"
+                    ? "cagece"
+                    : "cegas"
+                  : "none";
+
+                return (
                   <Mapp
                     setModalOpen={setOpen}
                     setType={setType}
                     setKey={setKey}
-                    authority={"none"}
+                    authority={authority}
+                    visibleLayer={{
+                      visibleAgua,
+                      visibleEsgoto,
+                      visibleGas
+                    }}
                   />
-                )
-              }
+                );
+              }}
             </AuthUserContext.Consumer>
             <NoButton open={open} setOpen={setOpen} little={false}>
               <Menage index={key} type={polyType} />

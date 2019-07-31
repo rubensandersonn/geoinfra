@@ -50,22 +50,45 @@ const MapOperations = () => {
             </div>
             <div className="site-mobile-menu-body" />
           </div>
-          <NavigationNull />
-          {/* <AuthUserContext.Consumer>
-            {authUser =>
-              authUser ? (
-                authUser.email === "rubens@gmail.com" ? (
-                  <NavigationRubens />
-                ) : authUser.email === "cagece@gmail.com" ? (
-                  <NavigationCagece />
-                ) : (
-                  <NavigationCegas />
-                )
-              ) : (
-                <NavigationNull />
-              )
-            }
-          </AuthUserContext.Consumer> */}
+          <div className="row">
+            <div>
+              <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
+                <li className="nav-link">
+                  <div
+                    onClick={e => {
+                      e.preventDefault();
+                      toggleLayer("agua");
+                    }}
+                    className="btn btn-primary"
+                  >
+                    Rede Água
+                  </div>
+                </li>
+                <li className="nav-link">
+                  <div
+                    onClick={e => {
+                      e.preventDefault();
+                      toggleLayer("gas");
+                    }}
+                    className="btn btn-primary"
+                  >
+                    Rede Gás
+                  </div>
+                </li>
+                <li className="nav-link">
+                  <div
+                    onClick={e => {
+                      e.preventDefault();
+                      toggleLayer("esgoto");
+                    }}
+                    className="btn btn-primary"
+                  >
+                    Rede Esgoto
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
         </nav>
       </div>
     </div>
