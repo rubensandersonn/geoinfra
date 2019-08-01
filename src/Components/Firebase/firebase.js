@@ -1,26 +1,7 @@
-import firebase from "firebase";
 import app from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
-
-// const config = {
-//     apiKey: process.env.REACT_APP_API_KEY,
-//     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
-//     databaseURL: process.env.REACT_APP_DATABASE_URL,
-//     projectId: process.env.REACT_APP_PROJECT_ID,
-//     storageBucket: process.env.REACT_APP_STORAGE_BUCKET,
-//     messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
-// };
-
-const config = {
-  apiKey: "AIzaSyAsOUy2nf6WCHgyyfI17ihZxaBY5H0tQQE",
-  authDomain: "geoinfra2.firebaseapp.com",
-  databaseURL: "https://geoinfra2.firebaseio.com",
-  projectId: "geoinfra2",
-  storageBucket: "geoinfra2.appspot.com",
-  messagingSenderId: "96025426007",
-  appId: "1:96025426007:web:55b1dcfa5a849d96"
-};
+require("dotenv").config();
 
 String.prototype.hashCode = function() {
   var hash = 0,
@@ -37,7 +18,7 @@ String.prototype.hashCode = function() {
 
 class Firebase {
   constructor() {
-    app.initializeApp(config);
+    app.initializeApp(process.env.REACT_APP_FIREBASE_CONFIG);
 
     this.auth = app.auth();
     this.db = app.database();

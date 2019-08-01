@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
     "firebase": "^6.3.0",
     "geopackage": "^1.0.2",
     "google-maps-react": "^2.0.2",

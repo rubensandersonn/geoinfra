@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useContext} from "react";
 import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 import {FirebaseContext} from "../Firebase";
+require("dotenv").config();
 
 const FilerEsgoto = () => {
   const [state, setState] = useState({
@@ -28,7 +29,10 @@ const FilerEsgoto = () => {
       const formData = new FormData();
       formData.append("file", file, file.name);
 
-      req.open("POST", "http://localhost:8000/uploadesgoto");
+      req.open(
+        "POST",
+        process.env.REACT_APP_URL_SERVER_UPLOAD_ESGOTO
+      );
       req.send(formData);
     });
   };

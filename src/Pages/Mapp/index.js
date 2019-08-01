@@ -10,6 +10,7 @@ import MapCons from "../../Context/MapCons";
 import AguaContext from "../../Context/AguaContext";
 import EsgotoContext from "../../Context/EsgotoContext";
 import GasContext from "../../Context/GasContext";
+require("dotenv").config();
 
 const Mapp = props => {
   // ========= CONTEXTS ==========
@@ -378,5 +379,5 @@ const Mapp = props => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyDI8rhCfDYeRozbap8tk0tCgVqq3i9Y40A"
+  apiKey: process.env.REACT_APP_URI_GOOGLE_MAPS
 })(Mapp);
