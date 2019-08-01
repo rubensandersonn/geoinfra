@@ -1,4 +1,4 @@
-import React, {useState, useContext} from "react";
+import React, {useState, useEffect, useContext} from "react";
 import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 import {FirebaseContext} from "../Firebase";
 
@@ -11,9 +11,36 @@ const FilerAgua = () => {
 
   const firebase = useContext(FirebaseContext);
 
+  useEffect(() => {
+    firebase
+      .getRef()
+      .child("rda_meireles.json")
+      .getDownloadURL()
+      .then(url => {
+        setState(state => ({...state, imageURL: url}));
+      });
+  }, []);
+
+  //
+
+  const sendRequest = file => {
+    return new Promise((resolve, reject) => {
+      const req = new XMLHttpRequest();
+
+      const formData = new FormData();
+      formData.append("file", file, "agua");
+
+      req.open("POST", "http://localhost:8000/uploadagua");
+      req.send(formData);
+    });
+  };
+
+  //
+
   const handleUploadStart = e => {
     console.log("quando começa: ", e);
     setState(state => ({...state, progress: 0}));
+    sendRequest(e);
   };
 
   const handleUploadSuccess = filename => {
@@ -28,7 +55,15 @@ const FilerAgua = () => {
       .getDownloadURL()
       .then(url => {
         setState(state => ({...state, imageURL: url}));
+      })
+      .catch(err => {
+        console.log("erro ao pegar o url", err);
       });
+  };
+
+  const handleName = filename => {
+    console.log(filename);
+    return "rda_meireles.json";
   };
 
   const handleProgress = progress => {
@@ -36,10 +71,8 @@ const FilerAgua = () => {
   };
 
   const handleUploadError = err => {
-    console.log(err);
+    console.log("Erro ao fazer upload:", err);
   };
-
-  console.log(state);
 
   return (
     <div className="container border rounded p-2 m-4 col-lg-8">
@@ -58,13 +91,13 @@ const FilerAgua = () => {
       <div>
         {state.imageURL && (
           <a target="_blank" href={state.imageURL}>
-            Link para download aqui
+            Link para download do arquivo atual aqui
           </a>
         )}
       </div>
       <CustomUploadButton
-        accept="json"
-        filename="rda_meireles.json"
+        accept={"application/json"}
+        filename={handleName}
         storageRef={firebase.getRef()}
         onUploadStart={handleUploadStart}
         onUploadError={handleUploadError}

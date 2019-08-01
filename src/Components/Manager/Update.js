@@ -53,6 +53,10 @@ const Update = props => {
 
   const {onSubmit, interventions} = props;
 
+  useEffect(() => {
+    console.log("update loaded");
+  }, [interventions]);
+
   // const onSubmit = params => console.log(toString(params));
   const [{description, data1, data2}, dispatch] = useReducer(
     reducer,
@@ -72,7 +76,7 @@ const Update = props => {
   // === === about drop menu === ===
 
   const prettifyEl = el => (
-    <div className="border-left pl-2 m-2">
+    <div key={el.description} className="border-left pl-2 m-2">
       <div>
         <span style={{fontWeight: "bold"}}>Responsável: </span>
         {el.responsable}
@@ -142,6 +146,7 @@ const Update = props => {
         if (msgError[key] !== null) {
           return (
             <div
+              key={key}
               className="border-bottom rounded p-2"
               style={{color: "#8B0000"}}
             >
@@ -150,7 +155,7 @@ const Update = props => {
           );
         }
 
-        return <></>;
+        return <div key={key} />;
       })
     );
 
@@ -168,10 +173,10 @@ const Update = props => {
         {successMsg}
       </div>
 
-      <div class="newdropdown mb-4">
+      <div className="newdropdown mb-4">
         {/* <button class="newdropbtn">Dropdown</button> */}
         <div className="newdropbtn border rounded">Intervenções</div>
-        <div class="newdropdown-content">{mapInterventions}</div>
+        <div className="newdropdown-content">{mapInterventions}</div>
       </div>
 
       <form

@@ -14,7 +14,6 @@ import AdminPage from "./Pages/AdminPage";
 
 import * as ROUTES from "./Routes";
 import withAuthentication from "./Components/Session/withAuthentication";
-import Upload from "./Components/Upload";
 import Filer from "./Components/Filer";
 
 const App = () => (

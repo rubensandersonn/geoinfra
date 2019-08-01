@@ -11,7 +11,7 @@ const ReadInfo = props => {
       !key.match(/id|x|y|mun_geocodigo|em_operacao|interventions/gm)
     ) {
       return (
-        <div key className="row container">
+        <div key={key} className="row container">
           <span style={{fontWeight: "bold"}}>
             {key.replace(/_/gm, " ")}
           </span>
@@ -25,7 +25,7 @@ const ReadInfo = props => {
   const mapInterv = interventions.map((interv, index) => {
     const {responsable, data_ini, data_fim, description} = interv;
     return (
-      <div>
+      <div key={index}>
         <div>Responsável: {responsable}</div>
         <div>Descrição: {description}</div>
         <div>data início: {data_ini}</div>

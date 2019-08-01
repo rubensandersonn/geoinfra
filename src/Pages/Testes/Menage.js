@@ -38,21 +38,35 @@ const Menage = props => {
     rede = gas;
     dispatch = dispatchGas;
     authority = "cegas";
-  } else {
-    console.log("erro ao pegar o tipo: ", type);
   }
 
-  console.log("(Menage) rede[key]", rede[index]);
-  console.log("(Menage) key", index);
-  console.log("(Menage) type", type);
-  console.log("(Menage) authority", authority);
+  // console.log("(Menage) rede[key]", rede[index]);
+  // console.log("(Menage) key", index);
+  // console.log("(Menage) type", type);
+  // console.log("(Menage) authority", authority);
 
   let [mapaTOP, setMapa] = useState(() => {
-    console.log("NÃO APAGAR");
+    console.log("...");
   });
 
   const setFirebaseResult = async (i, t) => {
-    return await firebase.doReadInterventions(i, t);
+    return new Promise(resolve => {
+      firebase
+        .doReadInterventions(i, t)
+        .then(res => {
+          if (res) {
+            console.log("pegou do firebase:", res);
+            resolve(res);
+          } else {
+            console.log("pegou nulo firebase:", res);
+            resolve([]);
+          }
+        })
+        .catch(err => {
+          console.log("(setFirebaseResult) erro:", err);
+          resolve([]);
+        });
+    });
   };
 
   const extractFirebaseResult = dude => {
@@ -60,7 +74,7 @@ const Menage = props => {
     Object.keys(dude).map(key => {
       res.push(dude[key]);
     });
-    console.log("extracted: ", res);
+    // console.log("extracted: ", res);
     return res;
   };
 
@@ -73,21 +87,29 @@ const Menage = props => {
       rede[index] &&
       !rede[index].properties.interventions
     ) {
-      setFirebaseResult(index, type).then(res => {
-        rede[index].properties.interventions = extractFirebaseResult(
-          res
-        );
-        setMapa(
-          rede[index].properties.interventions.map((interv, k) => {
-            return <div key={k}>{JSON.stringify(interv)}</div>;
-          })
-        );
-      });
+      console.log("(menage) ao começar:", type, index);
+      setFirebaseResult(index, type)
+        .then(res => {
+          rede[
+            index
+          ].properties.interventions = extractFirebaseResult(res);
+          setMapa(
+            rede[index].properties.interventions.map((interv, k) => {
+              return <div key={k}>{JSON.stringify(interv)}</div>;
+            })
+          );
+        })
+        .catch(err => {
+          console.log("erro ao pegar intervenções do firebase:", err);
+        });
     }
   }, [type, index]);
 
+  //
+  // === MOST IMPORTANT EFFECT ===
+  //
+
   useEffect(() => {
-    console.log("rede mudou");
     switch (operation) {
       case "create": {
         if (rede[index]) {
@@ -111,7 +133,7 @@ const Menage = props => {
             }
           }
         } else {
-          console.log("oloco bixo!!! deu errado meu");
+          console.log("erro");
         }
         break;
       }
@@ -144,7 +166,7 @@ const Menage = props => {
             }
           }
         } else {
-          console.log("oloco bixo!!! deu errado meu");
+          console.log("erro");
         }
         break;
       }
@@ -161,12 +183,6 @@ const Menage = props => {
                 type,
                 indexInterve
               );
-              console.log(
-                "(delete) removeu ",
-                ell,
-                "index",
-                indexInterve
-              );
             } else {
               console.log("(delete) no index to delete");
             }
@@ -174,7 +190,7 @@ const Menage = props => {
             console.log("(delete) no interventions");
           }
         } else {
-          console.log("oloco bixo!!! deu errado meu");
+          console.log("erro no arquivo");
         }
         break;
       }
@@ -195,7 +211,7 @@ const Menage = props => {
 
   const submitUpdate = (obj, indexInterv) => {
     obj.responsable = authority;
-    console.log("submited update: ", obj, indexInterv);
+    // console.log("submited update: ", obj, indexInterv);
     setObject(obj);
     setIndex(indexInterv);
     setOp("update");
@@ -209,7 +225,7 @@ const Menage = props => {
 
   const submitCreate = obj => {
     obj.responsable = authority;
-    console.log("submited create: ", obj);
+    // console.log("submited create: ", obj);
     setOp("create");
     setObject(obj);
     dispatch({
@@ -217,10 +233,11 @@ const Menage = props => {
       index: index,
       value: obj
     });
+    // firebase.doCreateIntervention()
   };
 
   const submitDelete = (indexx, indexInterv) => {
-    console.log("submited delete: ", indexInterv);
+    // console.log("submited delete: ", indexInterv);
     setOp("delete");
     setIndex(indexInterv);
     setObject(null);
@@ -230,6 +247,12 @@ const Menage = props => {
       index: indexx,
       indexInterv
     });
+
+    // firebase.doDeleteIntervention(
+    //   index,
+    //   type,
+    //   indexInterve
+    // );
   };
 
   const pretifyInterv = value => {

@@ -1,20 +1,29 @@
-import React, {useState, useReducer} from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useReducer
+} from "react";
 
 import jsonAgua from "../../utils/jsons/rda_meireles.json";
 import jsonEsgoto from "../../utils/jsons/rde_meireles.json";
-import jsonGas from "../../utils/jsons/gas_gpkg.json";
+import jsonGas from "../../utils/jsons/rdg_meireles.json";
 
 import Mapp from ".";
 // import MapOperations from "../../Components/MapOperations";
 import {AuthUserContext} from "../../Components/Session/index.js";
-import Menage from "../Testes/Menage.js";
+import Meneger from "../Testes/Meneger.js";
 import NoButton from "../../Components/Modall/NoButton.js";
 import AguaContext from "../../Context/AguaContext.js";
 import EsgotoContext from "../../Context/EsgotoContext.js";
 import GasContext from "../../Context/GasContext.js";
+import {FirebaseContext} from "../../Components/Firebase/index.js";
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "updateAll": {
+      return action.value;
+    }
     case "create": {
       return [state, action.value];
     }
@@ -89,6 +98,11 @@ const MapHandler = props => {
 
   //=== === contexts === ===
 
+  let firebase = useContext(FirebaseContext);
+  // const [{upd_agua, upd_esgoto, upd_gas }, setUpd] = useState()
+
+  // === === reducers === ===
+
   let [agua, dispatchAgua] = useReducer(reducer, jsonAgua.features);
 
   let [esgoto, dispatchEsgoto] = useReducer(
@@ -97,6 +111,24 @@ const MapHandler = props => {
   );
 
   let [gas, dispatchGas] = useReducer(reducer, jsonGas.features);
+
+  useEffect(() => {
+    // firebase.getRefDB("esgoto").on("value", snap => {
+    //   console.log("opaaaa esgoto: ", snap.val());
+    // });
+    firebase.getRefAgua().on("value", snap => {
+      console.log("(agua) recebidos novos dados do firebase:");
+      dispatchAgua({type: "updateAll", value: snap.val()});
+    });
+    firebase.getRefEsgoto().on("value", snap => {
+      console.log("(esgoto) recebidos novos dados do firebase:");
+      dispatchEsgoto({type: "updateAll", value: snap.val()});
+    });
+    firebase.getRefGas().on("value", snap => {
+      console.log("(gas) recebidos novos dados do firebase:");
+      dispatchGas({type: "updateAll", value: snap.val()});
+    });
+  }, []);
 
   //=== === Callbacks === ===
 
@@ -251,7 +283,7 @@ const MapHandler = props => {
               }}
             </AuthUserContext.Consumer>
             <NoButton open={open} setOpen={setOpen} little={false}>
-              <Menage index={key} type={polyType} />
+              <Meneger index={key} type={polyType} />
               {/* <Teste2 index={key} type={polyType} /> */}
             </NoButton>
           </GasContext.Provider>

@@ -46,6 +46,7 @@ const Create = props => {
         if (msgError[key] !== null) {
           return (
             <div
+              key={key}
               className="border-bottom rounded p-2"
               style={{color: "#8B0000"}}
             >
@@ -54,7 +55,7 @@ const Create = props => {
           );
         }
 
-        return <></>;
+        return <div key={key} />;
       })
     );
 

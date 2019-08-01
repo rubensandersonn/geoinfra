@@ -21,9 +21,22 @@ const FilerEsgoto = () => {
       });
   }, []);
 
+  const sendRequest = file => {
+    return new Promise((resolve, reject) => {
+      const req = new XMLHttpRequest();
+
+      const formData = new FormData();
+      formData.append("file", file, file.name);
+
+      req.open("POST", "http://localhost:8000/uploadesgoto");
+      req.send(formData);
+    });
+  };
+
   const handleUploadStart = e => {
     console.log("quando começa: ", e);
     setState(state => ({...state, progress: 0}));
+    sendRequest(e); // enviando arquivo
   };
 
   const handleUploadSuccess = filename => {
@@ -38,6 +51,9 @@ const FilerEsgoto = () => {
       .getDownloadURL()
       .then(url => {
         setState(state => ({...state, imageURL: url}));
+      })
+      .then(st => {
+        firebase.updateChanger("esgoto");
       });
   };
 
@@ -53,8 +69,6 @@ const FilerEsgoto = () => {
   const handleUploadError = err => {
     console.log("Erro ao fazer upload:", err);
   };
-
-  console.log(state);
 
   return (
     <div className="container border rounded p-2 m-4 col-lg-8">

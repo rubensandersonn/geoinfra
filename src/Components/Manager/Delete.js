@@ -1,9 +1,9 @@
-import React from "react";
+import React, {useEffect} from "react";
 
 // import { Container } from './styles';
 
 export default function Delete(props) {
-  const {onSubmit, interventions} = props;
+  const {onSubmit, chosen} = props;
 
   // const [interventions, setInterventions] = React.useState([
   //   {
@@ -26,9 +26,6 @@ export default function Delete(props) {
   //   }
   // ]);
 
-  const [chosen, setChosen] = React.useState(<div />);
-  const [indexChosen, setIndexChosen] = React.useState(-1);
-
   const prettifyEl = el => (
     <div className="border-left pl-2 m-2">
       <div>
@@ -50,42 +47,17 @@ export default function Delete(props) {
     </div>
   );
 
-  const linkClicked = el => {
-    document.getElementById("chosen").style.display = "block";
-    setChosen(prettifyEl(el));
-    setIndexChosen(el.id);
-    console.log("link clicked", el.id, indexChosen);
-  };
-
-  const mapInterventions = interventions.map((el, indexx) => {
-    return (
-      <a
-        key={indexx}
-        onClick={e => {
-          e.preventDefault();
-          linkClicked(el, indexx);
-        }}
-        href={indexx}
-      >
-        {prettifyEl(el)}
-      </a>
-    );
-  });
-
   return (
     <>
-      <div className="newdropdown">
-        {/* <button className="newdropbtn">Dropdown</button> */}
-        <div className="newdropbtn border rounded">Intervenções</div>
-        <div className="newdropdown-content">{mapInterventions}</div>
-      </div>
       <div id="chosen" style={{display: "none"}}>
-        <div className="container  p-2 m-2">{chosen}</div>
+        <div className="container  p-2 m-2">
+          {chosen ? prettifyEl(chosen) : ""}
+        </div>
         <div
           className="btn btn-danger p-2 m-2 ml-auto"
           onClick={e => {
             e.preventDefault();
-            onSubmit(indexChosen);
+            onSubmit();
             document.getElementById("chosen").style.display = "none";
           }}
         >
