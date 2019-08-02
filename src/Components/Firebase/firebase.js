@@ -2,7 +2,6 @@ import app from "firebase/app";
 import "firebase/auth";
 import "firebase/database";
 import "firebase/storage";
-import "dotenv/config";
 
 String.prototype.hashCode = function() {
   var hash = 0,

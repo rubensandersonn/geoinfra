@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useContext} from "react";
 import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 import {FirebaseContext} from "../Firebase";
-import "dotenv/config";
 
 const FilerAgua = () => {
   const [state, setState] = useState({
