@@ -379,5 +379,5 @@ const Mapp = props => {
 };
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyDI8rhCfDYeRozbap8tk0tCgVqq3i9Y40A"
+  apiKey: process.env.REACT_APP_URI_GOOGLE_MAPS
 })(Mapp);
