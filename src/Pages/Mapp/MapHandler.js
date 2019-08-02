@@ -95,6 +95,35 @@ const MapHandler = props => {
   const [open, setOpen] = useState(false);
   const [polyType, setPolyType] = useState();
   const [key, setKey] = useState({});
+  const [state, setState] = useState({
+    aguaURL: null,
+    esgotoURL: null,
+    gasURL: null
+  });
+
+  useEffect(() => {
+    firebase
+      .getRef()
+      .child("rda_meireles.json")
+      .getDownloadURL()
+      .then(url => {
+        setState(state => ({...state, aguaURL: url}));
+      });
+    firebase
+      .getRef()
+      .child("rde_meireles.json")
+      .getDownloadURL()
+      .then(url => {
+        setState(state => ({...state, esgotoURL: url}));
+      });
+    firebase
+      .getRef()
+      .child("rdg_meireles.json")
+      .getDownloadURL()
+      .then(url => {
+        setState(state => ({...state, gasURL: url}));
+      });
+  }, []);
 
   //=== === contexts === ===
 
@@ -255,6 +284,44 @@ const MapHandler = props => {
               </div>
             </div>
             {/* <MapOperations /> */}
+
+            {/* links */}
+            {state.aguaURL && state.gasURL && state.esgotoURL ? (
+              <div
+                style={{
+                  marginLeft: 20,
+                  marginBottom: 10,
+                  marginTop: 10
+                }}
+              >
+                Downloads:
+                <a
+                  style={{marginInline: 15}}
+                  href={state.aguaURL}
+                  target="_blank"
+                >
+                  Link para rede água
+                </a>
+                <a
+                  style={{marginInline: 15}}
+                  href={state.esgotoURL}
+                  target="_blank"
+                >
+                  Link para rede esgoto
+                </a>
+                <a
+                  style={{marginInline: 15}}
+                  href={state.gasURL}
+                  target="_blank"
+                >
+                  Link para rede gás
+                </a>
+              </div>
+            ) : (
+              ""
+            )}
+
+            {/* links */}
 
             <AuthUserContext.Consumer>
               {authUser => {

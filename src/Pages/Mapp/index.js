@@ -10,9 +10,12 @@ import MapCons from "../../Context/MapCons";
 import AguaContext from "../../Context/AguaContext";
 import EsgotoContext from "../../Context/EsgotoContext";
 import GasContext from "../../Context/GasContext";
+import FirebaseContext from "../../Components/Firebase/context";
 
 const Mapp = props => {
   // ========= CONTEXTS ==========
+
+  const firebase = useContext(FirebaseContext);
 
   const {
     google,
@@ -34,6 +37,7 @@ const Mapp = props => {
 
   // toggle visible data
   const {visibleAgua, visibleEsgoto, visibleGas} = visibleLayer;
+  const [interventions, setInterventions] = useState(null);
 
   // about marker...
   const [visibleInfo, setVisibleInfo] = useState(false);
@@ -45,27 +49,69 @@ const Mapp = props => {
 
   // ======== AUX FUNCTIONs ===========
 
-  const pretifyWindow = value => {
-    const mapp = Object.keys(value).map(key => {
-      if (!key.match(/id|x|y/gm)) {
-        return (
-          <div key className="row container">
-            <span style={{fontWeight: "bold"}}>
-              {key.replace(/_/gm, " ")}
-            </span>
-            {": "}
-            {key === "em_operacao"
-              ? value[key]
-                ? "SIM"
-                : "NÃO"
-              : value[key]}
-          </div>
-        );
-      }
-      return null;
-    });
+  const pretifyWindow = (value, key, type) => {
+    setInterventions(null);
+    return new Promise(resolve => {
+      firebase
+        .doReadInterventions(key, type)
+        .then(res => {
+          console.log("chegou no prettify:", res);
 
-    return mapp;
+          // mapeando o objeto
+          const mapp = Object.keys(value).map(key => {
+            if (!key.match(/id|x|y/gm)) {
+              return (
+                <div key className="row container">
+                  <span style={{fontWeight: "bold"}}>
+                    {key.replace(/_/gm, " ")}
+                  </span>
+                  {": "}
+                  {key === "em_operacao"
+                    ? value[key]
+                      ? "SIM"
+                      : "NÃO"
+                    : value[key]}
+                </div>
+              );
+            }
+            return null;
+          });
+
+          resolve(
+            <div>
+              <h6>Propriedades:</h6>
+              <hr />
+              {mapp}
+              <hr />
+              <div>
+                <h6>Intervenções:</h6>
+                <hr />
+                <p>
+                  {res
+                    ? res.map((el, indexx) => (
+                        <div key={indexx}>
+                          {Object.keys(el).map(keyy => (
+                            <div key={keyy}>
+                              <span style={{fontWeight: "bold"}}>
+                                {keyy}:
+                              </span>
+                              {el[keyy]}
+                            </div>
+                          ))}
+                          <hr />
+                        </div>
+                      ))
+                    : "Nenhuma intervenção no trecho..."}
+                </p>
+              </div>
+            </div>
+          );
+        })
+        .catch(err => {
+          console.log("Erro ao pegar as intervenções");
+          resolve("Sem informações disponíveis");
+        });
+    });
   };
 
   /**
@@ -74,7 +120,7 @@ const Mapp = props => {
    * @param {*} type
    * @param {*} coord
    */
-  const showRegularInfo = (key, type, coord) => {
+  const showRegularInfo = async (key, type, coord) => {
     // console.log("poly clicked", key, type, coord[0]);
 
     let val = {};
@@ -106,7 +152,8 @@ const Mapp = props => {
     setPositionMarker(mediaCoord);
 
     // setando o conteudo da infoWindow
-    setValueMarker(pretifyWindow(val));
+
+    setValueMarker(await pretifyWindow(val, key, type));
   };
 
   // ======== CALLBACKS ==========
@@ -133,6 +180,9 @@ const Mapp = props => {
         el = agua[key];
         break;
       case "esgoto":
+        el = esgoto[key];
+        break;
+      case "gas":
         el = esgoto[key];
         break;
       default:
@@ -300,7 +350,7 @@ const Mapp = props => {
 
     var div1 = document.createElement("div1");
     div1.innerHTML =
-      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE ÁGUA" /> <div class="color-box" style="background-color: "#4863A0";"></div></div>';
+      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE ÁGUA" /> <div class="color-box" style="background-color: #4863A0;"></div></div>';
 
     legend.appendChild(div1);
 
