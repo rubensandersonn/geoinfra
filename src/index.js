@@ -1,4 +1,3 @@
-require("dotenv").config();
 import React from "react";
 import ReactDOM from "react-dom";
 //import "./index.css";
@@ -9,6 +8,7 @@ import "./utils/css/bootstrap.min.css";
 import "./utils/css/style.css";
 
 import Firebase, {FirebaseContext} from "./Components/Firebase";
+require("dotenv").config();
 
 ReactDOM.render(
   <FirebaseContext.Provider value={new Firebase()}>
