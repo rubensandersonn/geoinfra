@@ -3,6 +3,16 @@ import "firebase/auth";
 import "firebase/database";
 require("dotenv").config();
 
+const config = {
+  apiKey: "AIzaSyAsOUy2nf6WCHgyyfI17ihZxaBY5H0tQQE",
+  authDomain: "geoinfra2.firebaseapp.com",
+  databaseURL: "https://geoinfra2.firebaseio.com",
+  projectId: "geoinfra2",
+  storageBucket: "geoinfra2.appspot.com",
+  messagingSenderId: "96025426007",
+  appId: "1:96025426007:web:55b1dcfa5a849d96"
+};
+
 String.prototype.hashCode = function() {
   var hash = 0,
     i,
@@ -18,7 +28,7 @@ String.prototype.hashCode = function() {
 
 class Firebase {
   constructor() {
-    app.initializeApp(process.env.REACT_APP_FIREBASE_CONFIG);
+    app.initializeApp(config);
 
     this.auth = app.auth();
     this.db = app.database();
