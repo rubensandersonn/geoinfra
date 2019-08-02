@@ -10,7 +10,7 @@ import MapCons from "../../Context/MapCons";
 import AguaContext from "../../Context/AguaContext";
 import EsgotoContext from "../../Context/EsgotoContext";
 import GasContext from "../../Context/GasContext";
-require("dotenv").config();
+import "dotenv/config";
 
 const Mapp = props => {
   // ========= CONTEXTS ==========
