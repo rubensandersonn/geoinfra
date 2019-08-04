@@ -12,8 +12,9 @@ import jsonGas from "../../utils/jsons/rdg_meireles.json";
 import Mapp from ".";
 // import MapOperations from "../../Components/MapOperations";
 import {AuthUserContext} from "../../Components/Session/index.js";
-import Meneger from "../Testes/Meneger.js";
-import NoButton from "../../Components/Modall/NoButton.js";
+// import Meneger from "../Testes/Meneger.js";
+// import NoButton from "../../Components/Modall/NoButton.js";
+import Holder from "../../Components/Manager/Holder";
 import AguaContext from "../../Context/AguaContext.js";
 import EsgotoContext from "../../Context/EsgotoContext.js";
 import GasContext from "../../Context/GasContext.js";
@@ -91,6 +92,8 @@ const reducer = (state, action) => {
 
 const MapHandler = props => {
   //=== === states === ===
+
+  const [interventions, setInterv] = useState([]);
 
   const [open, setOpen] = useState(false);
   const [polyType, setPolyType] = useState();
@@ -318,9 +321,8 @@ const MapHandler = props => {
                 </a>
               </div>
             ) : (
-              ""
+              "..."
             )}
-
             {/* links */}
 
             <AuthUserContext.Consumer>
@@ -335,24 +337,43 @@ const MapHandler = props => {
                   : "none";
 
                 return (
-                  <Mapp
-                    setModalOpen={setOpen}
-                    setType={setType}
-                    setKey={setKey}
-                    authority={authority}
-                    visibleLayer={{
-                      visibleAgua,
-                      visibleEsgoto,
-                      visibleGas
-                    }}
-                  />
+                  <div className="row">
+                    {authority !== "none" ? (
+                      <div className="border rounded p-2 ml-2">
+                        <div className="text-center">
+                          <h4>Intervenções</h4>
+                        </div>
+
+                        <Holder
+                          authority={authority}
+                          index={key}
+                          type={polyType}
+                        />
+                      </div>
+                    ) : (
+                      ""
+                    )}
+                    <div>
+                      {/* <Mapp
+                        setModalOpen={setOpen}
+                        setType={setType}
+                        setKey={setKey}
+                        authority={authority}
+                        visibleLayer={{
+                          visibleAgua,
+                          visibleEsgoto,
+                          visibleGas
+                        }}
+                      /> */}
+                    </div>
+                  </div>
                 );
               }}
             </AuthUserContext.Consumer>
-            <NoButton open={open} setOpen={setOpen} little={false}>
+            {/* <NoButton open={open} setOpen={setOpen} little={false}>
               <Meneger index={key} type={polyType} />
-              {/* <Teste2 index={key} type={polyType} /> */}
-            </NoButton>
+              
+            </NoButton> */}
           </GasContext.Provider>
         </EsgotoContext.Provider>
       </AguaContext.Provider>

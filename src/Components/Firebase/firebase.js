@@ -76,14 +76,20 @@ class Firebase {
     });
   }
 
-  doCreateIntervention(index, type, interventions) {
+  /**
+   * Suponho que não há necessidade de remover intervenções, apenas adicionar novas.
+   * As antigas só prescrevem.
+   * @param {*} index
+   * @param {*} interventions
+   */
+  doCreateIntervention(interventions, index) {
     let i = {};
     i[index] = interventions;
 
     return new Promise(resolve => {
       this.db
-        .ref(type + "/interventions")
-        .set(i)
+        .ref("interventions/" + interventions[0].endereco)
+        .set(interventions)
         .then(result => {
           console.log("registro atualizado!");
           resolve(true);
@@ -251,6 +257,10 @@ class Firebase {
 
   getIntervRef(type) {
     return this.db.ref(type + "/interventions");
+  }
+
+  getRefInterventions() {
+    return this.db.ref("interventions");
   }
 
   // === useless ===

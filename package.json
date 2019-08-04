@@ -23,6 +23,7 @@
     "react-responsive-modal": "^4.0.1",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "react-search-box": "^2.0.1",
     "reactjs-popup": "^1.4.1"
   },
   "scripts": {
