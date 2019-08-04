@@ -83,9 +83,13 @@ const Holder = props => {
   };
 
   const [visibleCadastrar, setVisibleCadastrar] = useState(false);
+  const [visibleAtualizar, setVisibleAtualizar] = useState(false);
 
   const toggleCadastrar = () => {
     setVisibleCadastrar(!visibleCadastrar);
+  };
+  const toggleAtualizar = () => {
+    setVisibleAtualizar(!visibleAtualizar);
   };
 
   return (
@@ -119,6 +123,32 @@ const Holder = props => {
                     +
                   </div>{" "}
                   Cadastrar Intervenção
+                </div>
+              )}
+            </div>
+          </div>
+          <hr />
+          <div className="ml-2">
+            <div className="ml-auto">
+              {visibleCadastrar ? (
+                <div>
+                  <div
+                    onClick={() => toggleCadastrar()}
+                    className="btn btn-danger mr-2"
+                  >
+                    -
+                  </div>{" "}
+                  Atualizar Intervenção
+                </div>
+              ) : (
+                <div>
+                  <div
+                    onClick={() => toggleAtualizar()}
+                    className="btn btn-secondary mr-2"
+                  >
+                    +
+                  </div>{" "}
+                  Atualizar Intervenção
                 </div>
               )}
             </div>

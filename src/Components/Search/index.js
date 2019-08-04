@@ -143,13 +143,15 @@ export default class Search extends React.Component {
 
     return (
       <div>
-        {data && (
+        {data ? (
           <ReactSearchBox
             placeholder="Busca por endereço"
             value="Endereço"
             data={data}
             callback={record => console.log(record)}
           />
+        ) : (
+          "Carregando..."
         )}
         {map}
         {/* {JSON.stringify(data)}

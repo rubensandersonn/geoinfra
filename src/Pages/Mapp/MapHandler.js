@@ -354,7 +354,7 @@ const MapHandler = props => {
                       ""
                     )}
                     <div>
-                      {/* <Mapp
+                      <Mapp
                         setModalOpen={setOpen}
                         setType={setType}
                         setKey={setKey}
@@ -364,7 +364,7 @@ const MapHandler = props => {
                           visibleEsgoto,
                           visibleGas
                         }}
-                      /> */}
+                      />
                     </div>
                   </div>
                 );
