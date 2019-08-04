@@ -102,7 +102,7 @@ const Holder = props => {
           <Search interventions={interventions} />
           <hr />
 
-          <div className="ml-2">
+          <div className="">
             <div className="ml-auto">
               {visibleCadastrar ? (
                 <div>
@@ -127,13 +127,22 @@ const Holder = props => {
               )}
             </div>
           </div>
+          <div>
+            {visibleCadastrar && (
+              <div id="cadastrar" className="container ">
+                <Create key={1} onSubmit={obj => submitCreate(obj)} />
+              </div>
+            )}
+
+            <hr />
+          </div>
           <hr />
-          <div className="ml-2">
+          <div className="">
             <div className="ml-auto">
-              {visibleCadastrar ? (
+              {visibleAtualizar ? (
                 <div>
                   <div
-                    onClick={() => toggleCadastrar()}
+                    onClick={() => toggleAtualizar()}
                     className="btn btn-danger mr-2"
                   >
                     -
@@ -153,20 +162,20 @@ const Holder = props => {
               )}
             </div>
           </div>
+          <div>
+            {visibleAtualizar && (
+              <div id="cadastrar" className="container ">
+                <Create key={1} onSubmit={obj => submitCreate(obj)} />
+              </div>
+            )}
+            <hr />
+          </div>
         </div>
       </div>
       {/* ===
           body
           ===
        */}
-      <div>
-        {visibleCadastrar && (
-          <div id="cadastrar" className="container ">
-            <Create key={1} onSubmit={obj => submitCreate(obj)} />
-          </div>
-        )}
-        <hr />
-      </div>
     </>
   );
 };
