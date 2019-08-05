@@ -338,21 +338,18 @@ const MapHandler = props => {
 
                 return (
                   <div className="row">
-                    {authority !== "none" ? (
-                      <div className="border rounded p-2 ml-2">
-                        <div className="text-center">
-                          <h4>Intervenções</h4>
-                        </div>
-
-                        <Holder
-                          authority={authority}
-                          index={key}
-                          type={polyType}
-                        />
+                    <div className="border rounded p-2 ml-2">
+                      <div className="text-center">
+                        <h4>Intervenções</h4>
                       </div>
-                    ) : (
-                      ""
-                    )}
+
+                      <Holder
+                        authority={authority}
+                        index={key}
+                        type={polyType}
+                      />
+                    </div>
+
                     <div>
                       <Mapp
                         setModalOpen={setOpen}

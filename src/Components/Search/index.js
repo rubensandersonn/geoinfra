@@ -5,28 +5,7 @@ import ReactSearchBox from "react-search-box";
 
 export default class Search extends React.Component {
   state = {
-    data: [
-      {
-        key: "john",
-        value: "John Doe"
-      },
-      {
-        key: "jane",
-        value: "Jane Doe"
-      },
-      {
-        key: "mary",
-        value: "Mary Phillips"
-      },
-      {
-        key: "robert",
-        value: "Robert"
-      },
-      {
-        key: "karius",
-        value: "Karius"
-      }
-    ],
+    chosen: null,
     interventions: null
   };
 
@@ -35,41 +14,39 @@ export default class Search extends React.Component {
     this.setState({interventions});
   }
 
-  // componentWillReceiveProps(nextProps) {
-  //   console.log("(search) novos recebidos", nextProps);
-  //   const {interventions} = nextProps;
-
-  //   if (this.state.interventions !== interventions) {
-  //     this.setState({interventions});
-  //   }
-  // }
-  // data = [
-  //   {
-  //     key: "john",
-  //     value: "John Doe"
-  //   },
-  //   {
-  //     key: "jane",
-  //     value: "Jane Doe"
-  //   },
-  //   {
-  //     key: "mary",
-  //     value: "Mary Phillips"
-  //   },
-  //   {
-  //     key: "robert",
-  //     value: "Robert"
-  //   },
-  //   {
-  //     key: "karius",
-  //     value: "Karius"
-  //   }
-  // ];
-
   prettifyObj(obj) {
-    Object.keys(obj).map(key => {
-      return <div key={key}>{obj[key]}</div>;
-    });
+    return (
+      <div className="row col-lg-12 p-2 mt-2 mb-2 border rounded">
+        <div className="col-lg-5">
+          <div>
+            <span style={{fontWeight: "bold"}}>Responsável</span>:{" "}
+            {obj.responsable}
+          </div>
+          <div>
+            <span style={{fontWeight: "bold"}}>Descrição</span>:{" "}
+            {obj.description}
+          </div>
+        </div>
+        <div className="col-lg-7">
+          <div>
+            <span style={{fontWeight: "bold"}}>Data Início</span>:{" "}
+            {obj.data1}
+          </div>
+          <div>
+            <span style={{fontWeight: "bold"}}>Data Fim</span>:{" "}
+            {obj.data2}
+          </div>
+          <div>
+            <span style={{fontWeight: "bold"}}>Número Ini</span>:{" "}
+            {obj.data1}
+          </div>
+          <div>
+            <span style={{fontWeight: "bold"}}>Número Fim</span>:{" "}
+            {obj.data2}
+          </div>
+        </div>
+      </div>
+    );
   }
 
   openObj(obj) {
@@ -95,6 +72,7 @@ export default class Search extends React.Component {
         });
         console.log("data: ", this.state.data);
       }
+      return null;
     });
   }
 
@@ -108,38 +86,41 @@ export default class Search extends React.Component {
     });
   }
 
-  prettify(el) {
-    if (!el) {
-    }
-  }
-
-  trataInterventions(interventions) {
-    let data = [];
-
-    Object.keys(interventions).map(key => {});
-
-    this.setState({data});
-  }
-
-  trataEndereco = endereco => {
-    return endereco.replace(" ", "_");
-  };
-
   render() {
     // const {data} = this.state;
     let data = null;
-    const {interventions} = this.props;
+    const {interventions, onSubmit} = this.props;
+    const {chosen} = this.state;
     // const {interventions} = data;
 
+    /**
+     * Sets Up the data to be shown in search
+     */
     const map = Object.keys(interventions).map(key => {
       interventions[key].map((el, index) => {
         data = data ? data : [];
         data.push({
-          key: el.endereco + index,
+          key: el.endereco + "{" + index + "}",
           value: el.endereco + ", " + el.numero1 + "-" + el.numero2
         });
+        return null;
       });
+      return null;
     });
+
+    /**
+     * Callback when a element is chosen by the search bar
+     * @param {*} el
+     */
+    const showEl = el => {
+      let index = el.key.match(/{(\d*)}/g)[0].match(/\d+/g)[0];
+      let endereco = el.key.split("{")[0];
+
+      const chosenOne = interventions[endereco][index];
+      this.setState({chosen: chosenOne});
+
+      onSubmit(chosenOne, index);
+    };
 
     return (
       <div>
@@ -149,13 +130,15 @@ export default class Search extends React.Component {
             value="Endereço"
             data={data}
             callback={record => console.log(record)}
+            onSelect={el => showEl(el)}
+            autoFocus
+            inputBoxFontSize={"16px"}
           />
         ) : (
           "Carregando..."
         )}
         {map}
-        {/* {JSON.stringify(data)}
-        {JSON.stringify(this.state.data)} */}
+        {chosen && this.prettifyObj(chosen)}
       </div>
     );
   }

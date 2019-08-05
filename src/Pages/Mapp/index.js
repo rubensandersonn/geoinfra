@@ -13,7 +13,7 @@ import GasContext from "../../Context/GasContext";
 import FirebaseContext from "../../Components/Firebase/context";
 
 const Mapp = props => {
-  // ========= CONTEXTS ==========
+  // === === === CONTEXTS === === ===
 
   const firebase = useContext(FirebaseContext);
 
@@ -49,68 +49,37 @@ const Mapp = props => {
 
   // ======== AUX FUNCTIONs ===========
 
-  const pretifyWindow = (value, key, type) => {
+  const pretifyWindow = value => {
     setInterventions(null);
     return new Promise(resolve => {
-      firebase
-        .doReadInterventions(key, type)
-        .then(res => {
-          console.log("chegou no prettify:", res);
-
-          // mapeando o objeto
-          const mapp = Object.keys(value).map(key => {
-            if (!key.match(/id|x|y/gm)) {
-              return (
-                <div key className="row container">
-                  <span style={{fontWeight: "bold"}}>
-                    {key.replace(/_/gm, " ")}
-                  </span>
-                  {": "}
-                  {key === "em_operacao"
-                    ? value[key]
-                      ? "SIM"
-                      : "NÃO"
-                    : value[key]}
-                </div>
-              );
-            }
-            return null;
-          });
-
-          resolve(
-            <div>
-              <h6>Propriedades:</h6>
-              <hr />
-              {mapp}
-              <hr />
-              <div>
-                <h6>Intervenções:</h6>
-                <hr />
-                <p>
-                  {res
-                    ? res.map((el, indexx) => (
-                        <div key={indexx}>
-                          {Object.keys(el).map(keyy => (
-                            <div key={keyy}>
-                              <span style={{fontWeight: "bold"}}>
-                                {keyy}:
-                              </span>
-                              {el[keyy]}
-                            </div>
-                          ))}
-                          <hr />
-                        </div>
-                      ))
-                    : "Nenhuma intervenção no trecho..."}
-                </p>
-              </div>
+      // mapeando o objeto
+      const mapp = Object.keys(value).map(key => {
+        if (!key.match(/id|x|y/gm)) {
+          return (
+            <div key className="row container">
+              <span style={{fontWeight: "bold"}}>
+                {key.replace(/_/gm, " ")}
+              </span>
+              {": "}
+              {key === "em_operacao"
+                ? value[key]
+                  ? "SIM"
+                  : "NÃO"
+                : value[key]}
             </div>
           );
-        })
-        .catch(err => {
-          console.log("Erro ao pegar as intervenções");
-          resolve("Sem informações disponíveis");
-        });
+        }
+        return null;
+      });
+
+      resolve(
+        <div>
+          <h6>Propriedades:</h6>
+          <hr />
+          {mapp}
+          <hr />
+        </div>
+      );
     });
   };
 
@@ -153,7 +122,7 @@ const Mapp = props => {
 
     // setando o conteudo da infoWindow
 
-    setValueMarker(await pretifyWindow(val, key, type));
+    setValueMarker(await pretifyWindow(val));
   };
 
   // ======== CALLBACKS ==========
@@ -190,18 +159,8 @@ const Mapp = props => {
         break;
     }
 
-    if (
-      authority === "prefeitura" ||
-      (authority === "cagece" &&
-        (type === "agua" || type === "esgoto")) ||
-      (authority === "cegas" && type === "gas")
-    ) {
-      setModalOpen(true);
-      setKey(key);
-      setType(type);
-    } else {
-      showRegularInfo(key, type, coord);
-    }
+    // mostra uma janela comum para todo usuário
+    showRegularInfo(key, type, coord);
   };
 
   // quando o mouse passa sobre a poly, atualizar

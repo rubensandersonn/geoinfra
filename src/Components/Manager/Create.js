@@ -131,14 +131,14 @@ const Create = props => {
               onBlur={() => {
                 setValidEndereco(validateAdress(endereco));
               }}
-              placeholder="Rua tal (sem bairro ou números)"
+              placeholder="Endereço (ex: 'Rua Tal', sem bairro ou números)"
               name="endereco"
               required
             />
           </div>
         </div>
         <div className="form-group row">
-          <div className="col-md-12 mb-4 mb-lg-0">
+          <div className="col-md-6 mb-4 mb-lg-0">
             <input
               className="form-control border"
               type="text"
@@ -149,14 +149,12 @@ const Create = props => {
               onBlur={() => {
                 setValidNumber1(validateNumber(numero1));
               }}
-              placeholder="Número inicial do trecho de interv"
+              placeholder="Número inicial"
               name="numero1"
               required
             />
           </div>
-        </div>
-        <div className="form-group row">
-          <div className="col-md-12 mb-4 mb-lg-0">
+          <div className="col-md-6 mb-4 mb-lg-0">
             <input
               className="form-control border"
               type="text"
@@ -167,12 +165,13 @@ const Create = props => {
               onBlur={() => {
                 setValidNumber2(validateNumber(numero2));
               }}
-              placeholder="Número inicial do trecho de interv"
+              placeholder="Número inicial"
               name="numero2"
               required
             />
           </div>
         </div>
+
         {/* description */}
         <div className="form-group row">
           <div className="col-md-12 mb-4 mb-lg-0">
@@ -196,7 +195,7 @@ const Create = props => {
 
         {/* datas */}
         <div className="form-group row">
-          <div className="col-md-12 mb-4 mb-lg-0">
+          <div className="col-md-6 mb-4 mb-lg-0">
             <input
               className="form-control border"
               type="text"
@@ -212,9 +211,7 @@ const Create = props => {
               required
             />
           </div>
-        </div>
-        <div className="form-group row">
-          <div className="col-md-12 mb-4 mb-lg-0">
+          <div className="col-md-6 mb-4 mb-lg-0">
             <input
               className="form-control border"
               type="text"
@@ -231,6 +228,7 @@ const Create = props => {
             />
           </div>
         </div>
+
         {/* submit */}
         <div className="form-group row">
           <div className="col-md-12 ml-auto">

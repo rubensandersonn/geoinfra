@@ -3,8 +3,9 @@ import Create from "../../Components/Manager/Create";
 
 import {FirebaseContext} from "../../Components/Firebase";
 
-import html2pdf from "html2pdf.js";
+// import html2pdf from "html2pdf.js";
 import Search from "../Search";
+import Update from "./Update";
 
 // import { Container } from './styles';
 
@@ -56,14 +57,24 @@ const Holder = props => {
       interventions[obj.endereco].length - 1
     );
   };
+  /**
+   * Suponho que só foi mostrado se tem autoridade para atualizar
+   * @param {*} obj
+   */
+  const submitUpdate = obj => {
+    // obj.responsable = authority;
+    console.log("(submit update) nova interv:", obj, indexInterv);
 
-  const submitUpdate = (obj, indexInterv) => {
-    obj.responsable = authority;
+    interventions && interventions[obj.endereco]
+      ? (interventions[obj.endereco][indexInterv] = obj)
+      : console.log("(submit update) hey thats ilegal!");
 
-    let novo = interventions;
-    novo.push(obj);
-
-    firebase.doUpdateIntervention(index, type, novo);
+    console.log("(submit update) intervenções:", interventions);
+    //
+    firebase.doUpdateIntervention(
+      interventions[obj.endereco],
+      indexInterv
+    );
   };
 
   const submitDelete = indexInterv => {
@@ -92,91 +103,117 @@ const Holder = props => {
     setVisibleAtualizar(!visibleAtualizar);
   };
 
+  // element chosen from search bar
+  const [element, setEl] = useState(null);
+  const [indexInterv, setIndex] = useState(null);
+
   return (
-    <>
+    <div className="col-lg-12">
       <div className="col-lg-12 ">
         <div className="col-lg-12">
-          {/* <div className="block-heading-1">
-            <h2 id="titulo">Cadastrar Intervenção</h2>
-          </div> */}
-          <Search interventions={interventions} />
+          <Search
+            onSubmit={(el, index) => {
+              console.log(
+                "(recebido pelo Holder da search:)",
+                JSON.stringify(el)
+              );
+              setEl(el);
+              setIndex(index);
+            }}
+            interventions={interventions}
+          />
           <hr />
-
-          <div className="">
-            <div className="ml-auto">
-              {visibleCadastrar ? (
-                <div>
-                  <div
-                    onClick={() => toggleCadastrar()}
-                    className="btn btn-danger mr-2"
-                  >
-                    -
-                  </div>{" "}
-                  Cadastrar Intervenção
+          {authority !== "none" ? (
+            <div>
+              <div className="">
+                <div className="ml-auto">
+                  {visibleCadastrar ? (
+                    <div>
+                      <div
+                        onClick={() => toggleCadastrar()}
+                        className="btn btn-danger mr-2"
+                      >
+                        -
+                      </div>{" "}
+                      Cadastrar Intervenção
+                    </div>
+                  ) : (
+                    <div>
+                      <div
+                        onClick={() => toggleCadastrar()}
+                        className="btn btn-secondary mr-2"
+                      >
+                        +
+                      </div>{" "}
+                      Cadastrar Intervenção
+                    </div>
+                  )}
                 </div>
-              ) : (
-                <div>
-                  <div
-                    onClick={() => toggleCadastrar()}
-                    className="btn btn-secondary mr-2"
-                  >
-                    +
-                  </div>{" "}
-                  Cadastrar Intervenção
-                </div>
-              )}
-            </div>
-          </div>
-          <div>
-            {visibleCadastrar && (
-              <div id="cadastrar" className="container ">
-                <Create key={1} onSubmit={obj => submitCreate(obj)} />
               </div>
-            )}
+              <div>
+                {visibleCadastrar && (
+                  <div id="cadastrar" className="container ">
+                    <Create
+                      key={1}
+                      onSubmit={obj => submitCreate(obj)}
+                    />
+                  </div>
+                )}
 
-            <hr />
-          </div>
-          <hr />
-          <div className="">
-            <div className="ml-auto">
-              {visibleAtualizar ? (
-                <div>
-                  <div
-                    onClick={() => toggleAtualizar()}
-                    className="btn btn-danger mr-2"
-                  >
-                    -
-                  </div>{" "}
-                  Atualizar Intervenção
-                </div>
-              ) : (
-                <div>
-                  <div
-                    onClick={() => toggleAtualizar()}
-                    className="btn btn-secondary mr-2"
-                  >
-                    +
-                  </div>{" "}
-                  Atualizar Intervenção
-                </div>
-              )}
-            </div>
-          </div>
-          <div>
-            {visibleAtualizar && (
-              <div id="cadastrar" className="container ">
-                <Create key={1} onSubmit={obj => submitCreate(obj)} />
+                <hr />
               </div>
-            )}
-            <hr />
-          </div>
+              <hr />
+              <div className="">
+                <div className="ml-auto">
+                  {visibleAtualizar ? (
+                    <div>
+                      <div
+                        onClick={() => toggleAtualizar()}
+                        className="btn btn-danger mr-2"
+                      >
+                        -
+                      </div>{" "}
+                      Atualizar Intervenção
+                    </div>
+                  ) : (
+                    <div>
+                      <div
+                        onClick={() => toggleAtualizar()}
+                        className="btn btn-secondary mr-2"
+                      >
+                        +
+                      </div>{" "}
+                      Atualizar Intervenção
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div>
+                {visibleAtualizar &&
+                  element &&
+                  (element.responsable === authority ||
+                  authority === "prefeitura" ? (
+                    <div id="atualizar" className="container ">
+                      <Update
+                        el={element}
+                        onSubmit={obj => submitUpdate(obj)}
+                      />
+                    </div>
+                  ) : (
+                    <div style={{color: "red"}} className="col-lg-10">
+                      Desculpe, a autoridade responsável pela
+                      intervenção é diferente da atual
+                    </div>
+                  ))}
+                <hr />
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
       </div>
-      {/* ===
-          body
-          ===
-       */}
-    </>
+    </div>
   );
 };
 

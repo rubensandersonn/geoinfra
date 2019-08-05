@@ -7,7 +7,7 @@ import * as ROUTES from "../../Routes";
 import {AuthUserContext} from "../Session";
 
 /**
- * Aqui eu posso colocar os niveis de autenticação retornando a rota certa
+ * Aqui eu posso colocar os niveis de autenticação retornando Link rota certa
  */
 const Navigation = () => (
   <div className="site-navbar bg-blue pr-4">
@@ -49,19 +49,26 @@ const NavigationNonAuth = () => (
       <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
         <li className="nav-link">
           <div>
-            <a href={ROUTES.MAP}>Mapa</a>
+            <Link to={ROUTES.MAP}>
+              <span style={{color: "#ffe"}}>Mapa</span>{" "}
+            </Link>
           </div>
         </li>
         <li className="nav-link">
           <div>
-            <a href={ROUTES.ABOUT}>Sobre</a>
+            <Link to={ROUTES.ABOUT}>
+              <span style={{color: "#ffe"}}>Sobre</span>{" "}
+            </Link>
           </div>
         </li>
       </ul>
     </div>
     <div>
       <Link to={ROUTES.SIGN_IN}>
-        <div className="toggle-button d-flex btn btn-primary mr-4">
+        <div
+          style={{color: "#ffe"}}
+          className="toggle-button d-flex btn btn-primary mr-4"
+        >
           Sign In
         </div>
       </Link>
@@ -75,30 +82,38 @@ const NavigationAuth = props => (
       <ul className="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
         <li className="nav-link">
           <div>
-            <a href={ROUTES.MAP}>Mapa</a>
+            <Link to={ROUTES.MAP}>
+              <span style={{color: "#ffe"}}>Mapa</span>{" "}
+            </Link>
           </div>
         </li>
         <li className="nav-link">
           <div>
-            <a href={ROUTES.UPLOAD}>Upload</a>
+            <Link to={ROUTES.UPLOAD}>
+              <span style={{color: "#ffe"}}>Upload</span>{" "}
+            </Link>
           </div>
         </li>
         <li className="nav-link">
           <div>
-            <a href={ROUTES.ABOUT}>Sobre</a>
+            <Link to={ROUTES.ABOUT}>
+              <span style={{color: "#ffe"}}>Sobre</span>{" "}
+            </Link>
           </div>
         </li>
         <li className="nav-link">
           <div>
-            <a href={ROUTES.ACCOUNT}>Conta</a>
+            <Link to={ROUTES.ACCOUNT}>
+              <span style={{color: "#ffe"}}>Conta</span>{" "}
+            </Link>
           </div>
         </li>
         {/* <li className="nav-link">
-          <a href="admin">
-            <Link authority={props.authority} to={ROUTES.ADMIN}>
+          <Link to="admin">
+            <Link authority={props.authority} to={ROUTES.ADMIN}><span style={{color: "#ffe"}}></span> 
               Admin
             </Link>
-          </a>
+          </Link>
         </li> */}
       </ul>
     </div>

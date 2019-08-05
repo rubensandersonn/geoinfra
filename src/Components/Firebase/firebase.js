@@ -13,18 +13,18 @@ const config = {
   appId: process.env.REACT_APP_ID
 };
 
-String.prototype.hashCode = function() {
-  var hash = 0,
-    i,
-    chr;
-  if (this.length === 0) return hash;
-  for (i = 0; i < this.length; i++) {
-    chr = this.charCodeAt(i);
-    hash = (hash << 5) - hash + chr;
-    hash |= 0; // Convert to 32bit integer
-  }
-  return hash;
-};
+// String.prototype.hashCode = function() {
+//   var hash = 0,
+//     i,
+//     chr;
+//   if (this.length === 0) return hash;
+//   for (i = 0; i < this.length; i++) {
+//     chr = this.charCodeAt(i);
+//     hash = (hash << 5) - hash + chr;
+//     hash |= 0; // Convert to 32bit integer
+//   }
+//   return hash;
+// };
 
 class Firebase {
   constructor() {
@@ -117,14 +117,14 @@ class Firebase {
     });
   }
 
-  doUpdateIntervention(index, type, interventions) {
+  doUpdateIntervention(interventions, index) {
     let i = {};
     i[index] = interventions;
 
     return new Promise(resolve => {
       this.db
-        .ref(type + "/interventions")
-        .set(i)
+        .ref("interventions/" + interventions[0].endereco)
+        .set(interventions)
         .then(result => {
           console.log("registro atualizado!");
           resolve(true);
