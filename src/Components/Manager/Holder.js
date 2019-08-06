@@ -105,6 +105,10 @@ const Holder = props => {
     setVisibleAtualizar(!visibleAtualizar);
   };
 
+  const [visiblePlanejamento, setVisiblePlanejamento] = useState(
+    false
+  );
+
   // element chosen from search bar
   const [element, setEl] = useState(null);
   const [indexInterv, setIndex] = useState(null);
@@ -119,6 +123,18 @@ const Holder = props => {
   };
   const esgotoChecked = () => {
     toggleLayer("esgoto");
+  };
+
+  // === === planejamentos cheks === ===
+
+  const aguaPlanChecked = () => {
+    // toggleLayer("agua");
+  };
+  const gasPlanChecked = () => {
+    // toggleLayer("gas");
+  };
+  const esgotoPlanChecked = () => {
+    // toggleLayer("esgoto");
   };
 
   // === === modal things === ===
@@ -154,7 +170,7 @@ const Holder = props => {
   }, []);
 
   return (
-    <div style={{width: 360, height: 700}} className="p-2 border">
+    <div style={{width: 360, minHeight: 700}} className="p-2 border">
       <div className="">
         <div className="">
           {/* <Search
@@ -176,7 +192,9 @@ const Holder = props => {
             )}
           </div>
           <div className="border pb-2 pt-2 pl-2">
-            <div className="font-weight-bold">Camadas</div>
+            <div className="font-weight-bold">
+              Redes de Infraestrutura Urbana
+            </div>
             <div id="layerAgua">
               <input
                 onClick={aguaChecked}
@@ -185,6 +203,15 @@ const Holder = props => {
                 id="checkAgua"
                 defaultChecked
               />
+              <span
+                style={{
+                  fontSize: 30,
+                  color: "blue",
+                  fontWeight: "bold"
+                }}
+              >
+                -
+              </span>
               Rede Água
             </div>
             <div id="layerGas">
@@ -195,6 +222,15 @@ const Holder = props => {
                 id="checkGas"
                 defaultChecked
               />
+              <span
+                style={{
+                  fontSize: 30,
+                  color: "orange",
+                  fontWeight: "bold"
+                }}
+              >
+                -
+              </span>
               Rede Gás
             </div>
             <div id="layerEsgoto">
@@ -205,81 +241,162 @@ const Holder = props => {
                 id="checkEsgoto"
                 defaultChecked
               />
+              <span
+                style={{
+                  fontSize: 30,
+                  color: "green",
+                  fontWeight: "bold"
+                }}
+              >
+                -
+              </span>
               Rede Esgoto
             </div>
           </div>
 
           {authority !== "none" ? (
             <div className="border p-2 mt-2">
-              <div className="">
-                <div className="mt-2 ml-auto">
-                  {visibleCadastrar ? (
-                    <div>
-                      <div
-                        onClick={() => toggleCadastrar()}
-                        className="btn btn-danger mr-2"
-                      >
-                        -
-                      </div>{" "}
-                      <span className="font-weight-bold">
-                        Cadastrar Intervenção
-                      </span>
-                    </div>
-                  ) : (
-                    <div>
-                      <div
-                        onClick={() => toggleCadastrar()}
-                        className="btn btn-secondary mr-2"
-                      >
-                        +
-                      </div>{" "}
-                      <span className="font-weight-bold">
-                        Cadastrar Intervenção
-                      </span>
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div>
-                {visibleCadastrar && (
-                  <div id="cadastrar">
-                    <Create
-                      key={1}
-                      onSubmit={obj => submitCreate(obj)}
+              <a
+                href="planejamento"
+                onClick={e => {
+                  e.preventDefault();
+                  setVisiblePlanejamento(!visiblePlanejamento);
+                }}
+                style={{fontWeight: "bold"}}
+              >
+                Planejamentos de Intervenções [+]
+              </a>
+              <hr />
+
+              {visiblePlanejamento && (
+                <div className="border p-2">
+                  <div id="planejamentosAgua">
+                    <input
+                      onClick={aguaPlanChecked}
+                      className="mr-2"
+                      type="checkbox"
+                      id="checkPlanAgua"
+                      defaultChecked
                     />
+                    <span
+                      style={{
+                        fontSize: 30,
+                        color: "blue",
+                        fontWeight: "bold"
+                      }}
+                    >
+                      <img
+                        src={require("../../utils/images/flagBlue.png")}
+                      />
+                    </span>
+                    Rede Água
+                  </div>
+                  <div id="planejamentosGas">
+                    <input
+                      onClick={gasPlanChecked}
+                      className="mr-2"
+                      type="checkbox"
+                      id="checkPlanGas"
+                      defaultChecked
+                    />
+                    <span
+                      style={{
+                        fontSize: 30,
+                        color: "orange",
+                        fontWeight: "bold"
+                      }}
+                    >
+                      <img
+                        src={require("../../utils/images/flagOrange.png")}
+                      />
+                    </span>
+                    Rede Gás
+                  </div>
+                  <div id="planejamentosEsgoto">
+                    <input
+                      onClick={esgotoPlanChecked}
+                      className="mr-2"
+                      type="checkbox"
+                      id="checkPlanEsgoto"
+                      defaultChecked
+                    />
+                    <span
+                      style={{
+                        fontSize: 30,
+                        color: "green",
+                        fontWeight: "bold"
+                      }}
+                    >
+                      <img
+                        src={require("../../utils/images/flagGreen.png")}
+                      />
+                    </span>
+                    Rede Esgoto
+                  </div>
+                </div>
+              )}
+
+              <hr />
+              {/* gerencia de intervenções */}
+
+              <div className="">
+                <a
+                  href="gerencia"
+                  onClick={e => {
+                    e.preventDefault();
+                    setVisibleCadastrar(!visibleCadastrar);
+                  }}
+                  style={{fontWeight: "bold"}}
+                >
+                  Cadastro de Intervenções [+]
+                </a>
+
+                {visibleCadastrar && (
+                  <div className="border p-2 mt-2">
+                    <div>
+                      {visibleCadastrar && (
+                        <div id="cadastrar">
+                          <Create
+                            key={1}
+                            onSubmit={obj => submitCreate(obj)}
+                          />
+                        </div>
+                      )}
+
+                      <hr />
+                    </div>
                   </div>
                 )}
 
                 <hr />
-              </div>
-              <hr />
-              <div>
-                <div className="ml-auto">
-                  {visibleAtualizar ? (
-                    <div>
-                      <div
-                        onClick={() => toggleAtualizar()}
-                        className="btn btn-danger mr-2"
-                      >
-                        -
-                      </div>{" "}
-                      <span className="font-weight-bold">
-                        Atualizar Intervenção
-                      </span>
-                    </div>
-                  ) : (
-                    <div>
-                      <div
-                        onClick={() => toggleAtualizar()}
-                        className="btn btn-secondary mr-2"
-                      >
-                        +
-                      </div>{" "}
-                      <span className="font-weight-bold">
-                        Atualizar Intervenção
-                      </span>
-                    </div>
-                  )}
+                <div>
+                  <div className="ml-auto">
+                    {visibleAtualizar ? (
+                      <div>
+                        <div
+                          onClick={() => toggleAtualizar()}
+                          className="btn btn-danger mr-2"
+                        >
+                          -
+                        </div>{" "}
+                        <span className="font-weight-bold">
+                          Atualizar Intervenção
+                        </span>
+                      </div>
+                    ) : (
+                      <div>
+                        <div
+                          onClick={() => toggleAtualizar()}
+                          className="btn btn-secondary mr-2"
+                        >
+                          +
+                        </div>{" "}
+                        <span className="font-weight-bold">
+                          Atualizar Intervenção
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
               <div>

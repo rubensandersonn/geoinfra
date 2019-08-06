@@ -212,7 +212,7 @@ const MapHandler = props => {
                     </div>
 
                     <div>
-                      <Mapp
+                      {/* <Mapp
                         setType={setType}
                         setKey={setKey}
                         authority={authority}
@@ -221,7 +221,7 @@ const MapHandler = props => {
                           visibleEsgoto,
                           visibleGas
                         }}
-                      />
+                      /> */}
                     </div>
                   </div>
                 );
