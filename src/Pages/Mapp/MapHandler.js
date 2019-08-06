@@ -347,6 +347,7 @@ const MapHandler = props => {
                         authority={authority}
                         index={key}
                         type={polyType}
+                        toggleLayer={toggleLayer}
                       />
                     </div>
 

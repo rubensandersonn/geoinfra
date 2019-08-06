@@ -12,7 +12,7 @@ import Update from "./Update";
 const Holder = props => {
   let firebase = useContext(FirebaseContext);
 
-  const {authority, type, index} = props;
+  const {authority, type, index, toggleLayer} = props;
 
   let rede = [];
   let [interventions, setInterventions] = useState({});
@@ -107,11 +107,23 @@ const Holder = props => {
   const [element, setEl] = useState(null);
   const [indexInterv, setIndex] = useState(null);
 
+  // checkboxes
+
+  const aguaChecked = () => {
+    toggleLayer("agua");
+  };
+  const gasChecked = () => {
+    toggleLayer("gas");
+  };
+  const esgotoChecked = () => {
+    toggleLayer("esgoto");
+  };
+
   return (
     <div className="col-lg-12">
       <div className="col-lg-12 ">
         <div className="col-lg-12">
-          <Search
+          {/* <Search
             onSubmit={(el, index) => {
               console.log(
                 "(recebido pelo Holder da search:)",
@@ -121,7 +133,40 @@ const Holder = props => {
               setIndex(index);
             }}
             interventions={interventions}
-          />
+          /> */}
+          <div>
+            <div>Camadas</div>
+            <div id="layerAgua">
+              <input
+                onClick={aguaChecked}
+                className="mr-2"
+                type="checkbox"
+                id="checkAgua"
+                defaultChecked
+              />
+              Rede Água
+            </div>
+            <div id="layerGas">
+              <input
+                onClick={gasChecked}
+                className="mr-2"
+                type="checkbox"
+                id="checkGas"
+                defaultChecked
+              />
+              Rede Gás
+            </div>
+            <div id="layerEsgoto">
+              <input
+                onClick={esgotoChecked}
+                className="mr-2"
+                type="checkbox"
+                id="checkEsgoto"
+                defaultChecked
+              />
+              Rede Esgoto
+            </div>
+          </div>
           <hr />
           {authority !== "none" ? (
             <div>
