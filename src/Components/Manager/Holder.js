@@ -4,7 +4,7 @@ import Create from "../../Components/Manager/Create";
 import {FirebaseContext} from "../../Components/Firebase";
 
 // import html2pdf from "html2pdf.js";
-import Search from "../Search";
+// import Search from "../Search";
 import Update from "./Update";
 
 import Links from "../Modall/Links";

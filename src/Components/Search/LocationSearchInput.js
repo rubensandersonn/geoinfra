@@ -4,7 +4,9 @@ import PlacesAutocomplete, {
   getLatLng
 } from "react-places-autocomplete";
 
-export default class LocationSearchInput extends React.Component {
+import {GoogleApiWrapper} from "google-maps-react";
+
+class LocationSearchInput extends React.Component {
   constructor(props) {
     super(props);
     this.state = {address: ""};
@@ -16,6 +18,8 @@ export default class LocationSearchInput extends React.Component {
 
   handleSelect = address => {
     const {onSelect} = this.props;
+    this.setState({address});
+
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => {
@@ -40,23 +44,25 @@ export default class LocationSearchInput extends React.Component {
         }) => (
           <div>
             <input
+              id="search"
               {...getInputProps({
-                placeholder: "Search Places ...",
-                className: "location-search-input"
+                placeholder: "Busca por endereço...",
+                className: "form-control border p-2"
               })}
             />
             <div className="autocomplete-dropdown-container">
               {loading && <div>Loading...</div>}
               {suggestions.map(suggestion => {
                 const className = suggestion.active
-                  ? "suggestion-item--active"
-                  : "suggestion-item";
+                  ? "border text-blue p-2"
+                  : "border text-black p-2";
                 // inline style for demonstration purpose
                 const style = suggestion.active
                   ? {backgroundColor: "#fafafa", cursor: "pointer"}
                   : {backgroundColor: "#ffffff", cursor: "pointer"};
                 return (
                   <div
+                    className="border"
                     {...getSuggestionItemProps(suggestion, {
                       className,
                       style
@@ -73,3 +79,7 @@ export default class LocationSearchInput extends React.Component {
     );
   }
 }
+
+export default GoogleApiWrapper({
+  apiKey: process.env.REACT_APP_URI_GOOGLE_MAPS
+})(LocationSearchInput);
