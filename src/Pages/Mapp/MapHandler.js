@@ -10,7 +10,7 @@ import jsonEsgoto from "../../utils/jsons/rde_meireles.json";
 import jsonGas from "../../utils/jsons/rdg_meireles.json";
 
 import Mapp from ".";
-// import MapOperations from "../../Components/MapOperations";
+
 import {AuthUserContext} from "../../Components/Session/index.js";
 // import Meneger from "../Testes/Meneger.js";
 // import NoButton from "../../Components/Modall/NoButton.js";
@@ -95,38 +95,8 @@ const MapHandler = props => {
 
   const [interventions, setInterv] = useState([]);
 
-  const [open, setOpen] = useState(false);
   const [polyType, setPolyType] = useState();
   const [key, setKey] = useState({});
-  const [state, setState] = useState({
-    aguaURL: null,
-    esgotoURL: null,
-    gasURL: null
-  });
-
-  useEffect(() => {
-    firebase
-      .getRef()
-      .child("rda_meireles.json")
-      .getDownloadURL()
-      .then(url => {
-        setState(state => ({...state, aguaURL: url}));
-      });
-    firebase
-      .getRef()
-      .child("rde_meireles.json")
-      .getDownloadURL()
-      .then(url => {
-        setState(state => ({...state, esgotoURL: url}));
-      });
-    firebase
-      .getRef()
-      .child("rdg_meireles.json")
-      .getDownloadURL()
-      .then(url => {
-        setState(state => ({...state, gasURL: url}));
-      });
-  }, []);
 
   //=== === contexts === ===
 
@@ -215,116 +185,6 @@ const MapHandler = props => {
       <AguaContext.Provider value={{agua, dispatchAgua}}>
         <EsgotoContext.Provider value={{esgoto, dispatchEsgoto}}>
           <GasContext.Provider value={{gas, dispatchGas}}>
-            {/* <MapOperations /> */}
-            <div
-              style={{backgroundColor: "#232323"}}
-              className="site-navbar pr-4"
-            >
-              <div className=" align-items-left position-relative">
-                <div
-                  onClick={toggleMenu}
-                  className="toggle-button d-flex btn btn-primary mr-4"
-                >
-                  ...
-                </div>
-                <nav
-                  id="navv"
-                  style={{display: "none"}}
-                  className="site-navigation text-left "
-                  role="navigation"
-                >
-                  <div className="site-mobile-menu site-navbar-target">
-                    <div className="site-mobile-menu-header">
-                      <div className="site-mobile-menu-close mt-3">
-                        <span className="icon-close2 js-menu-toggle" />
-                      </div>
-                    </div>
-                    <div className="site-mobile-menu-body" />
-                  </div>
-                  <div className="row">
-                    <div>
-                      <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-                        <li className="nav-link">
-                          <p>Mostrar / Esonder Rede: </p>
-                        </li>
-                        <li className="nav-link">
-                          <div
-                            onClick={e => {
-                              e.preventDefault();
-                              toggleLayer("agua");
-                            }}
-                            className="btn btn-primary"
-                          >
-                            Rede Água
-                          </div>
-                        </li>
-                        <li className="nav-link">
-                          <div
-                            onClick={e => {
-                              e.preventDefault();
-                              toggleLayer("gas");
-                            }}
-                            className="btn btn-primary"
-                          >
-                            Rede Gás
-                          </div>
-                        </li>
-                        <li className="nav-link">
-                          <div
-                            onClick={e => {
-                              e.preventDefault();
-                              toggleLayer("esgoto");
-                            }}
-                            className="btn btn-primary"
-                          >
-                            Rede Esgoto
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                </nav>
-              </div>
-            </div>
-            {/* <MapOperations /> */}
-
-            {/* links */}
-            {state.aguaURL && state.gasURL && state.esgotoURL ? (
-              <div
-                style={{
-                  marginLeft: 20,
-                  marginBottom: 10,
-                  marginTop: 10
-                }}
-              >
-                Downloads:
-                <a
-                  style={{marginInline: 15}}
-                  href={state.aguaURL}
-                  target="_blank"
-                >
-                  Link para rede água
-                </a>
-                <a
-                  style={{marginInline: 15}}
-                  href={state.esgotoURL}
-                  target="_blank"
-                >
-                  Link para rede esgoto
-                </a>
-                <a
-                  style={{marginInline: 15}}
-                  href={state.gasURL}
-                  target="_blank"
-                >
-                  Link para rede gás
-                </a>
-              </div>
-            ) : (
-              "..."
-            )}
-            {/* links */}
-
             <AuthUserContext.Consumer>
               {authUser => {
                 const authority = authUser
@@ -337,11 +197,11 @@ const MapHandler = props => {
                   : "none";
 
                 return (
-                  <div className="row">
-                    <div className="border rounded p-2 ml-2">
-                      <div className="text-center">
+                  <div className="col-lg-12 row">
+                    <div className="border rounded">
+                      {/* <div className="text-center">
                         <h4>Intervenções</h4>
-                      </div>
+                      </div> */}
 
                       <Holder
                         authority={authority}
@@ -353,7 +213,6 @@ const MapHandler = props => {
 
                     <div>
                       <Mapp
-                        setModalOpen={setOpen}
                         setType={setType}
                         setKey={setKey}
                         authority={authority}

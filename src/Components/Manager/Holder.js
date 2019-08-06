@@ -7,6 +7,8 @@ import {FirebaseContext} from "../../Components/Firebase";
 import Search from "../Search";
 import Update from "./Update";
 
+import Links from "../Modall/Links";
+
 // import { Container } from './styles';
 
 const Holder = props => {
@@ -107,7 +109,7 @@ const Holder = props => {
   const [element, setEl] = useState(null);
   const [indexInterv, setIndex] = useState(null);
 
-  // checkboxes
+  // === === checkboxes === ===
 
   const aguaChecked = () => {
     toggleLayer("agua");
@@ -119,10 +121,42 @@ const Holder = props => {
     toggleLayer("esgoto");
   };
 
+  // === === modal things === ===
+
+  const [state, setState] = useState({
+    aguaURL: null,
+    esgotoURL: null,
+    gasURL: null
+  });
+
+  useEffect(() => {
+    firebase
+      .getRef()
+      .child("rda_meireles.json")
+      .getDownloadURL()
+      .then(url => {
+        setState(state => ({...state, aguaURL: url}));
+      });
+    firebase
+      .getRef()
+      .child("rde_meireles.json")
+      .getDownloadURL()
+      .then(url => {
+        setState(state => ({...state, esgotoURL: url}));
+      });
+    firebase
+      .getRef()
+      .child("rdg_meireles.json")
+      .getDownloadURL()
+      .then(url => {
+        setState(state => ({...state, gasURL: url}));
+      });
+  }, []);
+
   return (
-    <div className="col-lg-12">
-      <div className="col-lg-12 ">
-        <div className="col-lg-12">
+    <div style={{width: 360, height: 700}} className="p-2 border">
+      <div className="">
+        <div className="">
           {/* <Search
             onSubmit={(el, index) => {
               console.log(
@@ -134,8 +168,15 @@ const Holder = props => {
             }}
             interventions={interventions}
           /> */}
-          <div>
-            <div>Camadas</div>
+          <div className="border-bottom mb-2">
+            {state.aguaURL && state.gasURL && state.esgotoURL ? (
+              <Links state={state} />
+            ) : (
+              "Carregando Downloads..."
+            )}
+          </div>
+          <div className="border pb-2 pt-2 pl-2">
+            <div className="font-weight-bold">Camadas</div>
             <div id="layerAgua">
               <input
                 onClick={aguaChecked}
@@ -167,11 +208,11 @@ const Holder = props => {
               Rede Esgoto
             </div>
           </div>
-          <hr />
+
           {authority !== "none" ? (
-            <div>
+            <div className="border p-2 mt-2">
               <div className="">
-                <div className="ml-auto">
+                <div className="mt-2 ml-auto">
                   {visibleCadastrar ? (
                     <div>
                       <div
@@ -180,7 +221,9 @@ const Holder = props => {
                       >
                         -
                       </div>{" "}
-                      Cadastrar Intervenção
+                      <span className="font-weight-bold">
+                        Cadastrar Intervenção
+                      </span>
                     </div>
                   ) : (
                     <div>
@@ -190,14 +233,16 @@ const Holder = props => {
                       >
                         +
                       </div>{" "}
-                      Cadastrar Intervenção
+                      <span className="font-weight-bold">
+                        Cadastrar Intervenção
+                      </span>
                     </div>
                   )}
                 </div>
               </div>
               <div>
                 {visibleCadastrar && (
-                  <div id="cadastrar" className="container ">
+                  <div id="cadastrar">
                     <Create
                       key={1}
                       onSubmit={obj => submitCreate(obj)}
@@ -208,7 +253,7 @@ const Holder = props => {
                 <hr />
               </div>
               <hr />
-              <div className="">
+              <div>
                 <div className="ml-auto">
                   {visibleAtualizar ? (
                     <div>
@@ -218,7 +263,9 @@ const Holder = props => {
                       >
                         -
                       </div>{" "}
-                      Atualizar Intervenção
+                      <span className="font-weight-bold">
+                        Atualizar Intervenção
+                      </span>
                     </div>
                   ) : (
                     <div>
@@ -228,7 +275,9 @@ const Holder = props => {
                       >
                         +
                       </div>{" "}
-                      Atualizar Intervenção
+                      <span className="font-weight-bold">
+                        Atualizar Intervenção
+                      </span>
                     </div>
                   )}
                 </div>

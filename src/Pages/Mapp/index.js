@@ -22,7 +22,7 @@ const Mapp = props => {
     authority,
     setKey,
     setType,
-    setModalOpen,
+
     visibleLayer
   } = props;
 

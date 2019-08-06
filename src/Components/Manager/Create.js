@@ -13,10 +13,7 @@ const reducer = (state, action) => {
       return {...state, data1: action.data1};
     case "data2":
       return {...state, data2: action.data2};
-    case "numero1":
-      return {...state, numero1: action.numero1};
-    case "numero2":
-      return {...state, numero2: action.numero2};
+
     case "endereco":
       return {...state, endereco: action.endereco};
     default:
@@ -27,15 +24,13 @@ const reducer = (state, action) => {
 const Create = props => {
   const {onSubmit} = props;
   const [
-    {description, endereco, numero1, numero2, data1, data2},
+    {description, endereco, data1, data2},
     dispatch
   ] = useReducer(reducer, {
     endereco: "",
     description: "",
     data1: "",
-    data2: "",
-    numero1: "",
-    numero2: ""
+    data2: ""
   });
 
   const [validEndereco, setValidEndereco] = useState(true);
@@ -79,7 +74,7 @@ const Create = props => {
   };
 
   return (
-    <div className="modal-body pt-6">
+    <div className=" pt-6">
       <div className="rounded mb-2">{mapErrors}</div>
       <div className="mb-2" style={{color: "green"}}>
         {successMsg}
@@ -100,8 +95,7 @@ const Create = props => {
               description,
               data1,
               data2,
-              numero1,
-              numero2,
+
               endereco
             };
             //mandando os dados para fora
@@ -111,8 +105,6 @@ const Create = props => {
             dispatch({type: "data1", data1: ""});
             dispatch({type: "data2", data2: ""});
             dispatch({type: "endereco", endereco: ""});
-            dispatch({type: "numero1", numero1: ""});
-            dispatch({type: "numero2", numero2: ""});
 
             setSuccessMsg("Cadastro realizado com sucesso!");
             // console.log("sucesso!", description, data1, data2);
@@ -131,42 +123,8 @@ const Create = props => {
               onBlur={() => {
                 setValidEndereco(validateAdress(endereco));
               }}
-              placeholder="Endereço (ex: 'Rua Tal', sem bairro ou números)"
+              placeholder="Endereço (ex: 'Rua Tal, 58')"
               name="endereco"
-              required
-            />
-          </div>
-        </div>
-        <div className="form-group row">
-          <div className="col-md-6 mb-4 mb-lg-0">
-            <input
-              className="form-control border"
-              type="text"
-              value={numero1}
-              onChange={e =>
-                dispatch({type: "numero1", numero1: e.target.value})
-              }
-              onBlur={() => {
-                setValidNumber1(validateNumber(numero1));
-              }}
-              placeholder="Número inicial"
-              name="numero1"
-              required
-            />
-          </div>
-          <div className="col-md-6 mb-4 mb-lg-0">
-            <input
-              className="form-control border"
-              type="text"
-              value={numero2}
-              onChange={e =>
-                dispatch({type: "numero2", numero2: e.target.value})
-              }
-              onBlur={() => {
-                setValidNumber2(validateNumber(numero2));
-              }}
-              placeholder="Número inicial"
-              name="numero2"
               required
             />
           </div>
@@ -176,7 +134,7 @@ const Create = props => {
         <div className="form-group row">
           <div className="col-md-12 mb-4 mb-lg-0">
             <textarea
-              rows="5"
+              rows="3"
               cols="30"
               className="form-control border"
               value={description}
