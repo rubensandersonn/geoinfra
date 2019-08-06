@@ -4,6 +4,7 @@ import {
   validateNumber,
   validateDate
 } from "../Validators";
+import LocationSearchInput from "../Search/LocationSearchInput";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -113,7 +114,7 @@ const Create = props => {
       >
         <div className="form-group row">
           <div className="col-md-12 mb-4 mb-lg-0">
-            <input
+            {/* <input
               className="form-control border"
               type="text"
               value={endereco}
@@ -126,6 +127,9 @@ const Create = props => {
               placeholder="Endereço (ex: 'Rua Tal, 58')"
               name="endereco"
               required
+            /> */}
+            <LocationSearchInput
+              onSelect={e => console.log("recebido pelo create: ", e)}
             />
           </div>
         </div>
