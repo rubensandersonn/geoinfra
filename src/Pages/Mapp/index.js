@@ -2,15 +2,22 @@ import {
   Map,
   GoogleApiWrapper,
   Polyline,
-  InfoWindow
+  InfoWindow,
+  Marker
 } from "google-maps-react";
 
-import React, {createRef, useContext, useState} from "react";
+import React, {
+  createRef,
+  useContext,
+  useState,
+  useEffect
+} from "react";
 import MapCons from "../../Context/MapCons";
 import AguaContext from "../../Context/AguaContext";
 import EsgotoContext from "../../Context/EsgotoContext";
 import GasContext from "../../Context/GasContext";
 import FirebaseContext from "../../Components/Firebase/context";
+import Legend from "./Legend";
 
 const Mapp = props => {
   // === === === CONTEXTS === === ===
@@ -22,9 +29,12 @@ const Mapp = props => {
     authority,
     setKey,
     setType,
-
-    visibleLayer
+    interventions,
+    visibleLayer,
+    visibleLayerInterv
   } = props;
+
+  console.log("(mapa recebeu:)", interventions);
 
   // console.log("map auth:", authority);
 
@@ -37,7 +47,12 @@ const Mapp = props => {
 
   // toggle visible data
   const {visibleAgua, visibleEsgoto, visibleGas} = visibleLayer;
-  const [interventions, setInterventions] = useState(null);
+  const {
+    visibleCagece,
+    visibleCegas,
+    visiblePrefeitura
+  } = visibleLayerInterv;
+  // const [interventions, setInterventions] = useState(null);
 
   // about marker...
   const [visibleInfo, setVisibleInfo] = useState(false);
@@ -50,7 +65,6 @@ const Mapp = props => {
   // ======== AUX FUNCTIONs ===========
 
   const pretifyWindow = value => {
-    setInterventions(null);
     return new Promise(resolve => {
       // mapeando o objeto
       const mapp = Object.keys(value).map(key => {
@@ -305,37 +319,124 @@ const Mapp = props => {
    */
   const addLegend = google => {
     var legend = document.getElementById("legend");
-    legend.style.display = "none";
-
-    var div1 = document.createElement("div1");
-    div1.innerHTML =
-      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE ÁGUA" /> <div class="color-box" style="background-color: #4863A0;"></div></div>';
-
-    legend.appendChild(div1);
-
-    var div2 = document.createElement("div2");
-    div2.innerHTML =
-      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE ESGOTO" /> <div class="color-box" style="background-color: green;"></div></div>';
-
-    legend.appendChild(div2);
-
-    var div3 = document.createElement("div3");
-    div3.innerHTML =
-      '<div class="input-color"> <input style="border-width: 0px; color: #262626" type="text" value="REDE GAS" /> <div class="color-box" style="background-color: #C35817;"></div></div>';
-
-    legend.appendChild(div3);
-
-    legend.style.display = "block";
 
     mapRef.current.map.controls[
       google.maps.ControlPosition.LEFT_BOTTOM
     ].push(legend);
   };
 
+  const onMarkerClick = () => {
+    console.log("marker licked");
+  };
+
+  const mapInterventionsPrefeitura = Object.keys(interventions).map(
+    endereco => {
+      return interventions[endereco].map((interv, index) => {
+        if (interv.responsable !== "prefeitura") {
+          return null;
+        }
+        let url = "";
+        let title = "";
+
+        title = "intervenção rede prefeitura";
+        url = require("../../utils/images/flagPrefeituraLG.png");
+
+        const {coordinates} = interv;
+
+        return coordinates ? (
+          <Marker
+            title={title}
+            key={index}
+            position={coordinates}
+            icon={url}
+          />
+        ) : (
+          ""
+        );
+      });
+    }
+  );
+  const mapInterventionsCegas = Object.keys(interventions).map(
+    endereco => {
+      return interventions[endereco].map((interv, index) => {
+        if (interv.responsable !== "cegas") {
+          return null;
+        }
+        let url = "";
+        let title = "";
+
+        title = "intervenção rede cegas";
+        url = require("../../utils/images/flagCegasLG.png");
+
+        const {coordinates} = interv;
+
+        return coordinates ? (
+          <Marker
+            title={title}
+            key={index}
+            position={coordinates}
+            icon={url}
+          />
+        ) : (
+          ""
+        );
+      });
+    }
+  );
+
+  const mapInterventionsCagece = Object.keys(interventions).map(
+    endereco => {
+      return interventions[endereco].map((interv, index) => {
+        if (interv.responsable !== "cagece") {
+          return null;
+        }
+        let url = "";
+        let title = "";
+
+        title = "intervenção rede cagece";
+        url = require("../../utils/images/flagCageceLG.png");
+
+        const {coordinates} = interv;
+
+        return coordinates ? (
+          <Marker
+            title={title}
+            key={index}
+            position={coordinates}
+            icon={url}
+          />
+        ) : (
+          ""
+        );
+      });
+    }
+  );
+
+  const coords = [
+    {lat: -3.720141999999999, lng: -38.51199070000001},
+    {lat: -3.720141999999999, lng: -38.52199070000001}
+  ];
+
+  const mapCoords = coords.map((coord, index) => {
+    return <Marker key={index} position={coord} />;
+  });
+
+  const testFunc = () => (
+    <Marker
+      title={"The marker`s title will appear as a tooltip."}
+      name={"SOMA"}
+      position={{
+        lat: -3.720141999999999,
+        lng: -38.51199070000001
+      }}
+    />
+  );
+
   return (
-    <>
+    <div>
       <Map
         google={google}
+        style={{maxWidth: "75%", minHeight: 500}}
         zoom={16}
         styles={mapStyles}
         initialCenter={initialPlace}
@@ -363,9 +464,21 @@ const Mapp = props => {
             </div>
           </div>
         </InfoWindow>
+        {/* <Marker
+          title={"The marker`s title will appear as a tooltip."}
+          name={"SOMA"}
+          position={{
+            lat: -3.720141999999999,
+            lng: -38.51199070000001
+          }}
+          icon={require("../../utils/images/flagGreen.png")}
+        /> */}
         {visibleGas && mapGas}
         {visibleAgua && mapAgua}
         {visibleEsgoto && mapEsgoto}
+        {visibleCagece && mapInterventionsCagece}
+        {visibleCegas && mapInterventionsCegas}
+        {visiblePrefeitura && mapInterventionsPrefeitura}
       </Map>
       {/* legendas: */}
       <div
@@ -375,14 +488,10 @@ const Mapp = props => {
       >
         <h5>Mostrar ou Esconder Camadas</h5>
       </div>
-      <div
-        style={{display: "none"}}
-        className="col-lg-2 bg-light p-2 m-4"
-        id="legend"
-      >
-        <h3>Legenda</h3>
+      <div className="col-lg-2 bg-light p-2 m-4" id="legend">
+        <Legend />
       </div>
-    </>
+    </div>
   );
 };
 

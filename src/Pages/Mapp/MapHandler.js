@@ -93,8 +93,6 @@ const reducer = (state, action) => {
 const MapHandler = props => {
   //=== === states === ===
 
-  const [interventions, setInterv] = useState([]);
-
   const [polyType, setPolyType] = useState();
   const [key, setKey] = useState({});
 
@@ -114,23 +112,23 @@ const MapHandler = props => {
 
   let [gas, dispatchGas] = useReducer(reducer, jsonGas.features);
 
-  useEffect(() => {
-    // firebase.getRefDB("esgoto").on("value", snap => {
-    //   console.log("opaaaa esgoto: ", snap.val());
-    // });
-    firebase.getRefAgua().on("value", snap => {
-      console.log("(agua) recebidos novos dados do firebase:");
-      dispatchAgua({type: "updateAll", value: snap.val()});
-    });
-    firebase.getRefEsgoto().on("value", snap => {
-      console.log("(esgoto) recebidos novos dados do firebase:");
-      dispatchEsgoto({type: "updateAll", value: snap.val()});
-    });
-    firebase.getRefGas().on("value", snap => {
-      console.log("(gas) recebidos novos dados do firebase:");
-      dispatchGas({type: "updateAll", value: snap.val()});
-    });
-  }, []);
+  // useEffect(() => {
+  //   // firebase.getRefDB("esgoto").on("value", snap => {
+  //   //   console.log("opaaaa esgoto: ", snap.val());
+  //   // });
+  //   firebase.getRefAgua().on("value", snap => {
+  //     console.log("(agua) recebidos novos dados do firebase:");
+  //     dispatchAgua({type: "updateAll", value: snap.val()});
+  //   });
+  //   firebase.getRefEsgoto().on("value", snap => {
+  //     console.log("(esgoto) recebidos novos dados do firebase:");
+  //     dispatchEsgoto({type: "updateAll", value: snap.val()});
+  //   });
+  //   firebase.getRefGas().on("value", snap => {
+  //     console.log("(gas) recebidos novos dados do firebase:");
+  //     dispatchGas({type: "updateAll", value: snap.val()});
+  //   });
+  // }, []);
 
   //=== === Callbacks === ===
 
@@ -146,6 +144,15 @@ const MapHandler = props => {
     visibleAgua: true,
     visibleGas: true,
     visibleEsgoto: true
+  });
+
+  const [
+    {visibleCagece, visibleCegas, visiblePrefeitura},
+    setLayerInterv
+  ] = useState({
+    visibleCagece: true,
+    visibleCegas: true,
+    visiblePrefeitura: true
   });
 
   function toggleMenu() {
@@ -180,6 +187,81 @@ const MapHandler = props => {
     }
   };
 
+  const toggleLayerInterv = type => {
+    switch (type) {
+      case "cagece": {
+        setLayerInterv(state => ({
+          ...state,
+          visibleCagece: !visibleCagece
+        }));
+        break;
+      }
+      case "cegas": {
+        setLayerInterv(state => ({
+          ...state,
+          visibleCegas: !visibleCegas
+        }));
+        break;
+      }
+      case "prefeitura": {
+        setLayerInterv(state => ({
+          ...state,
+          visiblePrefeitura: !visiblePrefeitura
+        }));
+        break;
+      }
+      default: {
+        console.log("(toggleLayer) erro ao chavear a entidade");
+      }
+    }
+  };
+
+  //
+  // === INTERVENTIONS ===
+  //
+
+  let [interventions, setInterventions] = useState({});
+
+  useEffect(() => {
+    firebase.getRefInterventions().on("value", snap => {
+      if (snap && snap.val()) {
+        // let novo = interventions;
+        // novo.push(snap.val());
+
+        setInterventions(snap.val());
+        interventions = snap.val();
+
+        console.log(
+          "(holder) child added:",
+
+          interventions
+        );
+      } else {
+        console.log("(holder) child added wrongly:");
+      }
+    });
+  }, []);
+
+  const submitCreate = obj => {
+    obj.responsable = authority;
+
+    console.log("(submit create) nova interv:", obj);
+    console.log("(submit create) intervenções 1:", interventions);
+
+    interventions && interventions[obj.endereco]
+      ? interventions[obj.endereco].push(obj)
+      : (interventions[obj.endereco] = [obj]);
+
+    console.log("(submit create) intervenções 2:", interventions);
+    //
+    firebase.doCreateIntervention(
+      interventions[obj.endereco],
+      interventions[obj.endereco].length - 1
+    );
+  };
+
+  const [authority, setAuth] = useState("");
+
   return (
     <>
       <AguaContext.Provider value={{agua, dispatchAgua}}>
@@ -196,6 +278,8 @@ const MapHandler = props => {
                     : "cegas"
                   : "none";
 
+                setAuth(authority);
+
                 return (
                   <div className="col-lg-12 row">
                     <div className="border rounded">
@@ -208,11 +292,13 @@ const MapHandler = props => {
                         index={key}
                         type={polyType}
                         toggleLayer={toggleLayer}
+                        toggleLayerInterv={toggleLayerInterv}
+                        submitCreate={submitCreate}
                       />
                     </div>
 
                     <div>
-                      {/* <Mapp
+                      <Mapp
                         setType={setType}
                         setKey={setKey}
                         authority={authority}
@@ -221,7 +307,13 @@ const MapHandler = props => {
                           visibleEsgoto,
                           visibleGas
                         }}
-                      /> */}
+                        visibleLayerInterv={{
+                          visibleCagece,
+                          visibleCegas,
+                          visiblePrefeitura
+                        }}
+                        interventions={interventions}
+                      />
                     </div>
                   </div>
                 );

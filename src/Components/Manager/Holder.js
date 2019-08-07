@@ -14,74 +14,16 @@ import Links from "../Modall/Links";
 const Holder = props => {
   let firebase = useContext(FirebaseContext);
 
-  const {authority, type, index, toggleLayer} = props;
+  const {
+    authority,
+    type,
+    index,
+    toggleLayer,
+    toggleLayerInterv,
+    submitCreate
+  } = props;
 
   let rede = [];
-  let [interventions, setInterventions] = useState({});
-
-  //
-  // === MOST IMPORTANT EFFECT ===
-  //
-  useEffect(() => {
-    firebase.getRefInterventions().on("value", snap => {
-      if (snap && snap.val()) {
-        // let novo = interventions;
-        // novo.push(snap.val());
-
-        setInterventions(snap.val());
-        interventions = snap.val();
-
-        console.log(
-          "(holder) child added:",
-
-          interventions
-        );
-      } else {
-        console.log("(holder) child added wrongly:");
-      }
-    });
-  }, []);
-
-  const submitCreate = obj => {
-    obj.responsable = authority;
-
-    console.log("(submit create) nova interv:", obj);
-    console.log("(submit create) intervenções 1:", interventions);
-
-    interventions && interventions[obj.endereco]
-      ? interventions[obj.endereco].push(obj)
-      : (interventions[obj.endereco] = [obj]);
-
-    console.log("(submit create) intervenções 2:", interventions);
-    //
-    firebase.doCreateIntervention(
-      interventions[obj.endereco],
-      interventions[obj.endereco].length - 1
-    );
-  };
-  /**
-   * Suponho que só foi mostrado se tem autoridade para atualizar
-   * @param {*} obj
-   */
-  const submitUpdate = obj => {
-    // obj.responsable = authority;
-    console.log("(submit update) nova interv:", obj, indexInterv);
-
-    interventions && interventions[obj.endereco]
-      ? (interventions[obj.endereco][indexInterv] = obj)
-      : console.log("(submit update) hey thats ilegal!");
-
-    console.log("(submit update) intervenções:", interventions);
-    //
-    firebase.doUpdateIntervention(
-      interventions[obj.endereco],
-      indexInterv
-    );
-  };
-
-  const submitDelete = indexInterv => {
-    firebase.doDeleteIntervention(index, type, indexInterv);
-  };
 
   const pretifyWindow = value => {
     if (value.constructor !== {}.constructor) {
@@ -97,13 +39,6 @@ const Holder = props => {
 
   const [visibleCadastrar, setVisibleCadastrar] = useState(false);
   const [visibleAtualizar, setVisibleAtualizar] = useState(false);
-
-  const toggleCadastrar = () => {
-    setVisibleCadastrar(!visibleCadastrar);
-  };
-  const toggleAtualizar = () => {
-    setVisibleAtualizar(!visibleAtualizar);
-  };
 
   const [visiblePlanejamento, setVisiblePlanejamento] = useState(
     false
@@ -123,6 +58,16 @@ const Holder = props => {
   };
   const esgotoChecked = () => {
     toggleLayer("esgoto");
+  };
+
+  const cageceChecked = () => {
+    toggleLayerInterv("cagece");
+  };
+  const cegasChecked = () => {
+    toggleLayerInterv("cegas");
+  };
+  const prefeituraChecked = () => {
+    toggleLayerInterv("prefeitura");
   };
 
   // === === planejamentos cheks === ===
@@ -170,20 +115,12 @@ const Holder = props => {
   }, []);
 
   return (
-    <div style={{width: 360, minHeight: 700}} className="p-2 border">
+    <div
+      style={{minWidth: "28%", minHeight: 500}}
+      className="p-2 border"
+    >
       <div className="">
         <div className="">
-          {/* <Search
-            onSubmit={(el, index) => {
-              console.log(
-                "(recebido pelo Holder da search:)",
-                JSON.stringify(el)
-              );
-              setEl(el);
-              setIndex(index);
-            }}
-            interventions={interventions}
-          /> */}
           <div className="border-bottom mb-2">
             {state.aguaURL && state.gasURL && state.esgotoURL ? (
               <Links state={state} />
@@ -272,7 +209,7 @@ const Holder = props => {
                 <div className="border p-2">
                   <div id="planejamentosAgua">
                     <input
-                      onClick={aguaPlanChecked}
+                      onClick={cageceChecked}
                       className="mr-2"
                       type="checkbox"
                       id="checkPlanAgua"
@@ -286,14 +223,14 @@ const Holder = props => {
                       }}
                     >
                       <img
-                        src={require("../../utils/images/flagBlue.png")}
+                        src={require("../../utils/images/flagCagece.png")}
                       />
                     </span>
-                    Rede Água
+                    Intervenções Cagece
                   </div>
                   <div id="planejamentosGas">
                     <input
-                      onClick={gasPlanChecked}
+                      onClick={cegasChecked}
                       className="mr-2"
                       type="checkbox"
                       id="checkPlanGas"
@@ -307,14 +244,14 @@ const Holder = props => {
                       }}
                     >
                       <img
-                        src={require("../../utils/images/flagOrange.png")}
+                        src={require("../../utils/images/flagCegas.png")}
                       />
                     </span>
-                    Rede Gás
+                    Intervenções Cegas
                   </div>
                   <div id="planejamentosEsgoto">
                     <input
-                      onClick={esgotoPlanChecked}
+                      onClick={prefeituraChecked}
                       className="mr-2"
                       type="checkbox"
                       id="checkPlanEsgoto"
@@ -328,10 +265,10 @@ const Holder = props => {
                       }}
                     >
                       <img
-                        src={require("../../utils/images/flagGreen.png")}
+                        src={require("../../utils/images/flagPrefeitura.png")}
                       />
                     </span>
-                    Rede Esgoto
+                    Intervenções Prefeitura de Fortaleza
                   </div>
                 </div>
               )}
@@ -359,6 +296,7 @@ const Holder = props => {
                           <Create
                             key={1}
                             onSubmit={obj => submitCreate(obj)}
+                            authority={authority}
                           />
                         </div>
                       )}
@@ -369,35 +307,6 @@ const Holder = props => {
                 )}
 
                 <hr />
-                <div>
-                  <div className="ml-auto">
-                    {visibleAtualizar ? (
-                      <div>
-                        <div
-                          onClick={() => toggleAtualizar()}
-                          className="btn btn-danger mr-2"
-                        >
-                          -
-                        </div>{" "}
-                        <span className="font-weight-bold">
-                          Atualizar Intervenção
-                        </span>
-                      </div>
-                    ) : (
-                      <div>
-                        <div
-                          onClick={() => toggleAtualizar()}
-                          className="btn btn-secondary mr-2"
-                        >
-                          +
-                        </div>{" "}
-                        <span className="font-weight-bold">
-                          Atualizar Intervenção
-                        </span>
-                      </div>
-                    )}
-                  </div>
-                </div>
               </div>
               <div>
                 {visibleAtualizar &&
@@ -405,10 +314,10 @@ const Holder = props => {
                   (element.responsable === authority ||
                   authority === "prefeitura" ? (
                     <div id="atualizar" className="container ">
-                      <Update
+                      {/* <Update
                         el={element}
                         onSubmit={obj => submitUpdate(obj)}
-                      />
+                      /> */}
                     </div>
                   ) : (
                     <div style={{color: "red"}} className="col-lg-10">

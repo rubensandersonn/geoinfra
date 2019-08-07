@@ -15,23 +15,29 @@ const reducer = (state, action) => {
     case "data2":
       return {...state, data2: action.data2};
 
+    case "tipo_rede":
+      return {...state, tipo_rede: action.tipo_rede};
     case "endereco":
       return {...state, endereco: action.endereco};
+    case "coordinates":
+      return {...state, coordinates: action.coordinates};
     default:
       return state;
   }
 };
 
 const Create = props => {
-  const {onSubmit} = props;
+  const {onSubmit, authority} = props;
   const [
-    {description, endereco, data1, data2},
+    {description, endereco, data1, data2, coordinates, tipo_rede},
     dispatch
   ] = useReducer(reducer, {
     endereco: "",
     description: "",
+    coordinates: {lat: 0, lng: 0},
     data1: "",
-    data2: ""
+    data2: "",
+    tipo_rede: "none"
   });
 
   const [validEndereco, setValidEndereco] = useState(true);
@@ -74,6 +80,39 @@ const Create = props => {
     return true; // in construction
   };
 
+  // === === dropdown === ===
+
+  const [visibleDropdown, setVisibleDropdown] = useState(false);
+
+  let choices = [];
+
+  if (authority === "prefeitura") {
+    choices = ["água", "gás", "esgoto"];
+  } else if (authority === "cagece") {
+    choices = ["água", "esgoto"];
+  } else {
+    choices = ["gás"];
+  }
+
+  const [chosen, setChosen] = useState("none");
+
+  const mapChoices = choices.map((tipo_rede, index) => {
+    return (
+      <div
+        className="border"
+        style={{cursor: "pointer"}}
+        onClick={() => {
+          dispatch({type: "tipo_rede", tipo_rede: tipo_rede});
+          console.log("escolhido:", tipo_rede);
+          document.getElementById("dropdown").innerText = tipo_rede;
+        }}
+        key={index}
+      >
+        {tipo_rede}
+      </div>
+    );
+  });
+
   return (
     <div className=" pt-6">
       <div className="rounded mb-2">{mapErrors}</div>
@@ -90,14 +129,16 @@ const Create = props => {
             validEndereco &&
             validNumber1 &&
             validNumber2 &&
+            tipo_rede !== "none" &&
             isIntervalFree(data1, data2)
           ) {
             const nova = {
               description,
               data1,
               data2,
-
-              endereco
+              coordinates,
+              endereco,
+              tipo_rede
             };
             //mandando os dados para fora
             onSubmit(nova);
@@ -106,6 +147,11 @@ const Create = props => {
             dispatch({type: "data1", data1: ""});
             dispatch({type: "data2", data2: ""});
             dispatch({type: "endereco", endereco: ""});
+            dispatch({type: "tipo_rede", tipo_rede: ""});
+            dispatch({
+              type: "coordinates",
+              coordinates: {lat: 0, lng: 0}
+            });
 
             setSuccessMsg("Cadastro realizado com sucesso!");
             // console.log("sucesso!", description, data1, data2);
@@ -113,7 +159,7 @@ const Create = props => {
         }}
       >
         <div className="form-group row">
-          <div className="col-md-12 mb-4 mb-lg-0">
+          <div className="col-md-10 mb-4 mb-lg-0">
             {/* <input
               className="form-control border"
               type="text"
@@ -129,14 +175,22 @@ const Create = props => {
               required
             /> */}
             <LocationSearchInput
-              onSelect={e => console.log("recebido pelo create: ", e)}
+              onSelect={(latLng, address) => {
+                console.log(
+                  "recebido pelo create: ",
+                  latLng,
+                  address
+                );
+                dispatch({type: "endereco", endereco: address});
+                dispatch({type: "coordinates", coordinates: latLng});
+              }}
             />
           </div>
         </div>
 
         {/* description */}
         <div className="form-group row">
-          <div className="col-md-12 mb-4 mb-lg-0">
+          <div className="col-md-10 mb-4 mb-lg-0">
             <textarea
               rows="3"
               cols="30"
@@ -154,10 +208,31 @@ const Create = props => {
             />
           </div>
         </div>
+        <div className="form-group row">
+          <div className="col-md-5 mb-4 mb-lg-0">
+            <div
+              style={{cursor: "pointer"}}
+              onClick={() => setVisibleDropdown(!visibleDropdown)}
+            >
+              <p id="dropdown" className="border rounded">
+                Tipo de Rede...
+              </p>
+            </div>
+
+            {visibleDropdown && (
+              <div
+                onClick={() => setVisibleDropdown(!visibleDropdown)}
+                className="border"
+              >
+                {mapChoices}
+              </div>
+            )}
+          </div>
+        </div>
 
         {/* datas */}
         <div className="form-group row">
-          <div className="col-md-6 mb-4 mb-lg-0">
+          <div className="col-md-5 mb-4 mb-lg-0">
             <input
               className="form-control border"
               type="text"
@@ -173,7 +248,7 @@ const Create = props => {
               required
             />
           </div>
-          <div className="col-md-6 mb-4 mb-lg-0">
+          <div className="col-md-5 mb-4 mb-lg-0">
             <input
               className="form-control border"
               type="text"
@@ -193,7 +268,7 @@ const Create = props => {
 
         {/* submit */}
         <div className="form-group row">
-          <div className="col-md-12 ml-auto">
+          <div className="col-md-10 ml-auto">
             <input
               className="btn btn-secondary text-white py-3 px-5"
               type="submit"
