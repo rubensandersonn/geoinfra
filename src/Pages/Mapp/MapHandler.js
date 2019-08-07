@@ -230,12 +230,6 @@ const MapHandler = props => {
 
         setInterventions(snap.val());
         interventions = snap.val();
-
-        console.log(
-          "(holder) child added:",
-
-          interventions
-        );
       } else {
         console.log("(holder) child added wrongly:");
       }

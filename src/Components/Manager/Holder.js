@@ -140,15 +140,10 @@ const Holder = props => {
                 id="checkAgua"
                 defaultChecked
               />
-              <span
-                style={{
-                  fontSize: 30,
-                  color: "blue",
-                  fontWeight: "bold"
-                }}
-              >
-                -
-              </span>
+              <img
+                className="mr-2"
+                src={require("../../utils/images/squareBlue.png")}
+              />
               Rede Água
             </div>
             <div id="layerGas">
@@ -159,15 +154,10 @@ const Holder = props => {
                 id="checkGas"
                 defaultChecked
               />
-              <span
-                style={{
-                  fontSize: 30,
-                  color: "orange",
-                  fontWeight: "bold"
-                }}
-              >
-                -
-              </span>
+              <img
+                className="mr-2"
+                src={require("../../utils/images/squareOrange.png")}
+              />
               Rede Gás
             </div>
             <div id="layerEsgoto">
@@ -178,15 +168,10 @@ const Holder = props => {
                 id="checkEsgoto"
                 defaultChecked
               />
-              <span
-                style={{
-                  fontSize: 30,
-                  color: "green",
-                  fontWeight: "bold"
-                }}
-              >
-                -
-              </span>
+              <img
+                className="mr-2"
+                src={require("../../utils/images/squareGreen.png")}
+              />
               Rede Esgoto
             </div>
           </div>

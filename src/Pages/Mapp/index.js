@@ -34,8 +34,6 @@ const Mapp = props => {
     visibleLayerInterv
   } = props;
 
-  console.log("(mapa recebeu:)", interventions);
-
   // console.log("map auth:", authority);
 
   const {agua, dispatchAgua} = useContext(AguaContext);
@@ -349,6 +347,9 @@ const Mapp = props => {
             key={index}
             position={coordinates}
             icon={url}
+            onClick={() => {
+              showInfoInterv(interv);
+            }}
           />
         ) : (
           ""
@@ -376,6 +377,9 @@ const Mapp = props => {
             key={index}
             position={coordinates}
             icon={url}
+            onClick={() => {
+              showInfoInterv(interv);
+            }}
           />
         ) : (
           ""
@@ -404,6 +408,9 @@ const Mapp = props => {
             key={index}
             position={coordinates}
             icon={url}
+            onClick={() => {
+              showInfoInterv(interv);
+            }}
           />
         ) : (
           ""
@@ -412,25 +419,56 @@ const Mapp = props => {
     }
   );
 
-  const coords = [
-    {lat: -3.720141999999999, lng: -38.51199070000001},
-    {lat: -3.720141999999999, lng: -38.52199070000001}
-  ];
+  const prettifyInterv = interv => {
+    if (interv.constructor !== {}.constructor) {
+      return "";
+    }
 
-  const mapCoords = coords.map((coord, index) => {
-    return <Marker key={index} position={coord} />;
-  });
+    return (
+      <div>
+        <h6>Intervenção</h6>
+        <div>
+          <span style={{fontWeight: "bold"}}>Responsável: </span>
+          {interv.responsable}
+        </div>
+        <div>
+          <span style={{fontWeight: "bold"}}>Tipo Rede: </span>
+          {interv.tipo_rede}
+        </div>
+        <div>
+          <span style={{fontWeight: "bold"}}>Endereço: </span>
+          {interv.endereco.split(",")[0]}
+        </div>
+        <div>
+          <span style={{fontWeight: "bold"}}>Descrição: </span>
+          {interv.description}
+        </div>
+        <div>
+          <span style={{fontWeight: "bold"}}>data início: </span>
+          {interv.data1}
+        </div>
+        <div>
+          <span style={{fontWeight: "bold"}}>data Fim: </span>
+          {interv.data2}
+        </div>
+      </div>
+    );
+  };
 
-  const testFunc = () => (
-    <Marker
-      title={"The marker`s title will appear as a tooltip."}
-      name={"SOMA"}
-      position={{
-        lat: -3.720141999999999,
-        lng: -38.51199070000001
-      }}
-    />
-  );
+  const showInfoInterv = interv => {
+    // console.log("poly clicked", key, type, coord[0]);
+
+    // quem desativa a visibilidade é o map click
+    setVisibleInfo(true);
+
+    //setando as coordenadas da infoWindow.
+    // Espero receber dois valores lat lng
+    setPositionMarker(interv.coordinates);
+
+    // setando o conteudo da infoWindow
+
+    setValueMarker(prettifyInterv(interv));
+  };
 
   return (
     <div>
