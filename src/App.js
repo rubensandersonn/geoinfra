@@ -18,21 +18,21 @@ import Filer from "./Components/Filer";
 import Logos from "./Components/Navigation/Logos";
 
 const App = () => (
-  <Router>
-    <div>
-      <Logos />
-      <Navigation />
+  // <Router>
+  //   <div>
+  //     <Logos />
+  //     <Navigation />
 
-      <Route exact path={ROUTES.MAP} component={MapHandler} />
-      <Route exact path={ROUTES.UPLOAD} component={Filer} />
-      <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
-      <Route path={ROUTES.SIGN_IN} component={SignInPage} />
+  //     <Route exact path={ROUTES.MAP} component={MapHandler} />
+  //     <Route exact path={ROUTES.UPLOAD} component={Filer} />
+  //     <Route path={ROUTES.SIGN_UP} component={SignUpPage} />
+  //     <Route path={ROUTES.SIGN_IN} component={SignInPage} />
 
-      <Route path={ROUTES.ABOUT} component={AboutPage} />
-      <Route path={ROUTES.ACCOUNT} component={AccountPage} />
-      <Route path={ROUTES.ADMIN} component={AdminPage} />
-    </div>
-  </Router>
+  //     <Route path={ROUTES.ABOUT} component={AboutPage} />
+  //     <Route path={ROUTES.ACCOUNT} component={AccountPage} />
+  //     <Route path={ROUTES.ADMIN} component={AdminPage} />
+  //   </div>
+  // </Router>
 );
 
 export default withAuthentication(App);

@@ -284,7 +284,7 @@ const AboutPage = () => {
         <div className="text-center">
           <p>
             Software Desenvolvido por:
-            <
+            <a
               className="ml-2"
               href="http://rubens-portfolio.herokuapp.com/"
               target="_blank"
