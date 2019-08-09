@@ -18,6 +18,7 @@ import Filer from "./Components/Filer";
 import Logos from "./Components/Navigation/Logos";
 
 const App = () => (
+  <div />
   // <Router>
   //   <div>
   //     <Logos />
