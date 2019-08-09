@@ -144,7 +144,7 @@ const Holder = props => {
                 className="mr-2"
                 src={require("../../utils/images/squareBlue.png")}
               />
-              Rede Água
+              Rede de Distribuição de Água
             </div>
             <div id="layerGas">
               <input
@@ -158,7 +158,7 @@ const Holder = props => {
                 className="mr-2"
                 src={require("../../utils/images/squareOrange.png")}
               />
-              Rede Gás
+              Rede de Distribuição de Gás Natural
             </div>
             <div id="layerEsgoto">
               <input
@@ -172,7 +172,7 @@ const Holder = props => {
                 className="mr-2"
                 src={require("../../utils/images/squareGreen.png")}
               />
-              Rede Esgoto
+              Rede Coletora de Esgoto
             </div>
           </div>
 
@@ -208,10 +208,10 @@ const Holder = props => {
                       }}
                     >
                       <img
-                        src={require("../../utils/images/flagCagece.png")}
+                        src={require("../../utils/images/flagBlue.png")}
                       />
                     </span>
-                    Intervenções Cagece
+                    Intervenções Rede Água
                   </div>
                   <div id="planejamentosGas">
                     <input
@@ -229,10 +229,10 @@ const Holder = props => {
                       }}
                     >
                       <img
-                        src={require("../../utils/images/flagCegas.png")}
+                        src={require("../../utils/images/flagOrange.png")}
                       />
                     </span>
-                    Intervenções Cegas
+                    Intervenções Rede Gás
                   </div>
                   <div id="planejamentosEsgoto">
                     <input
@@ -250,10 +250,10 @@ const Holder = props => {
                       }}
                     >
                       <img
-                        src={require("../../utils/images/flagPrefeitura.png")}
+                        src={require("../../utils/images/flagGreen.png")}
                       />
                     </span>
-                    Intervenções Prefeitura de Fortaleza
+                    Intervenções Rede Esgoto
                   </div>
                 </div>
               )}

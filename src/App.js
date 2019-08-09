@@ -15,10 +15,12 @@ import AdminPage from "./Pages/AdminPage";
 import * as ROUTES from "./Routes";
 import withAuthentication from "./Components/Session/withAuthentication";
 import Filer from "./Components/Filer";
+import Logos from "./Components/Navigation/Logos";
 
 const App = () => (
   <Router>
     <div>
+      <Logos />
       <Navigation />
 
       <Route exact path={ROUTES.MAP} component={MapHandler} />

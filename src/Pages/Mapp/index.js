@@ -327,17 +327,17 @@ const Mapp = props => {
     console.log("marker licked");
   };
 
-  const mapInterventionsPrefeitura = Object.keys(interventions).map(
+  const mapInterventionsEsgoto = Object.keys(interventions).map(
     endereco => {
       return interventions[endereco].map((interv, index) => {
-        if (interv.responsable !== "prefeitura") {
+        if (interv.tipo_rede !== "esgoto") {
           return null;
         }
         let url = "";
         let title = "";
 
-        title = "intervenção rede prefeitura";
-        url = require("../../utils/images/flagPrefeituraLG.png");
+        title = "Intervenção Rede Esgoto";
+        url = require("../../utils/images/flagGreenLG.png");
 
         const {coordinates} = interv;
 
@@ -357,17 +357,17 @@ const Mapp = props => {
       });
     }
   );
-  const mapInterventionsCegas = Object.keys(interventions).map(
+  const mapInterventionsGas = Object.keys(interventions).map(
     endereco => {
       return interventions[endereco].map((interv, index) => {
-        if (interv.responsable !== "cegas") {
+        if (interv.tipo_rede !== "gás") {
           return null;
         }
         let url = "";
         let title = "";
 
-        title = "intervenção rede cegas";
-        url = require("../../utils/images/flagCegasLG.png");
+        title = "Intervenção Rede Gás";
+        url = require("../../utils/images/flagOrangeLG.png");
 
         const {coordinates} = interv;
 
@@ -388,17 +388,17 @@ const Mapp = props => {
     }
   );
 
-  const mapInterventionsCagece = Object.keys(interventions).map(
+  const mapInterventionsAgua = Object.keys(interventions).map(
     endereco => {
       return interventions[endereco].map((interv, index) => {
-        if (interv.responsable !== "cagece") {
+        if (interv.tipo_rede !== "água") {
           return null;
         }
         let url = "";
         let title = "";
 
-        title = "intervenção rede cagece";
-        url = require("../../utils/images/flagCageceLG.png");
+        title = "Intervenção Rede Água";
+        url = require("../../utils/images/flagBlueLG.png");
 
         const {coordinates} = interv;
 
@@ -514,9 +514,9 @@ const Mapp = props => {
         {visibleGas && mapGas}
         {visibleAgua && mapAgua}
         {visibleEsgoto && mapEsgoto}
-        {visibleCagece && mapInterventionsCagece}
-        {visibleCegas && mapInterventionsCegas}
-        {visiblePrefeitura && mapInterventionsPrefeitura}
+        {visibleCagece && mapInterventionsAgua}
+        {visibleCegas && mapInterventionsGas}
+        {visiblePrefeitura && mapInterventionsEsgoto}
       </Map>
       {/* legendas: */}
       <div

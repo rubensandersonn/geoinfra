@@ -19,17 +19,18 @@ export default function Legend() {
         REDE ESGOTO{" "}
       </div>
       <div>
-        <img src={require("../../utils/images/flagCagece.png")} />{" "}
-        Intervenções CAGECE{" "}
+        <img src={require("../../utils/images/flagBlue.png")} />{" "}
+        INTERV. REDE ÁGUA
       </div>
       <div>
-        <img src={require("../../utils/images/flagCegas.png")} />{" "}
-        Intervenções CEGAS{" "}
+        <img src={require("../../utils/images/flagGreen.png")} />{" "}
+        INTERV. REDE ESGOTO
       </div>
       <div>
-        <img src={require("../../utils/images/flagPrefeitura.png")} />{" "}
-        Intervenções PREFEITURA{" "}
+        <img src={require("../../utils/images/flagOrange.png")} />{" "}
+        INTERV. REDE GÁS
       </div>
     </div>
+    //
   );
 }

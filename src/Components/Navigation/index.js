@@ -69,7 +69,10 @@ const NavigationNonAuth = () => (
           style={{color: "#ffe"}}
           className="toggle-button d-flex btn btn-primary mr-4"
         >
-          Sign In
+          <img
+            style={{maxHeight: 25}}
+            src={require("../../utils/images/signIn.png")}
+          />
         </div>
       </Link>
     </div>

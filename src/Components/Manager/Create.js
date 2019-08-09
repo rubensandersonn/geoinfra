@@ -94,6 +94,10 @@ const Create = props => {
     choices = ["gás"];
   }
 
+  const flagBlue = require("../../utils/images/flagBlue.png");
+  const flagGreen = require("../../utils/images/flagGreen.png");
+  const flagOrange = require("../../utils/images/flagOrange.png");
+
   const [chosen, setChosen] = useState("none");
 
   const mapChoices = choices.map((tipo_rede, index) => {
@@ -108,7 +112,18 @@ const Create = props => {
         }}
         key={index}
       >
-        {tipo_rede}
+        <div>
+          <img
+            src={
+              tipo_rede === "água"
+                ? flagBlue
+                : tipo_rede === "gás"
+                ? flagOrange
+                : flagGreen
+            }
+          />
+          {tipo_rede}
+        </div>
       </div>
     );
   });

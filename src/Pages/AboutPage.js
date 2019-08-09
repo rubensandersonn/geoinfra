@@ -168,9 +168,12 @@ const AboutPage = () => {
             </div>
           </div>
 
-          <div className="row owl-carousel nonloop-block-13">
+          <div className="align-items-center justify-content-center row owl-carousel nonloop-block-13">
             <div>
-              <div className="block-testimony-1 text-center rounded border m-2">
+              <div
+                style={{minHeight: 200, minWidth: 180}}
+                className="block-testimony-1 text-center rounded border m-2"
+              >
                 {/* <blockquote className="mb-4">
                   <p>
                     &ldquo;Lorem ipsum dolor sit amet, consectetur
@@ -183,16 +186,20 @@ const AboutPage = () => {
                 </blockquote> */}
 
                 <img
-                  src={require("../utils/images/avatar.png")}
+                  style={{width: 120, maxHeight: 120}}
+                  src={require("../utils/images/logos/ufc2.png")}
                   alt="Image"
-                  className="img-fluid rounded-circle mx-auto"
+                  className="img-fluid  mx-auto"
                 />
                 <h3 className="font-size-20 text-black m-4">UFC</h3>
               </div>
             </div>
 
             <div>
-              <div className="block-testimony-1 text-center rounded border m-2">
+              <div
+                style={{minHeight: 200, minWidth: 180}}
+                className="block-testimony-1 text-center rounded border m-2"
+              >
                 {/* <blockquote className="mb-4">
                   <p>
                     &ldquo;Lorem ipsum dolor sit amet, consectetur
@@ -205,16 +212,22 @@ const AboutPage = () => {
                 </blockquote> */}
 
                 <img
-                  src={require("../utils/images/avatar.png")}
+                  style={{width: 120, maxHeight: 120}}
+                  src={require("../utils/images/logos/petran.png")}
                   alt="Image"
-                  className="img-fluid rounded-circle mx-auto"
+                  className="img-fluid  mx-auto"
                 />
-                <h3 className="font-size-20 text-black m-4">MDCC</h3>
+                <h3 className="font-size-20 text-black m-4">
+                  PETRAN
+                </h3>
               </div>
             </div>
 
             <div>
-              <div className="block-testimony-1 text-center rounded border m-2">
+              <div
+                style={{minHeight: 200, minWidth: 180}}
+                className="block-testimony-1 text-center rounded border m-2"
+              >
                 {/* <blockquote className="mb-4">
                   <p>
                     &ldquo;Lorem ipsum dolor sit amet, consectetur
@@ -227,16 +240,20 @@ const AboutPage = () => {
                 </blockquote> */}
 
                 <img
-                  src={require("../utils/images/avatar.png")}
+                  style={{width: 120, maxHeight: 120}}
+                  src={require("../utils/images/logos/capes.jpg")}
                   alt="Image"
-                  className="img-fluid rounded-circle mx-auto"
+                  className="img-fluid  mx-auto"
                 />
                 <h3 className="font-size-20 text-black m-4">CAPES</h3>
               </div>
             </div>
 
             <div>
-              <div className="block-testimony-1 text-center rounded border m-2">
+              <div
+                style={{minHeight: 200, minWidth: 180}}
+                className="block-testimony-1 text-center rounded border m-2"
+              >
                 {/* <blockquote className="mb-4">
                   <p>
                     &ldquo;Lorem ipsum dolor sit amet, consectetur
@@ -249,18 +266,34 @@ const AboutPage = () => {
                 </blockquote> */}
 
                 <img
-                  src={require("../utils/images/avatar.png")}
+                  style={{width: 120, maxHeight: 120}}
+                  src={require("../utils/images/logos/funcap.png")}
                   alt="Image"
-                  className="img-fluid rounded-circle mx-auto"
+                  className="img-fluid  mx-auto"
                 />
-                <h3 className="font-size-20 text-black m-4">CNPq</h3>
+                <h3 className="font-size-20 text-black m-4">
+                  FUNCAP
+                </h3>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <footer className="site-footer" />
+      <footer className="site-footer align-items-center">
+        <div className="text-center">
+          <p>
+            Software Desenvolvido por:
+            <
+              className="ml-2"
+              href="http://rubens-portfolio.herokuapp.com/"
+              target="_blank"
+            >
+              RUBENS SILVA
+            </a>{" "}
+          </p>
+        </div>
+      </footer>
     </>
   );
 };

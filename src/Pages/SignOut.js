@@ -8,7 +8,10 @@ const SignOutButton = ({firebase}) => (
       className="toggle-button d-flex btn btn-primary"
       onClick={firebase.doSignOut}
     >
-      Sign Out
+      <img
+        style={{maxHeight: 25}}
+        src={require("../utils/images/signOut2.png")}
+      />
     </div>
   </a>
 );

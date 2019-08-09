@@ -277,10 +277,6 @@ const MapHandler = props => {
                 return (
                   <div className="col-lg-12 row">
                     <div className="border rounded">
-                      {/* <div className="text-center">
-                        <h4>Intervenções</h4>
-                      </div> */}
-
                       <Holder
                         authority={authority}
                         index={key}
