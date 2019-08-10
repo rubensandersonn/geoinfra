@@ -176,89 +176,91 @@ const Holder = props => {
             </div>
           </div>
 
-          {authority !== "none" ? (
-            <div className="border p-2 mt-2">
-              <a
-                href="planejamento"
-                onClick={e => {
-                  e.preventDefault();
-                  setVisiblePlanejamento(!visiblePlanejamento);
-                }}
-                style={{fontWeight: "bold"}}
-              >
-                Planejamentos de Intervenções [+]
-              </a>
-              <hr />
+          {/* seção de planejmentos */}
 
-              {visiblePlanejamento && (
-                <div className="border p-2">
-                  <div id="planejamentosAgua">
-                    <input
-                      onClick={cageceChecked}
-                      className="mr-2"
-                      type="checkbox"
-                      id="checkPlanAgua"
-                      defaultChecked
+          <div>
+            <a
+              href="planejamento"
+              onClick={e => {
+                e.preventDefault();
+                setVisiblePlanejamento(!visiblePlanejamento);
+              }}
+              style={{fontWeight: "bold"}}
+            >
+              Planejamentos de Intervenções [+]
+            </a>
+
+            {visiblePlanejamento && (
+              <div className="border p-2">
+                <div id="planejamentosAgua">
+                  <input
+                    onClick={cageceChecked}
+                    className="mr-2"
+                    type="checkbox"
+                    id="checkPlanAgua"
+                    defaultChecked
+                  />
+                  <span
+                    style={{
+                      fontSize: 30,
+                      color: "blue",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    <img
+                      src={require("../../utils/images/flagBlue.png")}
                     />
-                    <span
-                      style={{
-                        fontSize: 30,
-                        color: "blue",
-                        fontWeight: "bold"
-                      }}
-                    >
-                      <img
-                        src={require("../../utils/images/flagBlue.png")}
-                      />
-                    </span>
-                    Intervenções Rede Água
-                  </div>
-                  <div id="planejamentosGas">
-                    <input
-                      onClick={cegasChecked}
-                      className="mr-2"
-                      type="checkbox"
-                      id="checkPlanGas"
-                      defaultChecked
-                    />
-                    <span
-                      style={{
-                        fontSize: 30,
-                        color: "orange",
-                        fontWeight: "bold"
-                      }}
-                    >
-                      <img
-                        src={require("../../utils/images/flagOrange.png")}
-                      />
-                    </span>
-                    Intervenções Rede Gás
-                  </div>
-                  <div id="planejamentosEsgoto">
-                    <input
-                      onClick={prefeituraChecked}
-                      className="mr-2"
-                      type="checkbox"
-                      id="checkPlanEsgoto"
-                      defaultChecked
-                    />
-                    <span
-                      style={{
-                        fontSize: 30,
-                        color: "green",
-                        fontWeight: "bold"
-                      }}
-                    >
-                      <img
-                        src={require("../../utils/images/flagGreen.png")}
-                      />
-                    </span>
-                    Intervenções Rede Esgoto
-                  </div>
+                  </span>
+                  Intervenções Rede Água
                 </div>
-              )}
+                <div id="planejamentosGas">
+                  <input
+                    onClick={cegasChecked}
+                    className="mr-2"
+                    type="checkbox"
+                    id="checkPlanGas"
+                    defaultChecked
+                  />
+                  <span
+                    style={{
+                      fontSize: 30,
+                      color: "orange",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    <img
+                      src={require("../../utils/images/flagOrange.png")}
+                    />
+                  </span>
+                  Intervenções Rede Gás
+                </div>
+                <div id="planejamentosEsgoto">
+                  <input
+                    onClick={prefeituraChecked}
+                    className="mr-2"
+                    type="checkbox"
+                    id="checkPlanEsgoto"
+                    defaultChecked
+                  />
+                  <span
+                    style={{
+                      fontSize: 30,
+                      color: "green",
+                      fontWeight: "bold"
+                    }}
+                  >
+                    <img
+                      src={require("../../utils/images/flagGreen.png")}
+                    />
+                  </span>
+                  Intervenções Rede Esgoto
+                </div>
+              </div>
+            )}
+          </div>
 
-              <hr />
+          {authority !== "none" ? (
+            <div className="mt-2">
               {/* gerencia de intervenções */}
 
               <div className="">

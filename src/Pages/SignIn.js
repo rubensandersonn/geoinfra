@@ -10,9 +10,7 @@ const SignInPage = () => (
   <div className="container col-lg-7 mt-4">
     <h3>Fazer Login</h3>
     <SignInForm />
-    <div className="col-lg-10 ml-auto">
-      <SignUpLink />
-    </div>
+    <div className="col-lg-10 ml-auto">{/* <SignUpLink /> */}</div>
   </div>
 );
 
@@ -74,7 +72,7 @@ class SignInFormBase extends Component {
             <div className="col-lg-8 mb-4 mb-lg-0">
               <input
                 name="password"
-                type="text"
+                type="password"
                 className="form-control border"
                 placeholder="Password"
                 value={password}
