@@ -502,15 +502,7 @@ const Mapp = props => {
             </div>
           </div>
         </InfoWindow>
-        {/* <Marker
-          title={"The marker`s title will appear as a tooltip."}
-          name={"SOMA"}
-          position={{
-            lat: -3.720141999999999,
-            lng: -38.51199070000001
-          }}
-          icon={require("../../utils/images/flagGreen.png")}
-        /> */}
+
         {visibleGas && mapGas}
         {visibleAgua && mapAgua}
         {visibleEsgoto && mapEsgoto}

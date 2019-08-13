@@ -112,23 +112,23 @@ const MapHandler = props => {
 
   let [gas, dispatchGas] = useReducer(reducer, jsonGas.features);
 
-  // useEffect(() => {
-  //   // firebase.getRefDB("esgoto").on("value", snap => {
-  //   //   console.log("opaaaa esgoto: ", snap.val());
-  //   // });
-  //   firebase.getRefAgua().on("value", snap => {
-  //     console.log("(agua) recebidos novos dados do firebase:");
-  //     dispatchAgua({type: "updateAll", value: snap.val()});
-  //   });
-  //   firebase.getRefEsgoto().on("value", snap => {
-  //     console.log("(esgoto) recebidos novos dados do firebase:");
-  //     dispatchEsgoto({type: "updateAll", value: snap.val()});
-  //   });
-  //   firebase.getRefGas().on("value", snap => {
-  //     console.log("(gas) recebidos novos dados do firebase:");
-  //     dispatchGas({type: "updateAll", value: snap.val()});
-  //   });
-  // }, []);
+  useEffect(() => {
+    // firebase.getRefDB("esgoto").on("value", snap => {
+    //   console.log("opaaaa esgoto: ", snap.val());
+    // });
+    firebase.getRefAgua().on("value", snap => {
+      console.log("(agua) recebidos novos dados do firebase");
+      dispatchAgua({type: "updateAll", value: snap.val()});
+    });
+    firebase.getRefEsgoto().on("value", snap => {
+      console.log("(esgoto) recebidos novos dados do firebase");
+      dispatchEsgoto({type: "updateAll", value: snap.val()});
+    });
+    firebase.getRefGas().on("value", snap => {
+      console.log("(gas) recebidos novos dados do firebase");
+      dispatchGas({type: "updateAll", value: snap.val()});
+    });
+  }, []);
 
   //=== === Callbacks === ===
 
