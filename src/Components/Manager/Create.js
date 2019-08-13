@@ -258,7 +258,7 @@ const Create = props => {
               onBlur={() => {
                 setValidData1(validateDate(data1));
               }}
-              placeholder="Data inicial (dd/mm/aa)"
+              placeholder="Data inicial (dd/mm/aaaa)"
               name="data1"
               required
             />
@@ -274,7 +274,7 @@ const Create = props => {
               onBlur={() => {
                 setValidData2(validateDate(data2));
               }}
-              placeholder="Data inicial (dd/mm/aa)"
+              placeholder="Data Término (dd/mm/aaaa)"
               name="data2"
               required
             />

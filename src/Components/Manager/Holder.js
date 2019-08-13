@@ -8,6 +8,7 @@ import {FirebaseContext} from "../../Components/Firebase";
 import Update from "./Update";
 
 import Links from "../Modall/Links";
+import Legend from "../../Pages/Mapp/Legend";
 
 // import { Container } from './styles';
 
@@ -58,6 +59,9 @@ const Holder = props => {
   };
   const esgotoChecked = () => {
     toggleLayer("esgoto");
+  };
+  const viarioChecked = () => {
+    // toggleLayer("esgoto");
   };
 
   const cageceChecked = () => {
@@ -128,9 +132,9 @@ const Holder = props => {
               "Carregando Downloads..."
             )}
           </div>
-          <div className="border pb-2 pt-2 pl-2">
+          <div className="border pb-2 pt-2 pl-2 mb-2">
             <div className="font-weight-bold">
-              Redes de Infraestrutura Urbana
+              REDES DE INFRAESTRUTURA URBANA
             </div>
             <div id="layerAgua">
               <input
@@ -174,93 +178,80 @@ const Holder = props => {
               />
               Rede Coletora de Esgoto
             </div>
+            <div id="layerViario">
+              <input
+                onClick={viarioChecked}
+                className="mr-2"
+                type="checkbox"
+                id="checkViario"
+                defaultChecked
+              />
+              <img
+                className="mr-2"
+                src={require("../../utils/images/squareGray.png")}
+              />
+              Sistema Viário
+            </div>
           </div>
 
-          {/* seção de planejmentos */}
+          {/* intervenções */}
 
-          <div>
-            <a
-              href="planejamento"
-              onClick={e => {
-                e.preventDefault();
-                setVisiblePlanejamento(!visiblePlanejamento);
-              }}
-              style={{fontWeight: "bold"}}
-            >
-              Planejamentos de Intervenções [+]
-            </a>
-
-            {visiblePlanejamento && (
-              <div className="border p-2">
-                <div id="planejamentosAgua">
-                  <input
-                    onClick={cageceChecked}
-                    className="mr-2"
-                    type="checkbox"
-                    id="checkPlanAgua"
-                    defaultChecked
-                  />
-                  <span
-                    style={{
-                      fontSize: 30,
-                      color: "blue",
-                      fontWeight: "bold"
-                    }}
-                  >
-                    <img
-                      src={require("../../utils/images/flagBlue.png")}
-                    />
-                  </span>
-                  Intervenções Rede Água
-                </div>
-                <div id="planejamentosGas">
-                  <input
-                    onClick={cegasChecked}
-                    className="mr-2"
-                    type="checkbox"
-                    id="checkPlanGas"
-                    defaultChecked
-                  />
-                  <span
-                    style={{
-                      fontSize: 30,
-                      color: "orange",
-                      fontWeight: "bold"
-                    }}
-                  >
-                    <img
-                      src={require("../../utils/images/flagOrange.png")}
-                    />
-                  </span>
-                  Intervenções Rede Gás
-                </div>
-                <div id="planejamentosEsgoto">
-                  <input
-                    onClick={prefeituraChecked}
-                    className="mr-2"
-                    type="checkbox"
-                    id="checkPlanEsgoto"
-                    defaultChecked
-                  />
-                  <span
-                    style={{
-                      fontSize: 30,
-                      color: "green",
-                      fontWeight: "bold"
-                    }}
-                  >
-                    <img
-                      src={require("../../utils/images/flagGreen.png")}
-                    />
-                  </span>
-                  Intervenções Rede Esgoto
-                </div>
-              </div>
-            )}
+          <div className="border mt-2 pb-2 pt-2 pl-2 mb-2">
+            <div className="font-weight-bold">
+              PLANEJAMENTOS DE INTERVENÇÕES
+            </div>
+            <div id="planejamentosAgua">
+              <input
+                onClick={cageceChecked}
+                className="mr-2"
+                type="checkbox"
+                id="checkAgua"
+                defaultChecked
+              />
+              <img src={require("../../utils/images/flagBlue.png")} />
+              Rede de Distribuição de Água
+            </div>
+            <div id="planejamentosGas">
+              <input
+                onClick={cegasChecked}
+                className="mr-2"
+                type="checkbox"
+                id="checkGas"
+                defaultChecked
+              />
+              <img
+                src={require("../../utils/images/flagOrange.png")}
+              />
+              Rede de Distribuição de Gás Natural
+            </div>
+            <div id="planejamentosEsgoto">
+              <input
+                onClick={prefeituraChecked}
+                className="mr-2"
+                type="checkbox"
+                id="checkEsgoto"
+                defaultChecked
+              />
+              <img
+                src={require("../../utils/images/flagGreen.png")}
+              />
+              Rede Coletora de Esgoto
+            </div>
+            <div id="planejamentosViario">
+              <input
+                onClick={viarioChecked}
+                className="mr-2"
+                type="checkbox"
+                id="checkEsgoto"
+                defaultChecked
+              />
+              <img src={require("../../utils/images/flagGray.png")} />
+              Sistema Viário
+            </div>
           </div>
 
           {authority !== "none" ? (
-            <div className="mt-2">
+            <div className="mb-4 mt-2">
               {/* gerencia de intervenções */}
 
               <div className="">
@@ -318,6 +309,67 @@ const Holder = props => {
           ) : (
             ""
           )}
+
+          {/* legenda repetida */}
+          <div className="border mt-4 p-2">
+            <div style={{minWidth: 140}}>
+              <div className="mt-4 font-weight-bold">LEGENDA</div>
+              <div>
+                <img
+                  src={require("../../utils/images/squareBlue.png")}
+                />{" "}
+                Rede de Distribuição de Água
+              </div>
+              <div>
+                <img
+                  src={require("../../utils/images/squareOrange.png")}
+                />{" "}
+                Rede de Distribuição de Gás Natural
+              </div>
+              <div>
+                <img
+                  src={require("../../utils/images/squareGreen.png")}
+                />{" "}
+                Rede Coletora de Esgoto
+              </div>
+              <div>
+                <img
+                  src={require("../../utils/images/squareGray.png")}
+                />{" "}
+                Sistema Viário
+              </div>
+              <div>
+                <img
+                  src={require("../../utils/images/flagBlue.png")}
+                />{" "}
+                Intervenções Rede de Distribuição de Água
+              </div>
+              <div>
+                <img
+                  src={require("../../utils/images/flagOrange.png")}
+                />{" "}
+                Intervenções Rede de Distribuição de Gás Natural
+              </div>
+              <div>
+                <img
+                  src={require("../../utils/images/flagGreen.png")}
+                />{" "}
+                Intervenções Rede Coletora de Esgoto
+              </div>
+              <div>
+                <img
+                  src={require("../../utils/images/flagGray.png")}
+                />{" "}
+                Intervenções Sistema Viário
+              </div>
+              <div>
+                <img
+                  src={require("../../utils/images/squareSea.png")}
+                />{" "}
+                Oceano Atlântico
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

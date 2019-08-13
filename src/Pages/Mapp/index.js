@@ -70,7 +70,7 @@ const Mapp = props => {
           return (
             <div key className="row container">
               <span style={{fontWeight: "bold"}}>
-                {key.replace(/_/gm, " ")}
+                {key.replace(/_/gm, " ").replace(/^\w{3} /gm, "")}
               </span>
               {": "}
               {key === "em_operacao"
@@ -86,6 +86,7 @@ const Mapp = props => {
 
       resolve(
         <div>
+          <br />
           <h6>Propriedades:</h6>
           <hr />
           {mapp}
@@ -226,7 +227,7 @@ const Mapp = props => {
           strokeWeight: 3
         }}
         onClick={e => onPolyClicked(index, "agua", path)}
-        onMouseover={() => onPolyHover(path)}
+        // onMouseover={() => onPolyHover(path)}
       />
     );
   });
@@ -263,7 +264,7 @@ const Mapp = props => {
           strokeWeight: 3
         }}
         onClick={() => onPolyClicked(index, "esgoto", path)}
-        onMouseover={() => onPolyHover(path)}
+        // onMouseover={() => onPolyHover(path)}
       />
     );
   });
@@ -299,7 +300,7 @@ const Mapp = props => {
           strokeWeight: 3
         }}
         onClick={() => onPolyClicked(index, "gas", path)}
-        onMouseover={() => onPolyHover(path)}
+        // onMouseover={() => onPolyHover(path)}
       />
     );
   });
@@ -307,7 +308,7 @@ const Mapp = props => {
   let mapRef = createRef();
 
   const onMapLoaded = google => {
-    addLegend(google);
+    // addLegend(google);
     // addToggleButtons(google);
   };
 
@@ -321,6 +322,8 @@ const Mapp = props => {
     mapRef.current.map.controls[
       google.maps.ControlPosition.LEFT_BOTTOM
     ].push(legend);
+
+    // legend.style.display = "block";
   };
 
   const onMarkerClick = () => {
@@ -426,7 +429,9 @@ const Mapp = props => {
 
     return (
       <div>
+        <br />
         <h6>Intervenção</h6>
+        <hr />
         <div>
           <span style={{fontWeight: "bold"}}>Responsável: </span>
           {interv.responsable}
@@ -439,7 +444,7 @@ const Mapp = props => {
           <span style={{fontWeight: "bold"}}>Endereço: </span>
           {interv.endereco.split(",")[0]}
         </div>
-        <div>
+        <div style={{maxWidth: 150}}>
           <span style={{fontWeight: "bold"}}>Descrição: </span>
           {interv.description}
         </div>
@@ -451,6 +456,7 @@ const Mapp = props => {
           <span style={{fontWeight: "bold"}}>data Fim: </span>
           {interv.data2}
         </div>
+        <hr />
       </div>
     );
   };
@@ -518,9 +524,13 @@ const Mapp = props => {
       >
         <h5>Mostrar ou Esconder Camadas</h5>
       </div>
-      <div className="col-lg-2 bg-light p-2 m-4" id="legend">
+      {/* <div
+        style={{display: "none", minWidth: 250}}
+        className="col-lg-2 bg-light p-2 m-4"
+        id="legend"
+      >
         <Legend />
-      </div>
+      </div> */}
     </div>
   );
 };

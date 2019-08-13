@@ -26,18 +26,21 @@ export default function Links(props) {
             <ul>
               <li>
                 <a target="_blank" href={state.aguaURL}>
-                  Rede Água
+                  Rede de Distribuição de Água
                 </a>
               </li>
               <li>
                 <a target="_blank" href={state.gasURL}>
-                  Rede Gás
+                  Rede de Distribuição de Gás Natural
                 </a>
               </li>
               <li>
                 <a target="_blank" href={state.esgotoURL}>
-                  Rede Esgoto
+                  Rede Coletora de Esgoto
                 </a>
+              </li>
+              <li>
+                <a target="_blank">Rede de Sistema Viário (vazio)</a>
               </li>
             </ul>
           </div>

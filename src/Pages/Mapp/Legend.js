@@ -5,30 +5,46 @@ import React from "react";
 export default function Legend() {
   return (
     <div>
-      <h3>Legenda</h3>
-      <div>
-        <img src={require("../../utils/images/squareBlue.png")} />{" "}
-        REDE ÁGUA{" "}
-      </div>
-      <div>
-        <img src={require("../../utils/images/squareOrange.png")} />{" "}
-        REDE GÁS{" "}
-      </div>
-      <div>
-        <img src={require("../../utils/images/squareGreen.png")} />{" "}
-        REDE ESGOTO{" "}
-      </div>
-      <div>
-        <img src={require("../../utils/images/flagBlue.png")} />{" "}
-        INTERV. REDE ÁGUA
-      </div>
-      <div>
-        <img src={require("../../utils/images/flagGreen.png")} />{" "}
-        INTERV. REDE ESGOTO
-      </div>
-      <div>
-        <img src={require("../../utils/images/flagOrange.png")} />{" "}
-        INTERV. REDE GÁS
+      <div style={{minWidth: 240}}>
+        <div className="font-weight-bold">
+          <h6>LEGENDA</h6>
+        </div>
+        <div>
+          <img src={require("../../utils/images/squareBlue.png")} />{" "}
+          Rede de Distr. de Água
+        </div>
+        <div>
+          <img src={require("../../utils/images/squareOrange.png")} />{" "}
+          Rede de Distr. de Gás Natural
+        </div>
+        <div>
+          <img src={require("../../utils/images/squareGreen.png")} />{" "}
+          Rede Coletora de Esgoto
+        </div>
+        <div>
+          <img src={require("../../utils/images/squareGray.png")} />{" "}
+          Rede de Sistema Viário
+        </div>
+        <div>
+          <img src={require("../../utils/images/flagBlue.png")} />{" "}
+          Interv. Rede de Distr. de Água
+        </div>
+        <div>
+          <img src={require("../../utils/images/flagOrange.png")} />{" "}
+          Interv. Rede de Distr. de Gás Natural
+        </div>
+        <div>
+          <img src={require("../../utils/images/flagGreen.png")} />{" "}
+          Interv. Rede Coletora de Esgoto
+        </div>
+        <div>
+          <img src={require("../../utils/images/flagOrange.png")} />{" "}
+          Interv. Rede de Sistema Viário
+        </div>
+        <div>
+          <img src={require("../../utils/images/squareSea.png")} />{" "}
+          Oceano
+        </div>
       </div>
     </div>
     //
