@@ -46,9 +46,10 @@ const Mapp = props => {
   // toggle visible data
   const {visibleAgua, visibleEsgoto, visibleGas} = visibleLayer;
   const {
-    visibleCagece,
-    visibleCegas,
-    visiblePrefeitura
+    visibleIntervAgua,
+    visibleIntervGas,
+    visibleIntervEsgoto,
+    visibleIntervViario
   } = visibleLayerInterv;
   // const [interventions, setInterventions] = useState(null);
 
@@ -512,9 +513,9 @@ const Mapp = props => {
         {visibleGas && mapGas}
         {visibleAgua && mapAgua}
         {visibleEsgoto && mapEsgoto}
-        {visibleCagece && mapInterventionsAgua}
-        {visibleCegas && mapInterventionsGas}
-        {visiblePrefeitura && mapInterventionsEsgoto}
+        {visibleIntervAgua && mapInterventionsAgua}
+        {visibleIntervGas && mapInterventionsGas}
+        {visibleIntervEsgoto && mapInterventionsEsgoto}
       </Map>
       {/* legendas: */}
       <div

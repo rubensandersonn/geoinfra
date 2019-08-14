@@ -11,16 +11,6 @@ const FilerEsgoto = () => {
 
   const firebase = useContext(FirebaseContext);
 
-  useEffect(() => {
-    firebase
-      .getRef()
-      .child("rde_meireles.json")
-      .getDownloadURL()
-      .then(url => {
-        setState(state => ({...state, imageURL: url}));
-      });
-  }, []);
-
   const sendRequest = file => {
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();
@@ -37,7 +27,7 @@ const FilerEsgoto = () => {
   };
 
   const handleUploadStart = e => {
-    console.log("quando começa: ", e);
+    // console.log("quando começa: ", e);
     setState(state => ({...state, progress: 0}));
     sendRequest(e); // enviando arquivo
   };
@@ -47,21 +37,10 @@ const FilerEsgoto = () => {
       image: filename,
       progress: 100
     });
-
-    firebase
-      .getRef()
-      .child("rde_meireles.json")
-      .getDownloadURL()
-      .then(url => {
-        setState(state => ({...state, imageURL: url}));
-      })
-      .then(st => {
-        firebase.updateChanger("esgoto");
-      });
   };
 
   const handleName = filename => {
-    console.log(filename);
+    // console.log(filename);
     return "rde_meireles.json";
   };
 
@@ -87,13 +66,7 @@ const FilerEsgoto = () => {
           precisa ter extensão ".geojson" ou ".json"
         </p>
       )}
-      <div>
-        {state.imageURL && (
-          <a target="_blank" href={state.imageURL}>
-            Link para download do arquivo atual aqui
-          </a>
-        )}
-      </div>
+
       <CustomUploadButton
         accept={"application/json"}
         filename={handleName}
@@ -109,7 +82,7 @@ const FilerEsgoto = () => {
           borderRadius: 4
         }}
       >
-        Fazer Upload do arquivo
+        Fazer Upload da Rede Coletora de Esgoto
       </CustomUploadButton>
     </div>
   );

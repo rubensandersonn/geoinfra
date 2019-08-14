@@ -11,16 +11,6 @@ const FilerGas = () => {
 
   const firebase = useContext(FirebaseContext);
 
-  useEffect(() => {
-    firebase
-      .getRef()
-      .child("rdg_meireles.json")
-      .getDownloadURL()
-      .then(url => {
-        setState(state => ({...state, imageURL: url}));
-      });
-  }, []);
-
   const sendRequest = file => {
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();
@@ -34,7 +24,6 @@ const FilerGas = () => {
   };
 
   const handleUploadStart = e => {
-    console.log("quando começa: ", e);
     setState(state => ({...state, progress: 0}));
     sendRequest(e);
   };
@@ -44,17 +33,6 @@ const FilerGas = () => {
       image: filename,
       progress: 100
     });
-
-    firebase
-      .getRef()
-      .child("rdg_meireles.json")
-      .getDownloadURL()
-      .then(url => {
-        setState(state => ({...state, imageURL: url}));
-      })
-      .then(st => {
-        firebase.updateChanger("gas");
-      });
   };
 
   const handleName = filename => {
@@ -84,13 +62,7 @@ const FilerGas = () => {
           precisa ter extensão ".geojson" ou ".json"
         </p>
       )}
-      <div>
-        {state.imageURL && (
-          <a target="_blank" href={state.imageURL}>
-            Link para download do arquivo atual aqui
-          </a>
-        )}
-      </div>
+
       <CustomUploadButton
         accept={"application/json"}
         filename={handleName}
@@ -106,7 +78,7 @@ const FilerGas = () => {
           borderRadius: 4
         }}
       >
-        Fazer Upload do arquivo
+        Fazer Upload da Rede de Distribuição de Gás Natural
       </CustomUploadButton>
     </div>
   );

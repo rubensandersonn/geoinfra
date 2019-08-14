@@ -9,7 +9,7 @@ export default function Legend() {
         <div className="font-weight-bold">
           <h6>LEGENDA</h6>
         </div>
-        <div>
+        {/* <div>
           <img src={require("../../utils/images/squareBlue.png")} />{" "}
           Rede de Distr. de Água
         </div>
@@ -40,7 +40,7 @@ export default function Legend() {
         <div>
           <img src={require("../../utils/images/flagOrange.png")} />{" "}
           Interv. Rede de Sistema Viário
-        </div>
+        </div> */}
         <div>
           <img src={require("../../utils/images/squareSea.png")} />{" "}
           Oceano

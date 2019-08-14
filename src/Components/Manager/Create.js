@@ -87,16 +87,17 @@ const Create = props => {
   let choices = [];
 
   if (authority === "prefeitura") {
-    choices = ["água", "gás", "esgoto"];
+    choices = ["sistema viário"];
   } else if (authority === "cagece") {
-    choices = ["água", "esgoto"];
+    choices = ["rede água", "esgoto"];
   } else {
-    choices = ["gás"];
+    choices = ["rede gás"];
   }
 
   const flagBlue = require("../../utils/images/flagBlue.png");
   const flagGreen = require("../../utils/images/flagGreen.png");
   const flagOrange = require("../../utils/images/flagOrange.png");
+  const flagGray = require("../../utils/images/flagGray.png");
 
   const [chosen, setChosen] = useState("none");
 
@@ -115,9 +116,11 @@ const Create = props => {
         <div>
           <img
             src={
-              tipo_rede === "água"
+              tipo_rede === "rede água"
                 ? flagBlue
-                : tipo_rede === "gás"
+                : tipo_rede === "sistema viário"
+                ? flagGray
+                : tipo_rede === "rede gás"
                 ? flagOrange
                 : flagGreen
             }

@@ -31,39 +31,26 @@ const AboutPage = () => {
             <div className="col-lg-8">
               <ul className="list-unstyled">
                 <li className="mb-4">
-                  <h2 className="h4">
-                    <a
-                      href="press-single.html"
-                      className="text-black"
-                    >
-                      O que é?
-                    </a>
-                  </h2>
+                  <h2 className="h4">O que é?</h2>
 
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur
-                    adipisicing elit. Pariatur dolores voluptas
-                    obcaecati quo consequuntur mollitia facilis,
-                    perferendis molestias commodi adipisci.
+                    Aplicação Baseada em geoprocessamento para web com
+                    a finalidade de disponibilizar na internet o banco
+                    de dados integrado das infraestruturas urbanas
+                    assim como os dados técnicos de planejamento de
+                    futuras intervenções nos subsistemas urbanos
                   </p>
                 </li>
                 <li className="mb-4">
-                  <h2 className="h4">
-                    <a
-                      href="press-single.html"
-                      className="text-black"
-                    >
-                      Objetivo
-                    </a>
-                  </h2>
-                  <span className="d-block text-secondary">
-                    subtitulo
-                  </span>
+                  <h2 className="h4">Objetivo</h2>
+
                   <p>
-                    Lorem ipsum dolor sit amet, consectetur
-                    adipisicing elit. Pariatur dolores voluptas
-                    obcaecati quo consequuntur mollitia facilis,
-                    perferendis molestias commodi adipisci.
+                    Contribuir para o desenvolvimento e
+                    aperfeiçoamento de sistemas de gerência de
+                    infraestrutura urbana, apresentando um método para
+                    compatibilizar, integrar e gerenciar as diferentes
+                    redes dos subsistemas urbanos de forma eficaz,
+                    rápida e de baixo custo.
                   </p>
                 </li>
               </ul>
@@ -93,15 +80,13 @@ const AboutPage = () => {
                     className="img-fluid rounded-circle"
                   />
                 </div>
-                <h3 className="font-size-20 text-black m-4">Autor</h3>
+                <h3 className="font-size-20 text-black m-4">
+                  Ygor Carvalho
+                </h3>
                 <span className="d-block font-gray-5 letter-spacing-1 text-uppercase font-size-12 mb-3">
-                  Cargo
+                  Título
                 </span>
-                <p className="px-3 mb-3">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing
-                  elit. Atque, repellat. At, soluta. Repellendus vero,
-                  consequuntur!
-                </p>
+                <p className="px-3 mb-3">Autor principal</p>
               </div>
             </div>
 
@@ -119,7 +104,7 @@ const AboutPage = () => {
                 </div>
                 <h3 className="font-size-20 text-black m-4">Autor</h3>
                 <span className="d-block font-gray-5 letter-spacing-1 text-uppercase font-size-12 mb-3">
-                  Cargo
+                  Título
                 </span>
                 <p className="px-3 mb-3">
                   Lorem ipsum dolor sit amet, consectetur adipisicing
@@ -282,16 +267,7 @@ const AboutPage = () => {
 
       <footer className="site-footer align-items-center">
         <div className="text-center">
-          <p>
-            Software Desenvolvido por:
-            <a
-              className="ml-2"
-              href="http://rubens-portfolio.herokuapp.com/"
-              target="_blank"
-            >
-              RUBENS SILVA
-            </a>{" "}
-          </p>
+          <p>Software Desenvolvido por: YGOR CARVALHO</p>
         </div>
       </footer>
     </>

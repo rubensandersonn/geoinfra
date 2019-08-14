@@ -2,6 +2,7 @@ import React, {useContext} from "react";
 import FilerAgua from "./FilerAgua";
 import FilerEsgoto from "./FilerEsgoto";
 import FilerGas from "./FilerGas";
+import FilerViario from "./FilerViario";
 
 import {AuthUserContext} from "../Session";
 
@@ -19,11 +20,10 @@ export default function Filer(props) {
             authUser.email === "prefeitura@gmail.com" ? (
               <div>
                 {/* prefeitura */}
-                <FilerAgua />
-                <FilerEsgoto />
-                <FilerGas />
+                <FilerViario />
               </div>
-            ) : authUser.email === "cagece@gmail.com" ? (
+            ) : authUser.email === "rubens@gmail.com" ||
+              authUser.email === "cagece@gmail.com" ? (
               <div>
                 {/* cagece */}
                 <FilerAgua />

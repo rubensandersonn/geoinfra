@@ -64,14 +64,17 @@ const Holder = props => {
     // toggleLayer("esgoto");
   };
 
-  const cageceChecked = () => {
-    toggleLayerInterv("cagece");
+  const intervAguaChecked = () => {
+    toggleLayerInterv("agua");
   };
-  const cegasChecked = () => {
-    toggleLayerInterv("cegas");
+  const intervGasChecked = () => {
+    toggleLayerInterv("gas");
   };
-  const prefeituraChecked = () => {
-    toggleLayerInterv("prefeitura");
+  const intervEsgotoChecked = () => {
+    toggleLayerInterv("esgoto");
+  };
+  const intervViarioChecked = () => {
+    toggleLayerInterv("viario");
   };
 
   // === === planejamentos cheks === ===
@@ -202,7 +205,7 @@ const Holder = props => {
             </div>
             <div id="planejamentosAgua">
               <input
-                onClick={cageceChecked}
+                onClick={intervAguaChecked}
                 className="mr-2"
                 type="checkbox"
                 id="checkAgua"
@@ -213,7 +216,7 @@ const Holder = props => {
             </div>
             <div id="planejamentosGas">
               <input
-                onClick={cegasChecked}
+                onClick={intervGasChecked}
                 className="mr-2"
                 type="checkbox"
                 id="checkGas"
@@ -226,7 +229,7 @@ const Holder = props => {
             </div>
             <div id="planejamentosEsgoto">
               <input
-                onClick={prefeituraChecked}
+                onClick={intervEsgotoChecked}
                 className="mr-2"
                 type="checkbox"
                 id="checkEsgoto"
@@ -239,10 +242,10 @@ const Holder = props => {
             </div>
             <div id="planejamentosViario">
               <input
-                onClick={viarioChecked}
+                onClick={intervViarioChecked}
                 className="mr-2"
                 type="checkbox"
-                id="checkEsgoto"
+                id="checkViario"
                 defaultChecked
               />
               <img src={require("../../utils/images/flagGray.png")} />
@@ -314,54 +317,7 @@ const Holder = props => {
           <div className="border mt-4 p-2">
             <div style={{minWidth: 140}}>
               <div className="mt-4 font-weight-bold">LEGENDA</div>
-              <div>
-                <img
-                  src={require("../../utils/images/squareBlue.png")}
-                />{" "}
-                Rede de Distribuição de Água
-              </div>
-              <div>
-                <img
-                  src={require("../../utils/images/squareOrange.png")}
-                />{" "}
-                Rede de Distribuição de Gás Natural
-              </div>
-              <div>
-                <img
-                  src={require("../../utils/images/squareGreen.png")}
-                />{" "}
-                Rede Coletora de Esgoto
-              </div>
-              <div>
-                <img
-                  src={require("../../utils/images/squareGray.png")}
-                />{" "}
-                Sistema Viário
-              </div>
-              <div>
-                <img
-                  src={require("../../utils/images/flagBlue.png")}
-                />{" "}
-                Intervenções Rede de Distribuição de Água
-              </div>
-              <div>
-                <img
-                  src={require("../../utils/images/flagOrange.png")}
-                />{" "}
-                Intervenções Rede de Distribuição de Gás Natural
-              </div>
-              <div>
-                <img
-                  src={require("../../utils/images/flagGreen.png")}
-                />{" "}
-                Intervenções Rede Coletora de Esgoto
-              </div>
-              <div>
-                <img
-                  src={require("../../utils/images/flagGray.png")}
-                />{" "}
-                Intervenções Sistema Viário
-              </div>
+
               <div>
                 <img
                   src={require("../../utils/images/squareSea.png")}

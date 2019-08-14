@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from "react";
 import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 import {FirebaseContext} from "../Firebase";
 
-const FilerAgua = () => {
+const FilerViario = () => {
   const [state, setState] = useState({
     image: "",
     imageURL: "",
@@ -11,24 +11,22 @@ const FilerAgua = () => {
 
   const firebase = useContext(FirebaseContext);
 
-  //
-
   const sendRequest = file => {
     return new Promise((resolve, reject) => {
       const req = new XMLHttpRequest();
 
       const formData = new FormData();
-      formData.append("file", file, "agua");
+      formData.append("file", file, file.name);
 
-      req.open("POST", process.env.REACT_APP_URL_SERVER_UPLOAD_AGUA);
+      req.open(
+        "POST",
+        process.env.REACT_APP_URL_SERVER_UPLOAD_VIARIO
+      );
       req.send(formData);
     });
   };
 
-  //
-
   const handleUploadStart = e => {
-    console.log("quando começa: ", e);
     setState(state => ({...state, progress: 0}));
     sendRequest(e);
   };
@@ -42,7 +40,7 @@ const FilerAgua = () => {
 
   const handleName = filename => {
     console.log(filename);
-    return "rda_meireles.json";
+    return "rdv_meireles.json";
   };
 
   const handleProgress = progress => {
@@ -63,7 +61,7 @@ const FilerAgua = () => {
         </div>
       ) : (
         <p>
-          AVISO: o nome do arquivo será salvo como "rda_meireles" e
+          AVISO: o nome do arquivo será salvo como "rdv_meireles" e
           precisa ter extensão ".geojson" ou ".json"
         </p>
       )}
@@ -83,10 +81,10 @@ const FilerAgua = () => {
           borderRadius: 4
         }}
       >
-        Fazer Upload da Rede de Abastecimento de Água
+        Fazer Upload do Sistema Viário
       </CustomUploadButton>
     </div>
   );
 };
 
-export default FilerAgua;
+export default FilerViario;

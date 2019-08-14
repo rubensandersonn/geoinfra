@@ -138,21 +138,28 @@ const MapHandler = props => {
   };
 
   const [
-    {visibleAgua, visibleGas, visibleEsgoto},
+    {visibleAgua, visibleGas, visibleEsgoto, visibleViario},
     setLayer
   ] = useState({
     visibleAgua: true,
     visibleGas: true,
-    visibleEsgoto: true
+    visibleEsgoto: true,
+    visibleViario: true
   });
 
   const [
-    {visibleCagece, visibleCegas, visiblePrefeitura},
+    {
+      visibleIntervAgua,
+      visibleIntervGas,
+      visibleIntervEsgoto,
+      visibleIntervViario
+    },
     setLayerInterv
   ] = useState({
-    visibleCagece: true,
-    visibleCegas: true,
-    visiblePrefeitura: true
+    visibleIntervAgua: true,
+    visibleIntervGas: true,
+    visibleIntervEsgoto: true,
+    visibleIntervViario: true
   });
 
   function toggleMenu() {
@@ -181,6 +188,13 @@ const MapHandler = props => {
         }));
         break;
       }
+      case "viario": {
+        setLayer(state => ({
+          ...state,
+          visibleViario: !visibleViario
+        }));
+        break;
+      }
       default: {
         console.log("(toggleLayer) erro ao chavear o tipo");
       }
@@ -189,24 +203,31 @@ const MapHandler = props => {
 
   const toggleLayerInterv = type => {
     switch (type) {
-      case "cagece": {
+      case "agua": {
         setLayerInterv(state => ({
           ...state,
-          visibleCagece: !visibleCagece
+          visibleIntervAgua: !visibleIntervAgua
         }));
         break;
       }
-      case "cegas": {
+      case "gas": {
         setLayerInterv(state => ({
           ...state,
-          visibleCegas: !visibleCegas
+          visibleIntervGas: !visibleIntervGas
         }));
         break;
       }
-      case "prefeitura": {
+      case "esgoto": {
         setLayerInterv(state => ({
           ...state,
-          visiblePrefeitura: !visiblePrefeitura
+          visibleIntervEsgoto: !visibleIntervEsgoto
+        }));
+        break;
+      }
+      case "viario": {
+        setLayerInterv(state => ({
+          ...state,
+          visibleIntervViario: !visibleIntervViario
         }));
         break;
       }
@@ -240,13 +261,12 @@ const MapHandler = props => {
     obj.responsable = authority;
 
     console.log("(submit create) nova interv:", obj);
-    console.log("(submit create) intervenções 1:", interventions);
 
     interventions && interventions[obj.endereco]
       ? interventions[obj.endereco].push(obj)
       : (interventions[obj.endereco] = [obj]);
 
-    console.log("(submit create) intervenções 2:", interventions);
+    // console.log("(submit create) intervenções:", interventions);
     //
     firebase.doCreateIntervention(
       interventions[obj.endereco],
@@ -295,12 +315,14 @@ const MapHandler = props => {
                         visibleLayer={{
                           visibleAgua,
                           visibleEsgoto,
-                          visibleGas
+                          visibleGas,
+                          visibleViario
                         }}
                         visibleLayerInterv={{
-                          visibleCagece,
-                          visibleCegas,
-                          visiblePrefeitura
+                          visibleIntervAgua,
+                          visibleIntervGas,
+                          visibleIntervEsgoto,
+                          visibleIntervViario
                         }}
                         interventions={interventions}
                       />
