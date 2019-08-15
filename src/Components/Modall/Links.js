@@ -1,10 +1,9 @@
-import React, {useState} from "react";
+import React, {useState, useContext} from "react";
+import {FirebaseContext} from "../Firebase";
 
 // import { Container } from './styles';
 
-export default function Links(props) {
-  const {state} = props;
-
+export default function Links() {
   const [visibleLinks, setOpen] = useState(false);
 
   return (
@@ -27,7 +26,9 @@ export default function Links(props) {
                 <a
                   rel="noopener noreferrer"
                   target="_blank"
-                  href={state.aguaURL}
+                  href={
+                    process.env.REACT_APP_URL_SERVER_DOWNLOAD_AGUA
+                  }
                 >
                   Rede de Distribuição de Água
                 </a>
@@ -36,7 +37,7 @@ export default function Links(props) {
                 <a
                   rel="noopener noreferrer"
                   target="_blank"
-                  href={state.gasURL}
+                  href={process.env.REACT_APP_URL_SERVER_DOWNLOAD_GAS}
                 >
                   Rede de Distribuição de Gás Natural
                 </a>
@@ -45,14 +46,22 @@ export default function Links(props) {
                 <a
                   rel="noopener noreferrer"
                   target="_blank"
-                  href={state.esgotoURL}
+                  href={
+                    process.env.REACT_APP_URL_SERVER_DOWNLOAD_ESGOTO
+                  }
                 >
                   Rede Coletora de Esgoto
                 </a>
               </li>
               <li>
-                <a rel="noopener noreferrer" target="_blank">
-                  Rede de Sistema Viário (vazio)
+                <a
+                  rel="noopener noreferrer"
+                  target="_blank"
+                  href={
+                    process.env.REACT_APP_URL_SERVER_DOWNLOAD_VIARIO
+                  }
+                >
+                  Rede de Sistema Viário
                 </a>
               </li>
             </ul>

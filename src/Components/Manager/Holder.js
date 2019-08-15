@@ -64,38 +64,6 @@ const Holder = props => {
     toggleLayerInterv("viario");
   };
 
-  // === === modal things === ===
-
-  const [state, setState] = useState({
-    aguaURL: null,
-    esgotoURL: null,
-    gasURL: null
-  });
-
-  useEffect(() => {
-    firebase
-      .getRef()
-      .child("rda_meireles.json")
-      .getDownloadURL()
-      .then(url => {
-        setState(state => ({...state, aguaURL: url}));
-      });
-    firebase
-      .getRef()
-      .child("rde_meireles.json")
-      .getDownloadURL()
-      .then(url => {
-        setState(state => ({...state, esgotoURL: url}));
-      });
-    firebase
-      .getRef()
-      .child("rdg_meireles.json")
-      .getDownloadURL()
-      .then(url => {
-        setState(state => ({...state, gasURL: url}));
-      });
-  }, [firebase]);
-
   return (
     <div
       style={{minWidth: "28%", minHeight: 500}}
@@ -104,11 +72,7 @@ const Holder = props => {
       <div className="">
         <div className="">
           <div className="border-bottom mb-2">
-            {state.aguaURL && state.gasURL && state.esgotoURL ? (
-              <Links state={state} />
-            ) : (
-              "Carregando Downloads..."
-            )}
+            <Links />
           </div>
           <div className="border pb-2 pt-2 pl-2 mb-2">
             <div className="font-weight-bold">
