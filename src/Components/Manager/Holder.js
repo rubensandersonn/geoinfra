@@ -48,7 +48,7 @@ const Holder = props => {
     toggleLayer("esgoto");
   };
   const viarioChecked = () => {
-    toggleLayer("esgoto");
+    toggleLayer("viario");
   };
 
   const intervAguaChecked = () => {
