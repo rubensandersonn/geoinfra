@@ -75,41 +75,20 @@ const AboutPage = () => {
               <div className="block-team-member-1 text-center rounded">
                 <div style={{marginBottom: 15}}>
                   <img
-                    src={require("../utils/images/avatar.png")}
-                    alt="Image"
+                    style={{maxHeight: 180}}
+                    src={require("../utils/images/persons/ygor.jpg")}
+                    alt="Ygor"
                     className="img-fluid rounded-circle"
                   />
                 </div>
                 <h3 className="font-size-20 text-black m-4">
-                  Ygor Carvalho
+                  Ygor de Carvalho Alencar
                 </h3>
                 <span className="d-block font-gray-5 letter-spacing-1 text-uppercase font-size-12 mb-3">
-                  Título
-                </span>
-                <p className="px-3 mb-3">Autor principal</p>
-              </div>
-            </div>
-
-            <div
-              className="col-lg-4 col-md-6 mb-4 mb-lg-0"
-              data-aos="fade-up"
-            >
-              <div className="block-team-member-1 text-center rounded">
-                <div style={{marginBottom: 15}}>
-                  <img
-                    src={require("../utils/images/avatar.png")}
-                    alt="Image"
-                    className="img-fluid rounded-circle"
-                  />
-                </div>
-                <h3 className="font-size-20 text-black m-4">Autor</h3>
-                <span className="d-block font-gray-5 letter-spacing-1 text-uppercase font-size-12 mb-3">
-                  Título
+                  Autor
                 </span>
                 <p className="px-3 mb-3">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing
-                  elit. Atque, repellat. At, soluta. Repellendus vero,
-                  consequuntur!
+                  Mestrando em Engenharia dos Transportes
                 </p>
               </div>
             </div>
@@ -121,19 +100,47 @@ const AboutPage = () => {
               <div className="block-team-member-1 text-center rounded">
                 <div style={{marginBottom: 15}}>
                   <img
-                    src={require("../utils/images/avatar.png")}
+                    style={{maxHeight: 180}}
+                    src={require("../utils/images/persons/uchoa.jpg")}
                     alt="Image"
                     className="img-fluid rounded-circle"
                   />
                 </div>
-                <h3 className="font-size-20 text-black m-4">Autor</h3>
+                <h3 className="font-size-20 text-black m-4">
+                  D.Sc. Carlos Augusto Uchôa da Silva
+                </h3>
                 <span className="d-block font-gray-5 letter-spacing-1 text-uppercase font-size-12 mb-3">
-                  Cargo
+                  Orientador
                 </span>
                 <p className="px-3 mb-3">
-                  Lorem ipsum dolor sit amet, consectetur adipisicing
-                  elit. Atque, repellat. At, soluta. Repellendus vero,
-                  consequuntur!
+                  Professor Associado no Centro de Tecnologia da
+                  Universidade Federal do Ceará
+                </p>
+              </div>
+            </div>
+
+            <div
+              className="col-lg-4 col-md-6 mb-4 mb-lg-0"
+              data-aos="fade-up"
+            >
+              <div className="block-team-member-1 text-center rounded">
+                <div style={{marginBottom: 15}}>
+                  <img
+                    style={{maxHeight: 180}}
+                    src={require("../utils/images/persons/rubens.jpg")}
+                    alt="Image"
+                    className="img-fluid rounded-circle"
+                  />
+                </div>
+                <h3 className="font-size-20 text-black m-4">
+                  Rubens Anderson de Sousa Silva
+                </h3>
+                <span className="d-block font-gray-5 letter-spacing-1 text-uppercase font-size-12 mb-3">
+                  Co-autor
+                </span>
+                <p className="px-3 mb-3">
+                  Mestrando em Ciência da Computação da Universidade
+                  Federal do Ceará
                 </p>
               </div>
             </div>
