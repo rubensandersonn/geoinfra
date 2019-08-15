@@ -6,29 +6,20 @@ import {
   Marker
 } from "google-maps-react";
 
-import React, {
-  createRef,
-  useContext,
-  useState,
-  useEffect
-} from "react";
+import React, {createRef, useContext, useState} from "react";
 import MapCons from "../../Context/MapCons";
 import AguaContext from "../../Context/AguaContext";
 import EsgotoContext from "../../Context/EsgotoContext";
 import GasContext from "../../Context/GasContext";
-import FirebaseContext from "../../Components/Firebase/context";
-import Legend from "./Legend";
+
+import {isFirstLattest} from "../../Components/Validators/ValidatorDate";
 
 const Mapp = props => {
   // === === === CONTEXTS === === ===
 
-  const firebase = useContext(FirebaseContext);
-
   const {
     google,
-    authority,
-    setKey,
-    setType,
+
     interventions,
     visibleLayer,
     visibleLayerInterv
@@ -36,12 +27,12 @@ const Mapp = props => {
 
   // console.log("map auth:", authority);
 
-  const {agua, dispatchAgua} = useContext(AguaContext);
-  const {esgoto, dispatchEsgoto} = useContext(EsgotoContext);
+  const {agua} = useContext(AguaContext);
+  const {esgoto} = useContext(EsgotoContext);
 
-  const {gas, dispatchGas} = useContext(GasContext);
+  const {gas} = useContext(GasContext);
 
-  const {initialPlace, mapStyles, polyTypes} = MapCons;
+  const {initialPlace, mapStyles} = MapCons;
 
   // toggle visible data
   const {visibleAgua, visibleEsgoto, visibleGas} = visibleLayer;
@@ -104,8 +95,6 @@ const Mapp = props => {
    * @param {*} coord
    */
   const showRegularInfo = async (key, type, coord) => {
-    // console.log("poly clicked", key, type, coord[0]);
-
     let val = {};
 
     switch (type) {
@@ -156,45 +145,26 @@ const Mapp = props => {
    * @param {*} coord
    */
   const onPolyClicked = (key, type, coord) => {
-    let el;
-
-    switch (type) {
-      case "agua":
-        el = agua[key];
-        break;
-      case "esgoto":
-        el = esgoto[key];
-        break;
-      case "gas":
-        el = esgoto[key];
-        break;
-      default:
-        el = el;
-        break;
-    }
-
     // mostra uma janela comum para todo usuário
     showRegularInfo(key, type, coord);
   };
 
   // quando o mouse passa sobre a poly, atualizar
   // {visibleInfo, valueMarker, positionMarker}
-  const onPolyHover = coord => {
-    // console.log("poly hovered", coord[0]);
+  // const onPolyHover = coord => {
+  //   // quem desativa a visibilidade é o map click
+  //   setVisibleInfo(true);
 
-    // quem desativa a visibilidade é o map click
-    setVisibleInfo(true);
+  //   const mediaCoord = {
+  //     lat: (coord[0].lat + coord[1].lat) / 2,
+  //     lng: (coord[0].lng + coord[1].lng) / 2
+  //   };
 
-    const mediaCoord = {
-      lat: (coord[0].lat + coord[1].lat) / 2,
-      lng: (coord[0].lng + coord[1].lng) / 2
-    };
+  //   //setando as coordenadas da infoWindow. Espero receber dois valores lat lng
+  //   setPositionMarker(mediaCoord);
 
-    //setando as coordenadas da infoWindow. Espero receber dois valores lat lng
-    setPositionMarker(mediaCoord);
-
-    setValueMarker("Clique para ver mais");
-  };
+  //   setValueMarker("Clique para ver mais");
+  // };
 
   /**
    * Função que mapeia a rede de agua
@@ -317,24 +287,39 @@ const Mapp = props => {
    * Add legend to the map about the colors
    * @param {*} google
    */
-  const addLegend = google => {
-    var legend = document.getElementById("legend");
+  // const addLegend = google => {
+  //   var legend = document.getElementById("legend");
 
-    mapRef.current.map.controls[
-      google.maps.ControlPosition.LEFT_BOTTOM
-    ].push(legend);
+  //   mapRef.current.map.controls[
+  //     google.maps.ControlPosition.LEFT_BOTTOM
+  //   ].push(legend);
+  // };
 
-    // legend.style.display = "block";
-  };
+  // === === MAPAS DE INTERVENÇÕES === ===
 
-  const onMarkerClick = () => {
-    console.log("marker licked");
+  const validateDate = dataTermino => {
+    // getting today dd/mm/yyyy
+    var today = new Date();
+    var dd = String(today.getDate()).padStart(2, "0");
+    var mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+    var yyyy = today.getFullYear();
+
+    today = dd + "/" + mm + "/" + yyyy;
+
+    if (isFirstLattest(today, dataTermino)) {
+      return false;
+    }
+
+    return true;
   };
 
   const mapInterventionsEsgoto = Object.keys(interventions).map(
     endereco => {
       return interventions[endereco].map((interv, index) => {
-        if (interv.tipo_rede !== "esgoto") {
+        if (interv.tipo_rede !== "rede esgoto") {
+          return null;
+        }
+        if (!validateDate(interv.data2)) {
           return null;
         }
         let url = "";
@@ -364,7 +349,10 @@ const Mapp = props => {
   const mapInterventionsGas = Object.keys(interventions).map(
     endereco => {
       return interventions[endereco].map((interv, index) => {
-        if (interv.tipo_rede !== "gás") {
+        if (interv.tipo_rede !== "rede gás") {
+          return null;
+        }
+        if (!validateDate(interv.data2)) {
           return null;
         }
         let url = "";
@@ -395,7 +383,10 @@ const Mapp = props => {
   const mapInterventionsAgua = Object.keys(interventions).map(
     endereco => {
       return interventions[endereco].map((interv, index) => {
-        if (interv.tipo_rede !== "água") {
+        if (interv.tipo_rede !== "rede água") {
+          return null;
+        }
+        if (!validateDate(interv.data2)) {
           return null;
         }
         let url = "";
@@ -403,6 +394,37 @@ const Mapp = props => {
 
         title = "Intervenção Rede Água";
         url = require("../../utils/images/flagBlueLG.png");
+
+        const {coordinates} = interv;
+
+        return coordinates ? (
+          <Marker
+            title={title}
+            key={index}
+            position={coordinates}
+            icon={url}
+            onClick={() => {
+              showInfoInterv(interv);
+            }}
+          />
+        ) : (
+          ""
+        );
+      });
+    }
+  );
+
+  const mapInterventionsViario = Object.keys(interventions).map(
+    endereco => {
+      return interventions[endereco].map((interv, index) => {
+        if (interv.tipo_rede !== "sistema viário") {
+          return null;
+        }
+        let url = "";
+        let title = "";
+
+        title = "Intervenção Sistema Viário";
+        url = require("../../utils/images/flagGrayLG.png");
 
         const {coordinates} = interv;
 
@@ -463,8 +485,6 @@ const Mapp = props => {
   };
 
   const showInfoInterv = interv => {
-    // console.log("poly clicked", key, type, coord[0]);
-
     // quem desativa a visibilidade é o map click
     setVisibleInfo(true);
 
@@ -516,6 +536,7 @@ const Mapp = props => {
         {visibleIntervAgua && mapInterventionsAgua}
         {visibleIntervGas && mapInterventionsGas}
         {visibleIntervEsgoto && mapInterventionsEsgoto}
+        {visibleIntervViario && mapInterventionsViario}
       </Map>
       {/* legendas: */}
       <div

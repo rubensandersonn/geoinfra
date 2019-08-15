@@ -42,7 +42,10 @@ export default function Legend() {
           Interv. Rede de Sistema Viário
         </div> */}
         <div>
-          <img src={require("../../utils/images/squareSea.png")} />{" "}
+          <img
+            alt="legenda: quadrado azul para água"
+            src={require("../../utils/images/squareSea.png")}
+          />{" "}
           Oceano
         </div>
       </div>

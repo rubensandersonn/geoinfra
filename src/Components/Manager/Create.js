@@ -1,9 +1,5 @@
 import React, {useReducer, useState, useEffect} from "react";
-import {
-  validateAdress,
-  validateNumber,
-  validateDate
-} from "../Validators";
+import {validateDate} from "../Validators";
 import LocationSearchInput from "../Search/LocationSearchInput";
 
 const reducer = (state, action) => {
@@ -40,11 +36,8 @@ const Create = props => {
     tipo_rede: "none"
   });
 
-  const [validEndereco, setValidEndereco] = useState(true);
   const [validData1, setValidData1] = useState(true);
   const [validData2, setValidData2] = useState(true);
-  const [validNumber1, setValidNumber1] = useState(true);
-  const [validNumber2, setValidNumber2] = useState(true);
 
   const [mapErrors, setMapErrors] = useState(() => {});
   const [successMsg, setSuccessMsg] = useState();
@@ -84,12 +77,13 @@ const Create = props => {
 
   const [visibleDropdown, setVisibleDropdown] = useState(false);
 
+  // choices: sistema viário , rede água , rede esgoto , rede gás
   let choices = [];
 
   if (authority === "prefeitura") {
     choices = ["sistema viário"];
   } else if (authority === "cagece") {
-    choices = ["rede água", "esgoto"];
+    choices = ["rede água", "rede esgoto"];
   } else {
     choices = ["rede gás"];
   }
@@ -99,7 +93,7 @@ const Create = props => {
   const flagOrange = require("../../utils/images/flagOrange.png");
   const flagGray = require("../../utils/images/flagGray.png");
 
-  const [chosen, setChosen] = useState("none");
+  // const [chosen, setChosen] = useState("none");
 
   const mapChoices = choices.map((tipo_rede, index) => {
     return (
@@ -115,6 +109,7 @@ const Create = props => {
       >
         <div>
           <img
+            alt="icone rede"
             src={
               tipo_rede === "rede água"
                 ? flagBlue
@@ -144,9 +139,6 @@ const Create = props => {
           if (
             validData1 &&
             validData2 &&
-            validEndereco &&
-            validNumber1 &&
-            validNumber2 &&
             tipo_rede !== "none" &&
             isIntervalFree(data1, data2)
           ) {

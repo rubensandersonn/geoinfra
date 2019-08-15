@@ -5,49 +5,36 @@ import {FirebaseContext} from "../../Components/Firebase";
 
 // import html2pdf from "html2pdf.js";
 // import Search from "../Search";
-import Update from "./Update";
 
 import Links from "../Modall/Links";
-import Legend from "../../Pages/Mapp/Legend";
-
-// import { Container } from './styles';
 
 const Holder = props => {
   let firebase = useContext(FirebaseContext);
 
   const {
     authority,
-    type,
-    index,
     toggleLayer,
     toggleLayerInterv,
     submitCreate
   } = props;
 
-  let rede = [];
-
-  const pretifyWindow = value => {
-    if (value.constructor !== {}.constructor) {
-      return "";
-    }
-    return Object.keys(value).map(keyy => (
-      <div key={keyy}>
-        <span style={{fontWeight: "bold"}}>{keyy}</span>:{" "}
-        {value[keyy]}
-      </div>
-    ));
-  };
+  // const pretifyWindow = value => {
+  //   if (value.constructor !== {}.constructor) {
+  //     return "";
+  //   }
+  //   return Object.keys(value).map(keyy => (
+  //     <div key={keyy}>
+  //       <span style={{fontWeight: "bold"}}>{keyy}</span>:{" "}
+  //       {value[keyy]}
+  //     </div>
+  //   ));
+  // };
 
   const [visibleCadastrar, setVisibleCadastrar] = useState(false);
-  const [visibleAtualizar, setVisibleAtualizar] = useState(false);
-
-  const [visiblePlanejamento, setVisiblePlanejamento] = useState(
-    false
-  );
 
   // element chosen from search bar
-  const [element, setEl] = useState(null);
-  const [indexInterv, setIndex] = useState(null);
+  // const [element, setEl] = useState(null);
+  // const [indexInterv, setIndex] = useState(null);
 
   // === === checkboxes === ===
 
@@ -61,7 +48,7 @@ const Holder = props => {
     toggleLayer("esgoto");
   };
   const viarioChecked = () => {
-    // toggleLayer("esgoto");
+    toggleLayer("esgoto");
   };
 
   const intervAguaChecked = () => {
@@ -75,18 +62,6 @@ const Holder = props => {
   };
   const intervViarioChecked = () => {
     toggleLayerInterv("viario");
-  };
-
-  // === === planejamentos cheks === ===
-
-  const aguaPlanChecked = () => {
-    // toggleLayer("agua");
-  };
-  const gasPlanChecked = () => {
-    // toggleLayer("gas");
-  };
-  const esgotoPlanChecked = () => {
-    // toggleLayer("esgoto");
   };
 
   // === === modal things === ===
@@ -119,7 +94,7 @@ const Holder = props => {
       .then(url => {
         setState(state => ({...state, gasURL: url}));
       });
-  }, []);
+  }, [firebase]);
 
   return (
     <div
@@ -148,6 +123,7 @@ const Holder = props => {
                 defaultChecked
               />
               <img
+                alt="imagem"
                 className="mr-2"
                 src={require("../../utils/images/squareBlue.png")}
               />
@@ -162,6 +138,7 @@ const Holder = props => {
                 defaultChecked
               />
               <img
+                alt="imagem"
                 className="mr-2"
                 src={require("../../utils/images/squareOrange.png")}
               />
@@ -176,6 +153,7 @@ const Holder = props => {
                 defaultChecked
               />
               <img
+                alt="imagem"
                 className="mr-2"
                 src={require("../../utils/images/squareGreen.png")}
               />
@@ -190,6 +168,7 @@ const Holder = props => {
                 defaultChecked
               />
               <img
+                alt="imagem"
                 className="mr-2"
                 src={require("../../utils/images/squareGray.png")}
               />
@@ -211,7 +190,10 @@ const Holder = props => {
                 id="checkAgua"
                 defaultChecked
               />
-              <img src={require("../../utils/images/flagBlue.png")} />
+              <img
+                alt="imagem"
+                src={require("../../utils/images/flagBlue.png")}
+              />
               Rede de Distribuição de Água
             </div>
             <div id="planejamentosGas">
@@ -223,6 +205,7 @@ const Holder = props => {
                 defaultChecked
               />
               <img
+                alt="imagem"
                 src={require("../../utils/images/flagOrange.png")}
               />
               Rede de Distribuição de Gás Natural
@@ -236,6 +219,7 @@ const Holder = props => {
                 defaultChecked
               />
               <img
+                alt="imagem"
                 src={require("../../utils/images/flagGreen.png")}
               />
               Rede Coletora de Esgoto
@@ -248,7 +232,10 @@ const Holder = props => {
                 id="checkViario"
                 defaultChecked
               />
-              <img src={require("../../utils/images/flagGray.png")} />
+              <img
+                alt="imagem"
+                src={require("../../utils/images/flagGray.png")}
+              />
               Sistema Viário
             </div>
           </div>
@@ -289,25 +276,6 @@ const Holder = props => {
 
                 <hr />
               </div>
-              <div>
-                {visibleAtualizar &&
-                  element &&
-                  (element.responsable === authority ||
-                  authority === "prefeitura" ? (
-                    <div id="atualizar" className="container ">
-                      {/* <Update
-                        el={element}
-                        onSubmit={obj => submitUpdate(obj)}
-                      /> */}
-                    </div>
-                  ) : (
-                    <div style={{color: "red"}} className="col-lg-10">
-                      Desculpe, a autoridade responsável pela
-                      intervenção é diferente da atual
-                    </div>
-                  ))}
-                <hr />
-              </div>
             </div>
           ) : (
             ""
@@ -320,6 +288,7 @@ const Holder = props => {
 
               <div>
                 <img
+                  alt="imagem"
                   src={require("../../utils/images/squareSea.png")}
                 />{" "}
                 Oceano Atlântico

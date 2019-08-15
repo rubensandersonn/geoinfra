@@ -1,5 +1,4 @@
-import React, {useState} from "react";
-import Modall from "../Components/Modall";
+import React from "react";
 
 import "../utils/fonts/flaticon/font/flaticon.css";
 
@@ -7,15 +6,6 @@ import "../utils/fonts/flaticon/font/flaticon.css";
 
 const AboutPage = () => {
   //const [visible, setVisible] = useState(false);
-
-  const content = () => (
-    <div>
-      <h1>Sobre este projeto</h1>
-      <p>Autores</p>
-      <p>Descrição</p>
-      <p>Agradecimentos</p>
-    </div>
-  );
 
   return (
     <>
@@ -88,7 +78,8 @@ const AboutPage = () => {
                   Autor
                 </span>
                 <p className="px-3 mb-3">
-                  Mestrando em Engenharia dos Transportes
+                  Mestrando em Engenharia dos Transportes da
+                  Universidade Federal do Ceará
                 </p>
               </div>
             </div>
@@ -102,7 +93,7 @@ const AboutPage = () => {
                   <img
                     style={{maxHeight: 180}}
                     src={require("../utils/images/persons/uchoa.jpg")}
-                    alt="Image"
+                    alt="Carlos Uchoa"
                     className="img-fluid rounded-circle"
                   />
                 </div>
@@ -128,7 +119,7 @@ const AboutPage = () => {
                   <img
                     style={{maxHeight: 180}}
                     src={require("../utils/images/persons/rubens.jpg")}
-                    alt="Image"
+                    alt="Rubens"
                     className="img-fluid rounded-circle"
                   />
                 </div>
@@ -180,7 +171,7 @@ const AboutPage = () => {
                 <img
                   style={{width: 120, maxHeight: 120}}
                   src={require("../utils/images/logos/ufc2.png")}
-                  alt="Image"
+                  alt="ufc"
                   className="img-fluid  mx-auto"
                 />
                 <h3 className="font-size-20 text-black m-4">UFC</h3>
@@ -206,7 +197,7 @@ const AboutPage = () => {
                 <img
                   style={{width: 120, maxHeight: 120}}
                   src={require("../utils/images/logos/petran.png")}
-                  alt="Image"
+                  alt="petran"
                   className="img-fluid  mx-auto"
                 />
                 <h3 className="font-size-20 text-black m-4">
@@ -234,7 +225,7 @@ const AboutPage = () => {
                 <img
                   style={{width: 120, maxHeight: 120}}
                   src={require("../utils/images/logos/capes.jpg")}
-                  alt="Image"
+                  alt="capes"
                   className="img-fluid  mx-auto"
                 />
                 <h3 className="font-size-20 text-black m-4">CAPES</h3>
@@ -260,7 +251,7 @@ const AboutPage = () => {
                 <img
                   style={{width: 120, maxHeight: 120}}
                   src={require("../utils/images/logos/funcap.png")}
-                  alt="Image"
+                  alt="funcap"
                   className="img-fluid  mx-auto"
                 />
                 <h3 className="font-size-20 text-black m-4">
@@ -272,9 +263,21 @@ const AboutPage = () => {
         </div>
       </div>
 
-      <footer className="site-footer align-items-center">
+      <footer
+        style={{minHeight: 200}}
+        className="site-footer align-items-center p-4"
+      >
+        <div
+          style={{minHeight: 100}}
+          className="mt-4 text-center align-items-center justify-content-center"
+        >
+          Este apliativo foi desenvolvido com objetivos científicos no
+          programa de pós graduação em Engenharia dos Transportes da
+          Universidade Federal do Ceará. Os autores não se
+          responsabilizam pelas informações apresentadas na aplicação
+        </div>
         <div className="text-center">
-          <p>Software Desenvolvido por: YGOR CARVALHO</p>
+          <p>Software Desenvolvido por: YGOR CARVALHO |</p>
         </div>
       </footer>
     </>

@@ -128,7 +128,7 @@ const MapHandler = props => {
       console.log("(gas) recebidos novos dados do firebase");
       dispatchGas({type: "updateAll", value: snap.val()});
     });
-  }, []);
+  }, [firebase]);
 
   //=== === Callbacks === ===
 
@@ -162,14 +162,14 @@ const MapHandler = props => {
     visibleIntervViario: true
   });
 
-  function toggleMenu() {
-    var x = document.getElementById("navv");
-    if (x.style.display === "none") {
-      x.style.display = "inline";
-    } else {
-      x.style.display = "none";
-    }
-  }
+  // function toggleMenu() {
+  //   var x = document.getElementById("navv");
+  //   if (x.style.display === "none") {
+  //     x.style.display = "inline";
+  //   } else {
+  //     x.style.display = "none";
+  //   }
+  // }
 
   const toggleLayer = type => {
     switch (type) {
@@ -250,9 +250,11 @@ const MapHandler = props => {
         // novo.push(snap.val());
 
         setInterventions(snap.val());
+
         interventions = snap.val();
+        console.log("(handler) new interventions!");
       } else {
-        console.log("(holder) child added wrongly:");
+        console.log("(holder) intervenções inválidas");
       }
     });
   }, []);
