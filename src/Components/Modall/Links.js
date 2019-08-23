@@ -1,5 +1,4 @@
-import React, {useState, useContext} from "react";
-import {FirebaseContext} from "../Firebase";
+import React, {useState} from "react";
 
 // import { Container } from './styles';
 

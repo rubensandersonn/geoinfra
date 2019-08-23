@@ -1,7 +1,7 @@
-import React, {useContext, useState, useEffect} from "react";
+import React, {useState} from "react";
 import Create from "../../Components/Manager/Create";
 
-import {FirebaseContext} from "../../Components/Firebase";
+// import {FirebaseContext} from "../../Components/Firebase";
 
 // import html2pdf from "html2pdf.js";
 // import Search from "../Search";
@@ -9,7 +9,7 @@ import {FirebaseContext} from "../../Components/Firebase";
 import Links from "../Modall/Links";
 
 const Holder = props => {
-  let firebase = useContext(FirebaseContext);
+  // let firebase = useContext(FirebaseContext);
 
   const {
     authority,

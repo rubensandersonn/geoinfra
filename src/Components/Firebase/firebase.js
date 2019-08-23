@@ -251,6 +251,9 @@ class Firebase {
   getRefEsgoto() {
     return this.db.ref("esgoto/rede");
   }
+  getRefViario() {
+    return this.db.ref("viario/rede");
+  }
   getRefDB(type) {
     return this.db.ref(type + "/update");
   }
@@ -279,42 +282,6 @@ class Firebase {
         .catch(err => {
           console.log("deu erro ao inserir update:", err);
           resolve(false);
-        });
-    });
-  }
-
-  getRedeAgua() {
-    const getJSON = function(url, callback) {
-      console.log("abrindo");
-      var xhr = new XMLHttpRequest();
-      xhr.responseType = "blob";
-      xhr.onload = function(event) {
-        var blob = xhr.response;
-      };
-      xhr.open("GET", url);
-      xhr.send();
-    };
-
-    return new Promise(resolve => {
-      this.st
-        .ref("redes")
-        .child("rda_meireles.json")
-        .getDownloadURL()
-        .then(url => {
-          fetch(url, {
-            headers: {mode: "cors"}
-          })
-            .then(response => response.json())
-            .then(responseJson => {
-              // var downloadURL =
-              //   finalUrl +
-              //   "?alt=media&token=" +
-              //   responseJson.downloadTokens;
-              console.log("(fetch) resultado:::", responseJson);
-            });
-        })
-        .catch(err => {
-          console.log("erro ao pegar o url", err);
         });
     });
   }

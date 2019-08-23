@@ -118,15 +118,27 @@ const MapHandler = props => {
     // });
     firebase.getRefAgua().on("value", snap => {
       console.log("(agua) recebidos novos dados do firebase");
-      dispatchAgua({type: "updateAll", value: snap.val()});
+      if (snap && snap.val()) {
+        dispatchAgua({type: "updateAll", value: snap.val()});
+      }
     });
     firebase.getRefEsgoto().on("value", snap => {
       console.log("(esgoto) recebidos novos dados do firebase");
-      dispatchEsgoto({type: "updateAll", value: snap.val()});
+      if (snap && snap.val()) {
+        dispatchEsgoto({type: "updateAll", value: snap.val()});
+      }
     });
     firebase.getRefGas().on("value", snap => {
       console.log("(gas) recebidos novos dados do firebase");
-      dispatchGas({type: "updateAll", value: snap.val()});
+      if (snap && snap.val()) {
+        dispatchGas({type: "updateAll", value: snap.val()});
+      }
+    });
+    firebase.getRefViario().on("value", snap => {
+      console.log("(viario) recebidos novos dados do firebase");
+      if (snap && snap.val()) {
+        dispatchGas({type: "updateAll", value: snap.val()});
+      }
     });
   }, [firebase]);
 
@@ -252,12 +264,12 @@ const MapHandler = props => {
         setInterventions(snap.val());
 
         interventions = snap.val();
-        console.log("(handler) new interventions!");
+        console.log("(handler) new interventions!", interventions);
       } else {
         console.log("(holder) intervenções inválidas");
       }
     });
-  }, []);
+  }, [firebase]);
 
   const submitCreate = obj => {
     obj.responsable = authority;

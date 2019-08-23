@@ -16,16 +16,18 @@ const FilerGas = () => {
       const req = new XMLHttpRequest();
 
       const formData = new FormData();
-      formData.append("file", file, file.name);
-
+      formData.append("file", file, "rdg_meireles.json");
       req.open("POST", process.env.REACT_APP_URL_SERVER_UPLOAD_GAS);
       req.send(formData);
     });
   };
 
   const handleUploadStart = e => {
+    // console.log("quando começa: ", e);
     setState(state => ({...state, progress: 0}));
-    sendRequest(e);
+    if (isJson(e.name)) {
+      sendRequest(e); // enviando arquivo
+    }
   };
 
   const handleUploadSuccess = filename => {
@@ -35,9 +37,19 @@ const FilerGas = () => {
     });
   };
 
-  const handleName = filename => {
-    console.log(filename);
-    return "rdg_meireles.json";
+  const isJson = filename => {
+    if (!filename) {
+      return false;
+    }
+    const splitted = filename.split(".");
+
+    if (splitted && splitted[splitted.length - 1] === "json") {
+      return true;
+    }
+    if (splitted && splitted[splitted.length - 1] === "geojson") {
+      return true;
+    }
+    return false;
   };
 
   const handleProgress = progress => {
@@ -50,22 +62,47 @@ const FilerGas = () => {
 
   return (
     <div className="container border rounded p-2 m-4 col-lg-8">
-      {state.progress !== 0 ? <div>{state.progress}%</div> : <div />}
-      {state.image ? (
-        <div>
-          <label>Arquivo: </label>
-          {state.image}
-        </div>
+      {state.progress !== 0 ? (
+        <div>Carregando: {state.progress}%</div>
       ) : (
-        <p>
-          AVISO: o nome do arquivo será salvo como "rdg_meireles" e
-          precisa ter extensão ".geojson" ou ".json"
-        </p>
+        <div />
+      )}
+      {state.image ? (
+        !isJson(state.image) ? (
+          <div style={{color: "red", margin: 15}}>
+            Erro! Arquivo {state.image} não possui a extensão ".json"
+            ou ".GeoJSON"
+          </div>
+        ) : (
+          <div>
+            <div style={{color: "#262626"}}>
+              <label>Arquivo: </label>
+              <span style={{fontWeight: "bold"}}> {state.image}</span>
+            </div>
+          </div>
+        )
+      ) : (
+        <>
+          <p style={{color: "#262626"}}>
+            AVISO: o nome do arquivo será salvo como "rdg_meireles" e
+            precisa ter extensão ".GeoJSON" ou ".json"
+          </p>
+          <p style={{fontStyle: "italic"}}>
+            Para converter seu arquivo gpkg ou Shapefile para GeoJSON,
+            clique{" "}
+            <a
+              target="_blank"
+              rel="noopener noreferrer"
+              href="http://ngageoint.github.io/geopackage-js/"
+            >
+              AQUI.
+            </a>
+          </p>
+        </>
       )}
 
       <CustomUploadButton
         accept={"application/json"}
-        filename={handleName}
         storageRef={firebase.getRef()}
         onUploadStart={handleUploadStart}
         onUploadError={handleUploadError}
