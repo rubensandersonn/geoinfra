@@ -4,7 +4,6 @@ import Create from "../../Components/Manager/Create";
 // import {FirebaseContext} from "../../Components/Firebase";
 
 // import html2pdf from "html2pdf.js";
-// import Search from "../Search";
 
 import Links from "../Modall/Links";
 
@@ -18,23 +17,7 @@ const Holder = props => {
     submitCreate
   } = props;
 
-  // const pretifyWindow = value => {
-  //   if (value.constructor !== {}.constructor) {
-  //     return "";
-  //   }
-  //   return Object.keys(value).map(keyy => (
-  //     <div key={keyy}>
-  //       <span style={{fontWeight: "bold"}}>{keyy}</span>:{" "}
-  //       {value[keyy]}
-  //     </div>
-  //   ));
-  // };
-
   const [visibleCadastrar, setVisibleCadastrar] = useState(false);
-
-  // element chosen from search bar
-  // const [element, setEl] = useState(null);
-  // const [indexInterv, setIndex] = useState(null);
 
   // === === checkboxes === ===
 

@@ -177,15 +177,11 @@ const Mapp = props => {
     var path = [];
     const coord = el.geometry.coordinates;
 
-    // endereço inicio
-    path.push({
-      lat: coord[0][1],
-      lng: coord[0][0]
-    });
-    // endereço fim
-    path.push({
-      lat: coord[1][1],
-      lng: coord[1][0]
+    coord.forEach((el, i) => {
+      path.push({
+        lat: coord[i][1],
+        lng: coord[i][0]
+      });
     });
 
     return (
@@ -214,15 +210,11 @@ const Mapp = props => {
     var path = [];
     const coord = el.geometry.coordinates;
 
-    // endereço inicio
-    path.push({
-      lat: coord[0][1],
-      lng: coord[0][0]
-    });
-    // endereço fim
-    path.push({
-      lat: coord[1][1],
-      lng: coord[1][0]
+    coord.forEach((el, i) => {
+      path.push({
+        lat: coord[i][1],
+        lng: coord[i][0]
+      });
     });
 
     return (
@@ -250,15 +242,11 @@ const Mapp = props => {
     var path = [];
     const coord = el.geometry.coordinates;
 
-    // endereço inicio
-    path.push({
-      lat: coord[0][1],
-      lng: coord[0][0]
-    });
-    // endereço fim
-    path.push({
-      lat: coord[1][1],
-      lng: coord[1][0]
+    coord.forEach((el, i) => {
+      path.push({
+        lat: coord[i][1],
+        lng: coord[i][0]
+      });
     });
 
     return (
