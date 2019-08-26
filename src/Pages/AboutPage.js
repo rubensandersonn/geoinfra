@@ -1,3 +1,9 @@
+/**
+ * @author RUBENS ANDERSON DE SOUSA SILVA
+ * @version 1.0
+ * contact: rubensanderson.cc@gmail.com
+ * site author: rubens-portfolio.herokuapp.com
+ */
 import React from "react";
 
 import "../utils/fonts/flaticon/font/flaticon.css";
@@ -5,8 +11,6 @@ import "../utils/fonts/flaticon/font/flaticon.css";
 //import { withAuthorization } from '../Session';
 
 const AboutPage = () => {
-  //const [visible, setVisible] = useState(false);
-
   return (
     <>
       <div className="site-section bg-light" id="press-section">

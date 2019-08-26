@@ -1,3 +1,9 @@
+/**
+ * @author RUBENS ANDERSON DE SOUSA SILVA
+ * @version 1.0
+ * contact: rubensanderson.cc@gmail.com
+ * site author: rubens-portfolio.herokuapp.com
+ */
 import React, {
   useState,
   useEffect,
@@ -51,19 +57,14 @@ const reducer = (state, action) => {
       });
     }
     case "create-intervention": {
-      console.log("case is create interventions: ", action);
       return state.map(el => {
         if (el.id === action.index) {
-          console.log("reduced");
           const newprops = el.properties;
           if (!newprops.interventions) {
             newprops.interventions = [];
           }
           newprops.interventions.push(action.value);
-          console.log("objeto passado: ", {
-            ...el,
-            properties: newprops
-          });
+
           el.properties = newprops;
           return {...el, properties: newprops};
         } else {
@@ -114,25 +115,21 @@ const MapHandler = props => {
 
   useEffect(() => {
     firebase.getRefAgua().on("value", snap => {
-      console.log("(agua) recebidos novos dados do firebase");
       if (snap && snap.val()) {
         dispatchAgua({type: "updateAll", value: snap.val()});
       }
     });
     firebase.getRefEsgoto().on("value", snap => {
-      console.log("(esgoto) recebidos novos dados do firebase");
       if (snap && snap.val()) {
         dispatchEsgoto({type: "updateAll", value: snap.val()});
       }
     });
     firebase.getRefGas().on("value", snap => {
-      console.log("(gas) recebidos novos dados do firebase");
       if (snap && snap.val()) {
         dispatchGas({type: "updateAll", value: snap.val()});
       }
     });
     firebase.getRefViario().on("value", snap => {
-      console.log("(viario) recebidos novos dados do firebase");
       if (snap && snap.val()) {
         dispatchGas({type: "updateAll", value: snap.val()});
       }
@@ -142,7 +139,6 @@ const MapHandler = props => {
   //=== === Callbacks === ===
 
   const setType = type => {
-    // console.log("setando o tipo ", type);
     setPolyType(type);
   };
 
@@ -261,7 +257,6 @@ const MapHandler = props => {
         setInterventions(snap.val());
 
         interventions = snap.val();
-        console.log("(handler) new interventions!");
       } else {
         console.log("(holder) intervenções inválidas");
       }
@@ -271,13 +266,10 @@ const MapHandler = props => {
   const submitCreate = obj => {
     obj.responsable = authority;
 
-    console.log("(submit create) nova interv:", obj);
-
     interventions && interventions[obj.endereco]
       ? interventions[obj.endereco].push(obj)
       : (interventions[obj.endereco] = [obj]);
 
-    // console.log("(submit create) intervenções:", interventions);
     //
     firebase.doCreateIntervention(
       interventions[obj.endereco],

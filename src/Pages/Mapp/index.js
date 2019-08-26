@@ -1,3 +1,9 @@
+/**
+ * @author RUBENS ANDERSON DE SOUSA SILVA
+ * @version 1.0
+ * contact: rubensanderson.cc@gmail.com
+ * site author: http://rubens-portfolio.herokuapp.com
+ */
 import {
   Map,
   GoogleApiWrapper,
@@ -6,7 +12,12 @@ import {
   Marker
 } from "google-maps-react";
 
-import React, {createRef, useContext, useState} from "react";
+import React, {
+  createRef,
+  useContext,
+  useEffect,
+  useState
+} from "react";
 import MapCons from "../../Context/MapCons";
 import AguaContext from "../../Context/AguaContext";
 import EsgotoContext from "../../Context/EsgotoContext";
@@ -16,17 +27,19 @@ import {isFirstLattest} from "../../Components/Validators/ValidatorDate";
 import ViarioContext from "../../Context/ViarioContext";
 
 const Mapp = props => {
+  useEffect(() => {
+    console.log("Made by: RUBENS ANDERSON DE SOUSA SILVA");
+    console.log("contact: rubensanderson.cc@gmail.com");
+    console.log("site: http://rubens-portfolio.herokuapp.com");
+  }, []);
   // === === === CONTEXTS === === ===
 
   const {
     google,
-
     interventions,
     visibleLayer,
     visibleLayerInterv
   } = props;
-
-  // console.log("map auth:", authority);
 
   const {agua} = useContext(AguaContext);
   const {esgoto} = useContext(EsgotoContext);
@@ -62,8 +75,11 @@ const Mapp = props => {
   // ======== AUX FUNCTIONs ===========
 
   const pretifyWindow = value => {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
       // mapeando o objeto
+      if (!value) {
+        reject("(prettify) value nulo");
+      }
       const mapp = Object.keys(value).map(key => {
         if (!key.match(/id|x|y/gm)) {
           return (
@@ -106,13 +122,13 @@ const Mapp = props => {
 
     switch (type) {
       case "agua":
-        val = agua[key].properties; // essa propriedade nao existe originalmente.
+        val = agua ? agua[key].properties : {}; // essa propriedade nao existe originalmente.
         break;
       case "esgoto":
-        val = esgoto[key].properties; // essa propriedade nao existe originalmente.
+        val = esgoto ? esgoto[key].properties : {}; // essa propriedade nao existe originalmente.
         break;
       case "gas":
-        val = gas[key].properties; // essa propriedade nao existe originalmente.
+        val = gas ? gas[key].properties : {}; // essa propriedade nao existe originalmente.
         break;
       case "viario":
         val = viario ? viario[key].properties : {}; // essa propriedade nao existe originalmente.
@@ -159,120 +175,109 @@ const Mapp = props => {
     showRegularInfo(key, type, coord);
   };
 
-  // quando o mouse passa sobre a poly, atualizar
-  // {visibleInfo, valueMarker, positionMarker}
-  // const onPolyHover = coord => {
-  //   // quem desativa a visibilidade é o map click
-  //   setVisibleInfo(true);
-
-  //   const mediaCoord = {
-  //     lat: (coord[0].lat + coord[1].lat) / 2,
-  //     lng: (coord[0].lng + coord[1].lng) / 2
-  //   };
-
-  //   //setando as coordenadas da infoWindow. Espero receber dois valores lat lng
-  //   setPositionMarker(mediaCoord);
-
-  //   setValueMarker("Clique para ver mais");
-  // };
-
   /**
    * Função que mapeia a rede de agua
    */
-  let mapAgua = agua.map((el, index) => {
-    // el.properties.interventions = [];
-    el.properties.responsable = "cagece";
-    el.properties.tipo_de_rede = "agua";
+  let mapAgua = agua
+    ? agua.map((el, index) => {
+        // el.properties.interventions = [];
+        el.properties.responsable = "cagece";
+        el.properties.tipo_de_rede = "agua";
 
-    var path = [];
-    const coord = el.geometry.coordinates;
+        var path = [];
+        const coord = el.geometry.coordinates;
 
-    coord.forEach((el, i) => {
-      path.push({
-        lat: coord[i][1],
-        lng: coord[i][0]
-      });
-    });
+        coord.forEach((el, i) => {
+          path.push({
+            lat: coord[i][1],
+            lng: coord[i][0]
+          });
+        });
 
-    return (
-      <Polyline
-        key={index}
-        path={path}
-        options={{
-          strokeColor: "#4863A0",
-          strokeOpacity: 0.8,
-          strokeWeight: 3
-        }}
-        onClick={e => onPolyClicked(index, "agua", path)}
-        // onMouseover={() => onPolyHover(path)}
-      />
-    );
-  });
+        return (
+          <Polyline
+            key={index}
+            path={path}
+            options={{
+              strokeColor: "#4863A0",
+              strokeOpacity: 0.8,
+              strokeWeight: 3
+            }}
+            onClick={e => onPolyClicked(index, "agua", path)}
+            // onMouseover={() => onPolyHover(path)}
+          />
+        );
+      })
+    : "";
 
   /**
    * Função que mapeia a rede de esgoto
    */
-  let mapEsgoto = esgoto.map((el, index) => {
-    // el.properties.interventions = [];
-    el.properties.responsavel = "cagece";
-    el.properties.tipo_de_rede = "esgoto";
+  let mapEsgoto = esgoto
+    ? esgoto.map((el, index) => {
+        // el.properties.interventions = [];
+        el.properties.responsavel = "cagece";
+        el.properties.tipo_de_rede = "esgoto";
 
-    var path = [];
-    const coord = el.geometry.coordinates;
+        var path = [];
+        const coord = el.geometry.coordinates;
 
-    coord.forEach((el, i) => {
-      path.push({
-        lat: coord[i][1],
-        lng: coord[i][0]
-      });
-    });
+        coord.forEach((el, i) => {
+          path.push({
+            lat: coord[i][1],
+            lng: coord[i][0]
+          });
+        });
 
-    return (
-      <Polyline
-        key={index}
-        path={path}
-        options={{
-          strokeColor: "green",
-          strokeOpacity: 0.8,
-          strokeWeight: 3
-        }}
-        onClick={() => onPolyClicked(index, "esgoto", path)}
-        // onMouseover={() => onPolyHover(path)}
-      />
-    );
-  });
+        return (
+          <Polyline
+            key={index}
+            path={path}
+            options={{
+              strokeColor: "green",
+              strokeOpacity: 0.8,
+              strokeWeight: 3
+            }}
+            onClick={() => onPolyClicked(index, "esgoto", path)}
+            // onMouseover={() => onPolyHover(path)}
+          />
+        );
+      })
+    : "";
   /**
    * Função que mapeia a rede de esgoto
    */
-  let mapGas = gas.map((el, index) => {
-    // el.properties.interventions = [];
-    el.properties.responsavel = "cegas";
-    el.properties.tipo_de_rede = "gas";
+  let mapGas = gas
+    ? gas.map((el, index) => {
+        // el.properties.interventions = [];
+        el.properties.responsavel = "cegas";
+        el.properties.tipo_de_rede = "gas";
 
-    var path = [];
-    const coord = el.geometry.coordinates;
+        var path = [];
+        const coord = el.geometry.coordinates;
 
-    coord.forEach((el, i) => {
-      path.push({
-        lat: parseFloat(coord[i][1]),
-        lng: parseFloat(coord[i][0])
-      });
-    });
+        coord.forEach((el, i) => {
+          path.push({
+            lat: parseFloat(coord[i][1]),
+            lng: parseFloat(coord[i][0])
+          });
+        });
 
-    return (
-      <Polyline
-        key={index}
-        path={path}
-        options={{
-          strokeColor: "#C35817",
-          strokeOpacity: 0.8,
-          strokeWeight: 3
-        }}
-        onClick={() => onPolyClicked(index, "gas", path)}
-        // onMouseover={() => onPolyHover(path)}
-      />
-    );
-  });
+        return (
+          <Polyline
+            key={index}
+            path={path}
+            options={{
+              strokeColor: "#C35817",
+              strokeOpacity: 0.8,
+              strokeWeight: 3
+            }}
+            onClick={() => onPolyClicked(index, "gas", path)}
+            // onMouseover={() => onPolyHover(path)}
+          />
+        );
+      })
+    : "";
 
   let mapViario = viario
     ? viario.map((el, index) => {
@@ -343,137 +348,138 @@ const Mapp = props => {
     return true;
   };
 
-  const mapInterventionsEsgoto = Object.keys(interventions).map(
-    endereco => {
-      return interventions[endereco].map((interv, index) => {
-        if (interv.tipo_rede !== "rede esgoto") {
-          return null;
-        }
-        if (!validateDate(interv.data2)) {
-          return null;
-        }
-        let url = "";
-        let title = "";
+  const mapInterventionsEsgoto = interventions
+    ? Object.keys(interventions).map(endereco => {
+        return interventions[endereco].map((interv, index) => {
+          if (interv.tipo_rede !== "rede esgoto") {
+            return null;
+          }
+          if (!validateDate(interv.data2)) {
+            return null;
+          }
+          let url = "";
+          let title = "";
 
-        title = "Intervenção Rede Esgoto";
-        url = require("../../utils/images/flagGreenLG.png");
+          title = "Intervenção Rede Esgoto";
+          url = require("../../utils/images/flagGreenLG.png");
 
-        const {coordinates} = interv;
+          const {coordinates} = interv;
 
-        return coordinates ? (
-          <Marker
-            title={title}
-            key={index}
-            position={coordinates}
-            icon={url}
-            onClick={() => {
-              showInfoInterv(interv);
-            }}
-          />
-        ) : (
-          ""
-        );
-      });
-    }
-  );
-  const mapInterventionsGas = Object.keys(interventions).map(
-    endereco => {
-      return interventions[endereco].map((interv, index) => {
-        if (interv.tipo_rede !== "rede gás") {
-          return null;
-        }
-        if (!validateDate(interv.data2)) {
-          return null;
-        }
-        let url = "";
-        let title = "";
+          return coordinates ? (
+            <Marker
+              title={title}
+              key={index}
+              position={coordinates}
+              icon={url}
+              onClick={() => {
+                showInfoInterv(interv);
+              }}
+            />
+          ) : (
+            ""
+          );
+        });
+      })
+    : "";
 
-        title = "Intervenção Rede Gás";
-        url = require("../../utils/images/flagOrangeLG.png");
+  const mapInterventionsGas = interventions
+    ? Object.keys(interventions).map(endereco => {
+        return interventions[endereco].map((interv, index) => {
+          if (interv.tipo_rede !== "rede gás") {
+            return null;
+          }
+          if (!validateDate(interv.data2)) {
+            return null;
+          }
+          let url = "";
+          let title = "";
 
-        const {coordinates} = interv;
+          title = "Intervenção Rede Gás";
+          url = require("../../utils/images/flagOrangeLG.png");
 
-        return coordinates ? (
-          <Marker
-            title={title}
-            key={index}
-            position={coordinates}
-            icon={url}
-            onClick={() => {
-              showInfoInterv(interv);
-            }}
-          />
-        ) : (
-          ""
-        );
-      });
-    }
-  );
+          const {coordinates} = interv;
 
-  const mapInterventionsAgua = Object.keys(interventions).map(
-    endereco => {
-      return interventions[endereco].map((interv, index) => {
-        if (interv.tipo_rede !== "rede água") {
-          return null;
-        }
-        if (!validateDate(interv.data2)) {
-          return null;
-        }
-        let url = "";
-        let title = "";
+          return coordinates ? (
+            <Marker
+              title={title}
+              key={index}
+              position={coordinates}
+              icon={url}
+              onClick={() => {
+                showInfoInterv(interv);
+              }}
+            />
+          ) : (
+            ""
+          );
+        });
+      })
+    : "";
 
-        title = "Intervenção Rede Água";
-        url = require("../../utils/images/flagBlueLG.png");
+  const mapInterventionsAgua = interventions
+    ? Object.keys(interventions).map(endereco => {
+        return interventions[endereco].map((interv, index) => {
+          if (interv.tipo_rede !== "rede água") {
+            return null;
+          }
+          if (!validateDate(interv.data2)) {
+            return null;
+          }
+          let url = "";
+          let title = "";
 
-        const {coordinates} = interv;
+          title = "Intervenção Rede Água";
+          url = require("../../utils/images/flagBlueLG.png");
 
-        return coordinates ? (
-          <Marker
-            title={title}
-            key={index}
-            position={coordinates}
-            icon={url}
-            onClick={() => {
-              showInfoInterv(interv);
-            }}
-          />
-        ) : (
-          ""
-        );
-      });
-    }
-  );
+          const {coordinates} = interv;
 
-  const mapInterventionsViario = Object.keys(interventions).map(
-    endereco => {
-      return interventions[endereco].map((interv, index) => {
-        if (interv.tipo_rede !== "sistema viário") {
-          return null;
-        }
-        let url = "";
-        let title = "";
+          return coordinates ? (
+            <Marker
+              title={title}
+              key={index}
+              position={coordinates}
+              icon={url}
+              onClick={() => {
+                showInfoInterv(interv);
+              }}
+            />
+          ) : (
+            ""
+          );
+        });
+      })
+    : "";
 
-        title = "Intervenção Sistema Viário";
-        url = require("../../utils/images/flagGrayLG.png");
+  const mapInterventionsViario = interventions
+    ? Object.keys(interventions).map(endereco => {
+        return interventions[endereco].map((interv, index) => {
+          if (interv.tipo_rede !== "sistema viário") {
+            return null;
+          }
+          let url = "";
+          let title = "";
 
-        const {coordinates} = interv;
+          title = "Intervenção Sistema Viário";
+          url = require("../../utils/images/flagGrayLG.png");
 
-        return coordinates ? (
-          <Marker
-            title={title}
-            key={index}
-            position={coordinates}
-            icon={url}
-            onClick={() => {
-              showInfoInterv(interv);
-            }}
-          />
-        ) : (
-          ""
-        );
-      });
-    }
-  );
+          const {coordinates} = interv;
+
+          return coordinates ? (
+            <Marker
+              title={title}
+              key={index}
+              position={coordinates}
+              icon={url}
+              onClick={() => {
+                showInfoInterv(interv);
+              }}
+            />
+          ) : (
+            ""
+          );
+        });
+      })
+    : "";
 
   const prettifyInterv = interv => {
     if (interv.constructor !== {}.constructor) {
