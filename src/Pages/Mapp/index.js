@@ -13,6 +13,7 @@ import EsgotoContext from "../../Context/EsgotoContext";
 import GasContext from "../../Context/GasContext";
 
 import {isFirstLattest} from "../../Components/Validators/ValidatorDate";
+import ViarioContext from "../../Context/ViarioContext";
 
 const Mapp = props => {
   // === === === CONTEXTS === === ===
@@ -30,12 +31,18 @@ const Mapp = props => {
   const {agua} = useContext(AguaContext);
   const {esgoto} = useContext(EsgotoContext);
 
+  const {viario} = useContext(ViarioContext);
   const {gas} = useContext(GasContext);
 
   const {initialPlace, mapStyles} = MapCons;
 
   // toggle visible data
-  const {visibleAgua, visibleEsgoto, visibleGas} = visibleLayer;
+  const {
+    visibleAgua,
+    visibleEsgoto,
+    visibleGas,
+    visibleViario
+  } = visibleLayer;
   const {
     visibleIntervAgua,
     visibleIntervGas,
@@ -106,6 +113,9 @@ const Mapp = props => {
         break;
       case "gas":
         val = gas[key].properties; // essa propriedade nao existe originalmente.
+        break;
+      case "viario":
+        val = viario ? viario[key].properties : {}; // essa propriedade nao existe originalmente.
         break;
       default:
         break;
@@ -244,8 +254,8 @@ const Mapp = props => {
 
     coord.forEach((el, i) => {
       path.push({
-        lat: coord[i][1],
-        lng: coord[i][0]
+        lat: parseFloat(coord[i][1]),
+        lng: parseFloat(coord[i][0])
       });
     });
 
@@ -263,6 +273,38 @@ const Mapp = props => {
       />
     );
   });
+
+  let mapViario = viario
+    ? viario.map((el, index) => {
+        // el.properties.interventions = [];
+        el.properties.responsavel = "prefeitura";
+        el.properties.tipo_de_rede = "viario";
+
+        var path = [];
+        const coord = el.geometry.coordinates;
+
+        coord.forEach((el, i) => {
+          path.push({
+            lat: coord[i][1],
+            lng: coord[i][0]
+          });
+        });
+
+        return (
+          <Polyline
+            key={index}
+            path={path}
+            options={{
+              strokeColor: "#232323",
+              strokeOpacity: 0.8,
+              strokeWeight: 3
+            }}
+            onClick={() => onPolyClicked(index, "viario", path)}
+            // onMouseover={() => onPolyHover(path)}
+          />
+        );
+      })
+    : "";
 
   let mapRef = createRef();
 
@@ -521,6 +563,7 @@ const Mapp = props => {
         {visibleGas && mapGas}
         {visibleAgua && mapAgua}
         {visibleEsgoto && mapEsgoto}
+        {visibleViario && mapViario}
         {visibleIntervAgua && mapInterventionsAgua}
         {visibleIntervGas && mapInterventionsGas}
         {visibleIntervEsgoto && mapInterventionsEsgoto}

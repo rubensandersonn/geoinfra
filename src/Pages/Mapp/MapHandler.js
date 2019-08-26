@@ -113,9 +113,6 @@ const MapHandler = props => {
   let [gas, dispatchGas] = useReducer(reducer, jsonGas.features);
 
   useEffect(() => {
-    // firebase.getRefDB("esgoto").on("value", snap => {
-    //   console.log("opaaaa esgoto: ", snap.val());
-    // });
     firebase.getRefAgua().on("value", snap => {
       console.log("(agua) recebidos novos dados do firebase");
       if (snap && snap.val()) {
@@ -264,7 +261,7 @@ const MapHandler = props => {
         setInterventions(snap.val());
 
         interventions = snap.val();
-        console.log("(handler) new interventions!", interventions);
+        console.log("(handler) new interventions!");
       } else {
         console.log("(holder) intervenções inválidas");
       }
