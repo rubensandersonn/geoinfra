@@ -102,9 +102,8 @@ const Holder = props => {
             <Links />
           </div>
           <div>
-            {authority !== "none" &&
-            interventions &&
-            interventions !== {} ? (
+            {interventions &&
+            interventions.constructor === {}.constructor ? (
               <SearchInterv
                 onClick={(el, index) => {
                   console.log(el, index);
