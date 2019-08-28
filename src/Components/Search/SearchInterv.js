@@ -16,13 +16,15 @@ export default function Search(props) {
     Object.keys(interventions).map(endereco => {
       interventions[endereco].map((el, index) => {
         data.push({el: el, index: index});
+        return null;
       });
+      return null;
     });
     setState(state => ({
       ...state,
       data: data
     }));
-  }, [props.interventions]);
+  }, [props, props.interventions]);
 
   const handleInputChange = event => {
     const query = event.target.value;
@@ -60,7 +62,7 @@ export default function Search(props) {
             className="border rounded p-2 ml-2"
             onClick={() => {
               props.onClick(i.el, i.index);
-              const address = i.el.endereco;
+
               setState(state => ({
                 ...state,
                 filteredData: []

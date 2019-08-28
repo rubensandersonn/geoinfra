@@ -281,7 +281,10 @@ const AboutPage = () => {
           responsabilizam pelas informações apresentadas na aplicação
         </div>
         <div className="text-center">
-          <p>Software Desenvolvido por: YGOR CARVALHO |</p>
+          <p>
+            Software Desenvolvido por: YGOR CARVALHO | RUBENS SILVA |
+            Orientador: Carlos Augusto Uchôa da Silva
+          </p>
         </div>
       </footer>
     </>

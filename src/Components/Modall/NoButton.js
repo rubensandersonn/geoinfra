@@ -11,8 +11,8 @@ const NoButton = props => {
   return (
     <div>
       <Modal open={open} onClose={onCloseModal} little={false}>
-        <div className="container mt-4 p-4">
-          <div className="mt-4 pt-4">
+        <div className="container p-4">
+          <div className="">
             <div>{children}</div>
           </div>
         </div>

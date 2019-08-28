@@ -18,14 +18,12 @@ import jsonGas from "../../utils/jsons/rdg_meireles.json";
 import Mapp from ".";
 
 import {AuthUserContext} from "../../Components/Session/index.js";
-// import Meneger from "../Testes/Meneger.js";
-// import NoButton from "../../Components/Modall/NoButton.js";
+
 import Holder from "../../Components/Manager/Holder";
 import AguaContext from "../../Context/AguaContext.js";
 import EsgotoContext from "../../Context/EsgotoContext.js";
 import GasContext from "../../Context/GasContext.js";
 import {FirebaseContext} from "../../Components/Firebase/index.js";
-import SearchInterv from "../../Components/Search/SearchInterv.js";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -352,10 +350,6 @@ const MapHandler = props => {
                 );
               }}
             </AuthUserContext.Consumer>
-            {/* <NoButton open={open} setOpen={setOpen} little={false}>
-              <Meneger index={key} type={polyType} />
-              
-            </NoButton> */}
           </GasContext.Provider>
         </EsgotoContext.Provider>
       </AguaContext.Provider>

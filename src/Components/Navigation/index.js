@@ -10,60 +10,47 @@ import {AuthUserContext} from "../Session";
  * Aqui eu posso colocar os niveis de autenticação retornando Link rota certa
  */
 const Navigation = () => (
-  <div className="site-navbar bg-blue pr-4">
-    <div className="col-12">
-      <nav className="site-navigation text-left " role="navigation">
-        <div className="site-mobile-menu site-navbar-target">
-          <div className="site-mobile-menu-header">
-            <div className="site-mobile-menu-close mt-3">
-              <span className="icon-close2 js-menu-toggle" />
-            </div>
-          </div>
-          <div className="site-mobile-menu-body" />
-        </div>
-
-        <AuthUserContext.Consumer>
-          {authUser =>
-            authUser ? (
-              authUser.email === "rubens@gmail.com" ||
-              authUser.email === "prefeitura@gmail.com" ? (
-                <NavigationAuth authority={"prefeitura"} />
-              ) : authUser.email === "cagece" ? (
-                <NavigationAuth authority={"cagece"} />
-              ) : (
-                <NavigationAuth authority={"cegas"} />
-              )
-            ) : (
-              <NavigationNonAuth />
-            )
-          }
-        </AuthUserContext.Consumer>
-      </nav>
-    </div>
-  </div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-blue p-4">
+    <AuthUserContext.Consumer>
+      {authUser =>
+        authUser ? (
+          authUser.email === "rubens@gmail.com" ||
+          authUser.email === "prefeitura@gmail.com" ? (
+            <NavigationAuth authority={"prefeitura"} />
+          ) : authUser.email === "cagece" ? (
+            <NavigationAuth authority={"cagece"} />
+          ) : (
+            <NavigationAuth authority={"cegas"} />
+          )
+        ) : (
+          <NavigationNonAuth />
+        )
+      }
+    </AuthUserContext.Consumer>
+  </nav>
 );
 
-const NavigationNonAuth = () => (
-  <div className="row">
-    <div>
-      <ul className="site-menu main-menu js-clone-nav mr-auto d-none d-lg-block">
-        <li className="nav-link">
-          <div>
-            <Link to={ROUTES.MAP}>
-              <span style={{color: "#ffe"}}>Mapa</span>{" "}
-            </Link>
-          </div>
-        </li>
-        <li className="nav-link">
-          <div>
-            <Link to={ROUTES.ABOUT}>
-              <span style={{color: "#ffe"}}>Sobre</span>{" "}
-            </Link>
-          </div>
-        </li>
-      </ul>
-    </div>
-    <div>
+const NavigationNonAuth = props => (
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li className="nav-item">
+        <div>
+          <Link className="nav-link" to={ROUTES.MAP}>
+            <span style={{color: "#ffe"}}>Mapa</span>{" "}
+          </Link>
+        </div>
+      </li>
+
+      <li className="nav-item">
+        <div>
+          <Link className="nav-link" to={ROUTES.ABOUT}>
+            <span style={{color: "#ffe"}}>Sobre</span>{" "}
+          </Link>
+        </div>
+      </li>
+    </ul>
+
+    <div className="form-inline my-2 my-lg-0">
       <Link to={ROUTES.SIGN_IN}>
         <div
           style={{color: "#ffe"}}
@@ -81,47 +68,46 @@ const NavigationNonAuth = () => (
 );
 
 const NavigationAuth = props => (
-  <div className="row">
-    <div>
-      <ul className="site-menu main-menu js-clone-nav ml-auto d-none d-lg-block">
-        <li className="nav-link">
-          <div>
-            <Link to={ROUTES.MAP}>
-              <span style={{color: "#ffe"}}>Mapa</span>{" "}
-            </Link>
-          </div>
-        </li>
-        <li className="nav-link">
-          <div>
-            <Link to={ROUTES.UPLOAD}>
-              <span style={{color: "#ffe"}}>Upload</span>{" "}
-            </Link>
-          </div>
-        </li>
-        <li className="nav-link">
-          <div>
-            <Link to={ROUTES.ABOUT}>
-              <span style={{color: "#ffe"}}>Sobre</span>{" "}
-            </Link>
-          </div>
-        </li>
-        <li className="nav-link">
-          <div>
-            <Link to={ROUTES.ACCOUNT}>
-              <span style={{color: "#ffe"}}>Conta</span>{" "}
-            </Link>
-          </div>
-        </li>
-        {/* <li className="nav-link">
-          <Link to="admin">
+  <div class="collapse navbar-collapse">
+    <ul class="navbar-nav mr-auto">
+      <li className="nav-item">
+        <div>
+          <Link className="nav-link" to={ROUTES.MAP}>
+            <span style={{color: "#ffe"}}>Mapa</span>{" "}
+          </Link>
+        </div>
+      </li>
+      <li className="nav-item">
+        <div>
+          <Link className="nav-link" to={ROUTES.UPLOAD}>
+            <span style={{color: "#ffe"}}>Upload</span>{" "}
+          </Link>
+        </div>
+      </li>
+      <li className="nav-item">
+        <div>
+          <Link className="nav-link" to={ROUTES.ABOUT}>
+            <span style={{color: "#ffe"}}>Sobre</span>{" "}
+          </Link>
+        </div>
+      </li>
+      <li className="nav-item">
+        <div>
+          <Link className="nav-link" to={ROUTES.ACCOUNT}>
+            <span style={{color: "#ffe"}}>Conta</span>{" "}
+          </Link>
+        </div>
+      </li>
+      {/* <li >
+          <Link to className="nav-link"="admin">
             <Link authority={props.authority} to={ROUTES.ADMIN}><span style={{color: "#ffe"}}></span> 
               Admin
             </Link>
           </Link>
         </li> */}
-      </ul>
-    </div>
-    <div className="mr-4">
+    </ul>
+
+    <div className="form-inline my-2 my-lg-0">
       <SignOutButton />
     </div>
   </div>
