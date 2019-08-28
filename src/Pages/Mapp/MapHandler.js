@@ -25,6 +25,7 @@ import AguaContext from "../../Context/AguaContext.js";
 import EsgotoContext from "../../Context/EsgotoContext.js";
 import GasContext from "../../Context/GasContext.js";
 import {FirebaseContext} from "../../Components/Firebase/index.js";
+import SearchInterv from "../../Components/Search/SearchInterv.js";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -257,6 +258,7 @@ const MapHandler = props => {
         setInterventions(snap.val());
 
         interventions = snap.val();
+        // console.log("interventions:", interventions);
       } else {
         console.log("(holder) intervenções inválidas");
       }
@@ -275,6 +277,20 @@ const MapHandler = props => {
       interventions[obj.endereco],
       interventions[obj.endereco].length - 1
     );
+  };
+
+  const submitDelete = (interv, index) => {
+    //
+    const add = interv.endereco;
+    const arrayInterv = interventions[add];
+    let newIntervs = [];
+    for (let i = 0; i < arrayInterv.length; i++) {
+      if (arrayInterv[i].endereco !== interv.endereco) {
+        newIntervs.push(arrayInterv[i]);
+      }
+    }
+
+    firebase.doDeleteIntervention(newIntervs, add);
   };
 
   const [authority, setAuth] = useState("");
@@ -298,7 +314,7 @@ const MapHandler = props => {
                 setAuth(authority);
 
                 return (
-                  <div className="col-lg-12 row">
+                  <div className=" row">
                     <div className="border rounded">
                       <Holder
                         authority={authority}
@@ -307,6 +323,8 @@ const MapHandler = props => {
                         toggleLayer={toggleLayer}
                         toggleLayerInterv={toggleLayerInterv}
                         submitCreate={submitCreate}
+                        submitDelete={submitDelete}
+                        interventions={interventions}
                       />
                     </div>
 

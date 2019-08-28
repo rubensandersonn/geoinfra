@@ -101,18 +101,18 @@ class Firebase {
     });
   }
 
-  doDeleteIntervention(index, type, indexInterv) {
-    return new Promise(resolve => {
+  doDeleteIntervention(interventions, endereco) {
+    return new Promise((resolve, reject) => {
       this.db
-        .ref(type + "/interventions/" + index + "/" + indexInterv)
-        .remove()
+        .ref("interventions/" + endereco)
+        .set(interventions)
         .then(result => {
-          console.log("registro removido!");
+          console.log("(delete) registro atualizado!");
           resolve(true);
         })
         .catch(err => {
-          console.log("deu erro ao remover intervenção:", err);
-          resolve(false);
+          console.log("(delete) deu erro ao inserir intervenção:", err);
+          reject(err);
         });
     });
   }

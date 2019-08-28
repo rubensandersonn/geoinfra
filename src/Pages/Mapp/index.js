@@ -575,21 +575,6 @@ const Mapp = props => {
         {visibleIntervEsgoto && mapInterventionsEsgoto}
         {visibleIntervViario && mapInterventionsViario}
       </Map>
-      {/* legendas: */}
-      <div
-        style={{display: "none"}}
-        className="col-lg-2 bg-light p-2 m-4"
-        id="layers"
-      >
-        <h5>Mostrar ou Esconder Camadas</h5>
-      </div>
-      {/* <div
-        style={{display: "none", minWidth: 250}}
-        className="col-lg-2 bg-light p-2 m-4"
-        id="legend"
-      >
-        <Legend />
-      </div> */}
     </div>
   );
 };

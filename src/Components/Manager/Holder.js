@@ -1,11 +1,13 @@
 import React, {useState} from "react";
 import Create from "../../Components/Manager/Create";
+import SearchInterv from "../Search/SearchInterv";
 
 // import {FirebaseContext} from "../../Components/Firebase";
 
 // import html2pdf from "html2pdf.js";
 
 import Links from "../Modall/Links";
+import Delete from "./Delete";
 
 const Holder = props => {
   // let firebase = useContext(FirebaseContext);
@@ -14,10 +16,13 @@ const Holder = props => {
     authority,
     toggleLayer,
     toggleLayerInterv,
-    submitCreate
+    submitCreate,
+    submitDelete,
+    interventions
   } = props;
 
   const [visibleCadastrar, setVisibleCadastrar] = useState(false);
+  const [visibleRemover, setVisibleRemover] = useState(false);
 
   // === === checkboxes === ===
 
@@ -50,12 +55,24 @@ const Holder = props => {
   return (
     <div
       style={{minWidth: "28%", minHeight: 500}}
-      className="p-2 border"
+      className="ml-2 p-2 border"
     >
       <div className="">
         <div className="">
           <div className="border-bottom mb-2">
             <Links />
+          </div>
+          <div>
+            {authority !== "none" &&
+            interventions &&
+            interventions !== {} ? (
+              <SearchInterv
+                onClick={(el, index) => console.log(el, index)}
+                interventions={interventions}
+              />
+            ) : (
+              <div />
+            )}
           </div>
           <div className="border pb-2 pt-2 pl-2 mb-2">
             <div className="font-weight-bold">
@@ -188,10 +205,10 @@ const Holder = props => {
           </div>
 
           {authority !== "none" ? (
-            <div className="mb-4 mt-2">
+            <div className="mb-4 mt-4">
               {/* gerencia de intervenções */}
 
-              <div className="">
+              <div className="ml-2">
                 <a
                   href="gerencia"
                   onClick={e => {
@@ -200,28 +217,44 @@ const Holder = props => {
                   }}
                   style={{fontWeight: "bold"}}
                 >
-                  Cadastro de Intervenções [+]
+                  Cadastrar Intervenções
                 </a>
 
-                {visibleCadastrar && (
-                  <div className="border p-2 mt-2">
-                    <div>
-                      {visibleCadastrar && (
-                        <div id="cadastrar">
-                          <Create
-                            key={1}
-                            onSubmit={obj => submitCreate(obj)}
-                            authority={authority}
-                          />
-                        </div>
-                      )}
-
-                      <hr />
+                <div className="">
+                  {visibleCadastrar && (
+                    <div id="cadastrar">
+                      <Create
+                        key={1}
+                        onSubmit={obj => submitCreate(obj)}
+                        authority={authority}
+                      />
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
+              </div>
+              <hr />
+              <div className="ml-2">
+                <a
+                  href="remover"
+                  onClick={e => {
+                    e.preventDefault();
+                    setVisibleRemover(!visibleRemover);
+                  }}
+                  style={{fontWeight: "bold"}}
+                >
+                  Deletar Intervenções
+                </a>
 
-                <hr />
+                <div className="">
+                  {visibleRemover && (
+                    <div id="remover">
+                      <Delete
+                        onSubmit={submitDelete}
+                        interventions={interventions}
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ) : (
@@ -229,9 +262,9 @@ const Holder = props => {
           )}
 
           {/* legenda repetida */}
-          <div className="border mt-4 p-2">
+          <div className="border p-2">
             <div style={{minWidth: 140}}>
-              <div className="mt-4 font-weight-bold">LEGENDA</div>
+              <div className="font-weight-bold">LEGENDA</div>
 
               <div>
                 <img

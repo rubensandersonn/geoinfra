@@ -98,8 +98,11 @@ const Create = props => {
   const mapChoices = choices.map((tipo_rede, index) => {
     return (
       <div
-        className="border"
-        style={{cursor: "pointer"}}
+        style={{
+          cursor: "pointer",
+          boxShadow: "1px 1px 2px #8f8f8f"
+        }}
+        className="ml-2 rounded"
         onClick={() => {
           dispatch({type: "tipo_rede", tipo_rede: tipo_rede});
           console.log("escolhido:", tipo_rede);
@@ -107,7 +110,7 @@ const Create = props => {
         }}
         key={index}
       >
-        <div>
+        <div className="text-left">
           <img
             alt="icone rede"
             src={
@@ -120,14 +123,14 @@ const Create = props => {
                 : flagGreen
             }
           />
-          {tipo_rede}
+          <span className="text-black">{tipo_rede}</span>
         </div>
       </div>
     );
   });
 
   return (
-    <div className=" pt-6">
+    <div className="p-2 border" style={{maxWidth: "310px"}}>
       <div className="rounded mb-2">{mapErrors}</div>
       <div className="mb-2" style={{color: "green"}}>
         {successMsg}
@@ -169,21 +172,7 @@ const Create = props => {
         }}
       >
         <div className="form-group row">
-          <div className="col-md-10 mb-4 mb-lg-0">
-            {/* <input
-              className="form-control border"
-              type="text"
-              value={endereco}
-              onChange={e =>
-                dispatch({type: "endereco", endereco: e.target.value})
-              }
-              onBlur={() => {
-                setValidEndereco(validateAdress(endereco));
-              }}
-              placeholder="Endereço (ex: 'Rua Tal, 58')"
-              name="endereco"
-              required
-            /> */}
+          <div className="col-lg-12">
             <LocationSearchInput
               onSelect={(latLng, address) => {
                 console.log(
@@ -199,11 +188,11 @@ const Create = props => {
         </div>
 
         {/* description */}
-        <div className="form-group row">
-          <div className="col-md-10 mb-4 mb-lg-0">
+        <div className="form-group row ml-auto">
+          <div className="">
             <textarea
               rows="3"
-              cols="30"
+              cols="34"
               className="form-control border"
               value={description}
               onChange={e =>
@@ -218,67 +207,72 @@ const Create = props => {
             />
           </div>
         </div>
-        <div className="form-group row">
-          <div className="col-md-5 mb-4 mb-lg-0">
-            <div
-              style={{cursor: "pointer"}}
-              onClick={() => setVisibleDropdown(!visibleDropdown)}
-            >
-              <p id="dropdown" className="border rounded">
-                Tipo de Rede...
-              </p>
-            </div>
 
-            {visibleDropdown && (
-              <div
-                onClick={() => setVisibleDropdown(!visibleDropdown)}
-                className="border"
-              >
-                {mapChoices}
-              </div>
-            )}
+        <div className="col-lg-8 ml-auto">
+          <div
+            style={{
+              cursor: "pointer",
+              boxShadow: "1px 1px 2px #888888"
+            }}
+            onClick={() => setVisibleDropdown(!visibleDropdown)}
+          >
+            <div
+              style={{fontStyle: "italic"}}
+              id="dropdown"
+              className="mb-2 text-center"
+            >
+              Tipo de Rede...
+            </div>
           </div>
+
+          {visibleDropdown && (
+            <div
+              onClick={() => setVisibleDropdown(!visibleDropdown)}
+              className="rounded mb-4 border-left"
+            >
+              {mapChoices}
+            </div>
+          )}
         </div>
 
         {/* datas */}
-        <div className="form-group row">
-          <div className="col-md-5 mb-4 mb-lg-0">
-            <input
-              className="form-control border"
-              type="text"
-              value={data1}
-              onChange={e =>
-                dispatch({type: "data1", data1: e.target.value})
-              }
-              onBlur={() => {
-                setValidData1(validateDate(data1));
-              }}
-              placeholder="Data inicial (dd/mm/aaaa)"
-              name="data1"
-              required
-            />
-          </div>
-          <div className="col-md-5 mb-4 mb-lg-0">
-            <input
-              className="form-control border"
-              type="text"
-              value={data2}
-              onChange={e =>
-                dispatch({type: "data2", data2: e.target.value})
-              }
-              onBlur={() => {
-                setValidData2(validateDate(data2));
-              }}
-              placeholder="Data Término (dd/mm/aaaa)"
-              name="data2"
-              required
-            />
-          </div>
+
+        <div className="form-group row ">
+          <input
+            className="form-control border col-lg-10 ml-4"
+            type="text"
+            value={data1}
+            onChange={e =>
+              dispatch({type: "data1", data1: e.target.value})
+            }
+            onBlur={() => {
+              setValidData1(validateDate(data1));
+            }}
+            placeholder="Data inicial (dd/mm/aaaa)"
+            name="data1"
+            required
+          />
+        </div>
+        <div className="form-group row ">
+          <input
+            className="form-control border col-lg-10 ml-4"
+            type="text"
+            value={data2}
+            onChange={e =>
+              dispatch({type: "data2", data2: e.target.value})
+            }
+            onBlur={() => {
+              setValidData2(validateDate(data2));
+            }}
+            placeholder="Data Término (dd/mm/aaaa)"
+            name="data2"
+            required
+          />
         </div>
 
         {/* submit */}
-        <div className="form-group row">
-          <div className="col-md-10 ml-auto">
+        <div className="form-group row mr-4">
+          <div className="ml-auto">
             <input
               className="btn btn-secondary text-white py-3 px-5"
               type="submit"
