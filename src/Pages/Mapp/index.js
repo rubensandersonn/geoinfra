@@ -38,7 +38,8 @@ const Mapp = props => {
     google,
     interventions,
     visibleLayer,
-    visibleLayerInterv
+    visibleLayerInterv,
+    addressPosition
   } = props;
 
   const {agua} = useContext(AguaContext);
@@ -546,6 +547,10 @@ const Mapp = props => {
         ref={mapRef}
         onReady={({google}) => onMapLoaded(google)}
       >
+        <Marker
+          visible={addressPosition ? true : false}
+          position={addressPosition}
+        />
         <InfoWindow
           visible={visibleInfo}
           key={1}

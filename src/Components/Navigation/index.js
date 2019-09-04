@@ -10,7 +10,7 @@ import {AuthUserContext} from "../Session";
  * Aqui eu posso colocar os niveis de autenticação retornando Link rota certa
  */
 const Navigation = () => (
-  <nav class="navbar navbar-expand-lg navbar-light bg-blue p-4">
+  <nav className="navbar navbar-expand-lg navbar-light bg-blue p-4">
     <AuthUserContext.Consumer>
       {authUser =>
         authUser ? (
@@ -31,8 +31,8 @@ const Navigation = () => (
 );
 
 const NavigationNonAuth = props => (
-  <div class="collapse navbar-collapse">
-    <ul class="navbar-nav mr-auto">
+  <div className="collapse navbar-collapse">
+    <ul className="navbar-nav mr-auto">
       <li className="nav-item">
         <div>
           <Link className="nav-link" to={ROUTES.MAP}>
@@ -68,8 +68,8 @@ const NavigationNonAuth = props => (
 );
 
 const NavigationAuth = props => (
-  <div class="collapse navbar-collapse">
-    <ul class="navbar-nav mr-auto">
+  <div className="collapse navbar-collapse">
+    <ul className="navbar-nav mr-auto">
       <li className="nav-item">
         <div>
           <Link className="nav-link" to={ROUTES.MAP}>

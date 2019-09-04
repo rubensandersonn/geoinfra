@@ -1,14 +1,11 @@
 import React, {useState} from "react";
 import Create from "../../Components/Manager/Create";
-import SearchInterv from "../Search/SearchInterv";
-import NoButton from "../Modall/NoButton";
-
-// import {FirebaseContext} from "../../Components/Firebase";
 
 // import html2pdf from "html2pdf.js";
 
 import Links from "../Modall/Links";
 import Delete from "./Delete";
+import LocationSearchInput from "../Search/LocationSearchInput";
 
 const Holder = props => {
   // let firebase = useContext(FirebaseContext);
@@ -19,7 +16,8 @@ const Holder = props => {
     toggleLayerInterv,
     submitCreate,
     submitDelete,
-    interventions
+    interventions,
+    setAddPos
   } = props;
 
   const [visibleCadastrar, setVisibleCadastrar] = useState(false);
@@ -53,68 +51,57 @@ const Holder = props => {
     toggleLayerInterv("viario");
   };
 
-  const [open, setOpen] = useState(false);
-  const [chosenInterv, setChosen] = useState(null);
-
-  const prettifyEl = el => (
-    <div style={{maxWidth: "280px"}} className="border-left pl-2 m-2">
-      <div className="p-2 border rounded">
-        <span style={{fontWeight: "bold"}}>Endereço: </span>
-        {el.endereco}
-      </div>
-      <div className="ml-2">
-        <span style={{fontWeight: "bold"}}>Responsável: </span>
-        {el.responsable}
-      </div>
-      <div className="ml-2">
-        <span style={{fontWeight: "bold"}}>Descrição: </span>
-        {el.description}
-      </div>
-      <div className="ml-2">
-        <span style={{fontWeight: "bold"}}>data início: </span>
-        {el.data1}
-      </div>
-      <div className="ml-2">
-        <span style={{fontWeight: "bold"}}>data final: </span>
-        {el.data2}
-      </div>
-    </div>
-  );
+  // const prettifyEl = el => (
+  //   <div style={{maxWidth: "280px"}} className="border-left pl-2 m-2">
+  //     <div className="p-2 border rounded">
+  //       <span style={{fontWeight: "bold"}}>Endereço: </span>
+  //       {el.endereco}
+  //     </div>
+  //     <div className="ml-2">
+  //       <span style={{fontWeight: "bold"}}>Responsável: </span>
+  //       {el.responsable}
+  //     </div>
+  //     <div className="ml-2">
+  //       <span style={{fontWeight: "bold"}}>Descrição: </span>
+  //       {el.description}
+  //     </div>
+  //     <div className="ml-2">
+  //       <span style={{fontWeight: "bold"}}>data início: </span>
+  //       {el.data1}
+  //     </div>
+  //     <div className="ml-2">
+  //       <span style={{fontWeight: "bold"}}>data final: </span>
+  //       {el.data2}
+  //     </div>
+  //   </div>
+  // );
 
   return (
     <div
       style={{minWidth: "28%", minHeight: 500}}
       className="ml-2 p-2 border"
     >
-      <NoButton open={open} setOpen={setOpen} little={false}>
-        {chosenInterv ? (
-          <div>
-            <h2 className="text-center">Intervenção</h2>
-            <div>{prettifyEl(chosenInterv)}</div>
-          </div>
-        ) : (
-          <div />
-        )}
-      </NoButton>
       <div className="">
         <div className="">
           <div className="border-bottom mb-2">
             <Links />
           </div>
           <div>
-            {interventions &&
-            interventions.constructor === {}.constructor ? (
-              <SearchInterv
+            <LocationSearchInput
+              onSelect={(latLng, address) => {
+                // console.log({type: "endereco", endereco: address});
+                setAddPos(latLng);
+              }}
+            />
+
+            {/* <SearchInterv
                 onClick={(el, index) => {
                   console.log(el, index);
                   setChosen(el);
                   setOpen(true);
                 }}
                 interventions={interventions}
-              />
-            ) : (
-              <div />
-            )}
+              /> */}
           </div>
           <div className="border pb-2 pt-2 pl-2 mb-2">
             <div className="font-weight-bold">

@@ -141,6 +141,8 @@ const MapHandler = props => {
     setPolyType(type);
   };
 
+  const [addressPosition, setAddPos] = useState(null);
+
   const [
     {visibleAgua, visibleGas, visibleEsgoto, visibleViario},
     setLayer
@@ -323,6 +325,7 @@ const MapHandler = props => {
                         submitCreate={submitCreate}
                         submitDelete={submitDelete}
                         interventions={interventions}
+                        setAddPos={setAddPos}
                       />
                     </div>
 
@@ -344,6 +347,7 @@ const MapHandler = props => {
                           visibleIntervViario
                         }}
                         interventions={interventions}
+                        addressPosition={addressPosition}
                       />
                     </div>
                   </div>

@@ -65,8 +65,6 @@ const Create = props => {
         return <div key={key} />;
       })
     );
-
-    // console.log("mensagens de erro:", msgError);
   }, [validData1, validData2]);
 
   const isIntervalFree = (data1, data2) => {
@@ -105,7 +103,7 @@ const Create = props => {
         className="ml-2 rounded"
         onClick={() => {
           dispatch({type: "tipo_rede", tipo_rede: tipo_rede});
-          console.log("escolhido:", tipo_rede);
+
           document.getElementById("dropdown").innerText = tipo_rede;
         }}
         key={index}
@@ -175,11 +173,6 @@ const Create = props => {
           <div className="col-lg-12">
             <LocationSearchInput
               onSelect={(latLng, address) => {
-                console.log(
-                  "recebido pelo create: ",
-                  latLng,
-                  address
-                );
                 dispatch({type: "endereco", endereco: address});
                 dispatch({type: "coordinates", coordinates: latLng});
               }}
