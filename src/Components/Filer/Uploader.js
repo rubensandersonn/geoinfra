@@ -1,6 +1,7 @@
 import React, {useState, useContext, useEffect} from "react";
 import CustomUploadButton from "react-firebase-file-uploader/lib/CustomUploadButton";
 import {FirebaseContext} from "../Firebase";
+import IconState from "./IconState";
 
 const Uploader = props => {
   const [state, setState] = useState({
@@ -8,7 +9,8 @@ const Uploader = props => {
     imageURL: "",
     progress: 0,
     URL,
-    texto_rede: ""
+    texto_rede: "",
+    serverStatus: "NOT"
   });
 
   const {type} = props;
@@ -62,6 +64,7 @@ const Uploader = props => {
       req.open("POST", state.URL);
       req.send(formData);
       req.onerror = function(erro) {
+        setState(state => ({...state, serverStatus: "ERRO"}));
         alert(`Servidor indisponível`); // responseText is the server
         console.log(erro);
       };
@@ -81,8 +84,13 @@ const Uploader = props => {
          * 500 internal ERROR
          * 503 service unavailable
          */
+        setState(state => ({...state, serverStatus: "ERRO"}));
         switch (req.status) {
           case 200:
+            setState(state => ({
+              ...state,
+              serverStatus: "OK"
+            }));
             alert(`Arquivo salvo no danco de dados`); // responseText is the server
             // colocar OK na interface. Qualquer outro caso: colocar X
             break;
@@ -129,15 +137,20 @@ const Uploader = props => {
 
   const handleUploadStart = e => {
     // console.log("quando começa: ", e);
-    setState(state => ({...state, progress: 0}));
+    setState(state => ({
+      ...state,
+      progress: 0,
+      serverStatus: "WAITING"
+    }));
     sendRequest(e); // enviando arquivo
   };
 
   const handleUploadSuccess = filename => {
-    setState({
+    setState(state => ({
+      ...state,
       image: filename,
       progress: 100
-    });
+    }));
   };
 
   const handleProgress = progress => {
@@ -150,22 +163,10 @@ const Uploader = props => {
 
   return (
     <div className="container border rounded p-2 m-4 col-lg-8">
-      {state.progress !== 0 ? (
-        <div>Carregando: {state.progress}%</div>
-      ) : (
-        <div />
-      )}
-      {state.image ? (
-        <div>
-          <div style={{color: "#262626"}}>
-            <label>Arquivo: </label>
-            <span style={{fontWeight: "bold"}}> {state.image}</span>
-          </div>
-        </div>
-      ) : (
-        <></>
-      )}
       <p>Fazer Upload da {state.texto_rede}</p>
+      <IconState
+        state={{status: state.serverStatus, image: state.image}}
+      />
       <CustomUploadButton
         // accept={"application/json"}
         storageRef={firebase.getRef()}
